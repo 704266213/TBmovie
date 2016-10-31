@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="55dp"
+        android:layout_height="81dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_marginTop="120dp"
+        android:indeterminate="false"
+        android:indeterminateDrawable="@drawable/loading"
+        />
+
+    <ImageView
+        android:id="@+id/error_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:contentDescription="@null"
+        android:src="@drawable/system_error_img"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/tips"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="@string/loading"
+        android:textAlignment="gravity"
+        android:textColor="@color/load_textView"
+        android:textSize="14sp" />
+
+
+    <TextView
+        android:id="@+id/refresh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:minWidth="80dp"
+        android:background="@drawable/refresh"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:singleLine="true"
+        android:text="@string/refresh"
+        android:textAlignment="gravity"
+        android:textColor="@color/load_textView"
+        android:textSize="16sp"
+        android:visibility="gone" />
+
+
+</merge>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <color name="primary">#FCFEFE</color>
+
+
+    <color name="white">#FFFFFF</color>
+    <color name="tab_on">#FE3856</color>
+    <color name="tab_off">#828087</color>
+    <color name="load_textView">#7B788A</color>
+    <color name="main_line">#E0E1DF</color>
+
+    <color name="main_bg">#F5F5F5</color>
+    <color name="tab_bg">#FEFEFE</color>
+    <color name="top_line">#E5E7E7</color>
+
+
+    <color name="film_tab_line">#E9425A</color>
+    <color name="film_tab_text_color">#79758C</color>
+    <color name="film_tab_selected_text_color">#F24152</color>
+
+    <color name="style_color_primary">#d32f2f</color>
+    <color name="film_coming_header_bg">#F2F2F2</color>
+    <color name="film_coming_header_tx">#202020</color>
+
+
+
+
+
+</resources>

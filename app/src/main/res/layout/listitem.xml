@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ffffff"
+    android:orientation="vertical"
+    android:paddingRight="5dp">
+
+    <ImageView
+        android:id="@+id/img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:contentDescription="@null"
+        android:paddingLeft="10dp"
+        android:paddingRight="5dp"
+        android:src="@mipmap/msg" />
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/img"
+        android:ellipsize="end"
+        android:gravity="left"
+        android:paddingTop="8dp"
+        android:singleLine="true"
+        android:text="后会无期"
+        android:textColor="#000000"
+        android:textSize="14sp" />
+
+    
+
+    <TextView
+        android:id="@+id/offlinemessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="8dp"
+        android:ellipsize="end"
+        android:gravity="left"
+        android:text="明天，你好"
+        android:lines="1"
+        android:textColor="#FF0000"
+        android:textSize="25sp" />
+
+</RelativeLayout>

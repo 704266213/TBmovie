@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="left|center_vertical"
+    android:minHeight="40dp"
+    android:paddingLeft="20dp"
+    android:textColor="@color/film_coming_header_tx"
+    tools:text="2016-09-02 周五"
+    android:background="@color/film_coming_header_bg"/>
+

@@ -1,0 +1,123 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.golove.activity.MainActivity">
+
+    <RadioGroup
+        android:id="@+id/tab"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/tab_bg"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/home"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@null"
+            android:button="@null"
+            android:checked="true"
+            android:clickable="true"
+            android:drawablePadding="3dp"
+            android:drawableTop="@drawable/film_checked"
+            android:gravity="center"
+            android:paddingBottom="6dp"
+            android:paddingTop="6dp"
+            android:text="@string/film"
+            android:textColor="@drawable/tab_item_color"
+            android:textSize="12sp" />
+
+        <RadioButton
+            android:id="@+id/apollo"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@null"
+            android:button="@null"
+            android:clickable="true"
+            android:drawablePadding="3dp"
+            android:drawableTop="@drawable/cinema_checked"
+            android:gravity="center"
+            android:paddingBottom="6dp"
+            android:paddingTop="6dp"
+            android:text="@string/cinema"
+            android:textColor="@drawable/tab_item_color"
+            android:textSize="12sp" />
+
+        <RadioButton
+            android:id="@+id/poi"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@null"
+            android:button="@null"
+            android:clickable="true"
+            android:drawablePadding="3dp"
+            android:drawableTop="@drawable/damai_checked"
+            android:gravity="center"
+            android:paddingBottom="6dp"
+            android:paddingTop="6dp"
+            android:text="@string/damai"
+            android:textColor="@drawable/tab_item_color"
+            android:textSize="12sp" />
+
+        <RadioButton
+            android:id="@+id/mine"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@null"
+            android:button="@null"
+            android:checked="false"
+            android:clickable="true"
+            android:drawablePadding="3dp"
+            android:drawableTop="@drawable/discovery_checked"
+            android:gravity="center"
+            android:paddingBottom="6dp"
+            android:paddingTop="6dp"
+            android:text="@string/discovery"
+            android:textColor="@drawable/tab_item_color"
+            android:textSize="12sp" />
+
+        <RadioButton
+            android:id="@+id/more"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:background="@null"
+            android:button="@null"
+            android:checked="false"
+            android:clickable="true"
+            android:drawablePadding="3dp"
+            android:drawableTop="@drawable/mine_checked"
+            android:gravity="center"
+            android:paddingBottom="6dp"
+            android:paddingTop="6dp"
+            android:text="@string/mine"
+            android:textColor="@drawable/tab_item_color"
+            android:textSize="12sp" />
+    </RadioGroup>
+
+    <View
+        android:id="@+id/main_line"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_above="@id/tab"
+        android:background="@color/main_line" />
+
+    <FrameLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/main_line" />
+
+
+</RelativeLayout>
