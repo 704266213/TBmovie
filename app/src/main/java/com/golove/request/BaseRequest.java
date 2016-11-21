@@ -52,6 +52,7 @@ public class BaseRequest {
     public static final MediaType JSON
             = MediaType.parse("application/json; charset=utf-8");
     public void post(String url, final BuildParamListener buildParamListener, final InitRequestListener initRequestListener){
+
         OkHttpClient client = new OkHttpClient();
         //创建一个Request
         RequestBody body = RequestBody.create(JSON, "");

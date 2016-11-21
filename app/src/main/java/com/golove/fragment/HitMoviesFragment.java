@@ -102,7 +102,6 @@ public class HitMoviesFragment extends TabFragment {
 
         recyclerView.setHasFixedSize(true);
 
-
         String[] listItems = mItemData.split(" ");
 
         List<String> list = new ArrayList<>();
@@ -120,7 +119,6 @@ public class HitMoviesFragment extends TabFragment {
         mPagerAdapter.setList(initBanner());
 
         recyclerView.setAdapter(filmHitRecyclerAdapter);
-
 
 
         appBarLayout = (AppBarLayout) getActivity().findViewById(R.id.appBarLayout);
