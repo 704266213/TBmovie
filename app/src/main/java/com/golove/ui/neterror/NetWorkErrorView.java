@@ -46,7 +46,6 @@ public class NetWorkErrorView extends LinearLayout implements View.OnClickListen
 		inflater.inflate(R.layout.neterror, this);
 		setGravity(Gravity.CENTER_HORIZONTAL);
 		setOrientation(VERTICAL);
-		
 
 		this.context = context;
 		progressBar = (ProgressBar) findViewById(R.id.progressBar);
@@ -57,19 +56,12 @@ public class NetWorkErrorView extends LinearLayout implements View.OnClickListen
 		loading_error = context.getString(R.string.loading_error);
 		refresh.setOnClickListener(this);
 
-
-
 	}
 
 	public void onClick(View v){
 		if(onFreshListener != null){
 			onFreshListener.onReFresh();
-		} else {
-			if(context instanceof OnFreshListener){
-				onFreshListener = (OnFreshListener)context;
-			}
 		}
-
 	}
 
 	public void loadErrorView(){

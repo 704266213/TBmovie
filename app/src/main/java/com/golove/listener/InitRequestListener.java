@@ -1,6 +1,6 @@
 package com.golove.listener;
 
-import com.golove.model.BaseBean;
+import com.golove.model.ResultStateModel;
 
 /**
  * 类描述：进入界面时的初始化请求的回调接口
@@ -15,7 +15,7 @@ public interface InitRequestListener{
      * 参数说明：result网络请求成功时的回调结果
      * 返回值：
      */
-    public <T extends BaseBean> void onInitRequestSuccess(T bean);
+    public <T extends ResultStateModel> void onInitRequestSuccess(T bean);
 
 
     public void onInitRequestError();

@@ -23,5 +23,4 @@ public class DiscoveryFragment extends MainFragment {
 
     }
 
-
 }

@@ -22,5 +22,4 @@ public class CinemaFragment extends MainFragment {
         Log.d("Message", "CinemaFragment is Init");
     }
 
-
 }

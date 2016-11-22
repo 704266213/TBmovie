@@ -6,7 +6,7 @@ package com.golove.model;
  * 创建时间：2016-04-04 21:21
  * 修改备注：
  */
-public class Bannerbean extends BaseBean {
+public class Bannerbean extends ResultStateModel {
 
     private String url;
 

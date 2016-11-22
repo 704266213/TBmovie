@@ -8,7 +8,7 @@ import okhttp3.RequestBody;
  * 创建时间：2016-04-04 20:56
  * 修改备注：
  */
-public interface BuildParamListener {
+public interface OnBuildRequestBodyListener {
 
-    RequestBody bulidParam();
+     RequestBody buildRequestBody();
 }

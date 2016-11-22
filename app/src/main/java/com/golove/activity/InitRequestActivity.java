@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import com.golove.listener.InitRequestListener;
-import com.golove.model.BaseBean;
+import com.golove.model.ResultStateModel;
 
 /**
 *
@@ -30,7 +30,7 @@ public abstract class InitRequestActivity extends AppCompatActivity implements I
      * 参数说明：
      * 返回值：
      */
-    public <T extends BaseBean> void onInitRequestSuccess(T bean) {
+    public <T extends ResultStateModel> void onInitRequestSuccess(T bean) {
 
     }
 

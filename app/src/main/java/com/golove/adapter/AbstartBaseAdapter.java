@@ -2,7 +2,7 @@ package com.golove.adapter;
 
 import android.widget.BaseAdapter;
 
-import com.golove.model.BaseBean;
+import com.golove.model.ResultStateModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +13,7 @@ import java.util.List;
  * 创建时间：2016-04-04 22:32
  * 修改备注：
  */
-public abstract class AbstartBaseAdapter<T extends BaseBean> extends BaseAdapter {
+public abstract class AbstartBaseAdapter<T extends ResultStateModel> extends BaseAdapter {
 
     private List<T> listData = new ArrayList<T>();
 

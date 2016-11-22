@@ -1,10 +1,18 @@
 package com.golove.request;
 
+import android.content.Context;
+
+import com.golove.BuildConfig;
+import com.golove.interceptor.HttpLoggingInterceptor;
+import com.golove.interceptor.NetworkCacheInterceptor;
 import com.golove.listener.InitRequestListener;
-import com.golove.param.BuildParamListener;
+import com.golove.param.OnBuildRequestBodyListener;
 
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
+import okhttp3.Cache;
+import okhttp3.CacheControl;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.MediaType;
@@ -22,57 +30,48 @@ import okhttp3.Response;
 public class BaseRequest {
 
 
-    public void get(String url) {
-        //创建okHttpClient对象
-        OkHttpClient client = new OkHttpClient();
-        //创建一个Request
-        Request request = new Request.Builder()
-                .url(url)
+    private CacheControl cacheControl;
+    private OkHttpClient client;
+
+    public BaseRequest(Context context) {
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(BuildConfig.DEBUG
+                ? HttpLoggingInterceptor.Level.BODY
+                : HttpLoggingInterceptor.Level.NONE);
+
+        Cache cache = new Cache(context.getCacheDir(), 10 * 1024 * 1024);
+        client = new OkHttpClient.Builder()
+                .addInterceptor(interceptor)
+                .addInterceptor(new NetworkCacheInterceptor())
+                .retryOnConnectionFailure(true)
+                .connectTimeout(30, TimeUnit.SECONDS)
+                .cache(cache)
                 .build();
-        Response response = null;
-        try {
-            response = client.newCall(request).execute();
-            String result = response.body().string();
 
-           client.newCall(request).enqueue(new Callback() {
-                public void onFailure(Call call, IOException e) {
-
-                }
-
-                public void onResponse(Call call, Response response) throws IOException {
-
-                }
-            });
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        final CacheControl.Builder builder = new CacheControl.Builder();
+        builder.maxAge(60, TimeUnit.MILLISECONDS);
+        cacheControl = builder.build();
     }
 
-    public static final MediaType JSON
-            = MediaType.parse("application/json; charset=utf-8");
-    public void post(String url, final BuildParamListener buildParamListener, final InitRequestListener initRequestListener){
 
-        OkHttpClient client = new OkHttpClient();
-        //创建一个Request
-        RequestBody body = RequestBody.create(JSON, "");
+    public void sendRequest(String url, OnBuildRequestBodyListener onBuildRequestBodyListener, Callback callback) {
         Request request = new Request.Builder()
                 .url(url)
-                .post(buildParamListener.bulidParam())
+                .cacheControl(cacheControl)
+                .put(onBuildRequestBodyListener.buildRequestBody())
                 .build();
-        client.newCall(request).enqueue(new Callback() {
-            public void onFailure(Call call, IOException e) {
-                initRequestListener.onInitRequestError();
-            }
 
-            public void onResponse(Call call, Response response) throws IOException {
-                String result = response.body().string();
-//                initRequestListener.onInitRequestSuccess("");
-
-            }
-        });
-
-
+        client.newCall(request).enqueue(callback);
     }
+
+    public void sendRequest(String url, Callback callback) {
+        Request request = new Request.Builder()
+                .url(url)
+                .cacheControl(cacheControl)
+                .build();
+
+        client.newCall(request).enqueue(callback);
+    }
+
 
 }
