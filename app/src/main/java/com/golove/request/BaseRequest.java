@@ -49,7 +49,8 @@ public class BaseRequest {
                 .build();
 
         final CacheControl.Builder builder = new CacheControl.Builder();
-        builder.maxAge(60, TimeUnit.MILLISECONDS);
+        builder.maxAge(60, TimeUnit.MILLISECONDS);//指示客户机可以接收生存期不大于指定时间的响应。
+        builder.minFresh(10, TimeUnit.SECONDS);//指示客户机可以接收响应时间小于当前时间加上指定时间的响应。
         cacheControl = builder.build();
     }
 
@@ -69,7 +70,6 @@ public class BaseRequest {
                 .url(url)
                 .cacheControl(cacheControl)
                 .build();
-
         client.newCall(request).enqueue(callback);
     }
 
