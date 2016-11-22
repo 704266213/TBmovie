@@ -3,7 +3,7 @@
     "message": "success",
     "result": {
         "name": "jaty",
-        "sex": "http: //www.bejson.com",
-        "headURL": "wwwwww"
+        "sex": 1,
+        "headURL": "http: //www.bejson.com"
     }
 }
