@@ -1,0 +1,9 @@
+{
+    "state": 200,
+    "message": "success",
+    "result": {
+        "name": "jaty",
+        "sex": 1,
+        "headURL": "http: //www.bejson.com"
+    }
+}
