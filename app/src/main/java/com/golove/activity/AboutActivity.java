@@ -76,4 +76,13 @@ public class AboutActivity extends InitRequestActivity implements BuildBannerPar
 
     }
 
+    @Override
+    public void onRequestCallBackSuccess(Object bean) {
+
+    }
+
+    @Override
+    public void onRequestCallBackError() {
+
+    }
 }

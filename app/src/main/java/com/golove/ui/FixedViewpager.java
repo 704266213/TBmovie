@@ -29,7 +29,7 @@ public class FixedViewpager extends ViewPager {
         int width = getMeasuredWidth();
         int height = 0;
         if (width != 0) {
-            height = MeasureSpec.makeMeasureSpec((width / 2), MeasureSpec.EXACTLY);
+            height = MeasureSpec.makeMeasureSpec((width * 4 / 10), MeasureSpec.EXACTLY);
         }
         super.onMeasure(widthMeasureSpec, height);
     }

@@ -3,7 +3,7 @@ package com.golove.activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
-import com.golove.listener.InitRequestListener;
+import com.golove.listener.OnRequestCallBackListener;
 import com.golove.model.ResultStateModel;
 
 /**
@@ -15,7 +15,7 @@ import com.golove.model.ResultStateModel;
 * @version
 *
 */
-public abstract class InitRequestActivity extends AppCompatActivity implements InitRequestListener {
+public abstract class InitRequestActivity extends AppCompatActivity implements OnRequestCallBackListener {
 
 
 

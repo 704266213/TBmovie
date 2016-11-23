@@ -4,6 +4,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -224,7 +225,7 @@ public abstract class BaseLoopPagerAdapter extends PagerAdapter implements ViewP
 
     @Override
     public final void onPageSelected(int position) {
-        if (0 < position && position < mList.size() - 1) {
+        if (0 < position && position < mList.size() -1 ) {
             onPageItemSelected(position - 1);
         }
     }

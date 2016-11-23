@@ -2,13 +2,13 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_activated="true">
         <shape android:shape="oval">
-            <solid android:color="@color/style_color_primary" />
+            <solid android:color="@color/tab_on" />
             <size android:width="@dimen/indicator_size" android:height="@dimen/indicator_size" />
         </shape>
     </item>
     <item android:state_activated="false">
         <shape android:shape="oval">
-            <solid android:color="@color/white" />
+            <solid android:color="@color/tab_off" />
             <size android:width="@dimen/indicator_size" android:height="@dimen/indicator_size" />
         </shape>
     </item>

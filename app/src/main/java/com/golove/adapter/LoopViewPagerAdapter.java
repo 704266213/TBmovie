@@ -84,7 +84,7 @@ public class LoopViewPagerAdapter extends BaseLoopPagerAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        ViewHolder holder = null;
+        ViewHolder holder ;
         if (convertView == null) {
             convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.banner_item, parent, false);
             holder = new ViewHolder();

@@ -24,7 +24,6 @@ public class MineFragment extends MainFragment<ResultStateModel<UserInfoModel>> 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         netWorkErrorView = (NetWorkErrorView) view.findViewById(R.id.netWorkErrorView);
         netWorkErrorView.setOnFreshListener(this);
 
@@ -47,4 +46,6 @@ public class MineFragment extends MainFragment<ResultStateModel<UserInfoModel>> 
         netWorkErrorView.loadingView();
         requestData();
     }
+
+
 }

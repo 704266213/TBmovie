@@ -170,24 +170,21 @@ public class HitMoviesFragment extends TabFragment {
     private List<Bannerbean> initBanner(){
         List<Bannerbean> bannerbeens = new ArrayList<>();
         Bannerbean bannerbean = new Bannerbean();
-        bannerbean.setUrl("http://www.yiyuanzhongle.com/statics/uploads/banner/20160109/12233498341796.jpg");
+        bannerbean.setUrl("https://raw.githubusercontent.com/704266213/data/master/WebContent/img/banner1.png");
         bannerbeens.add(bannerbean);
 
         Bannerbean bannerbean1 = new Bannerbean();
-        bannerbean1.setUrl("http://www.yiyuanzhongle.com/statics/uploads/banner/20160109/75421448316210.jpg");
+        bannerbean1.setUrl("https://raw.githubusercontent.com/704266213/data/master/WebContent/img/banner2.png");
         bannerbeens.add(bannerbean1);
 
         Bannerbean bannerbean2 = new Bannerbean();
-        bannerbean2.setUrl("http://www.yiyuanzhongle.com/statics/uploads/banner/20160109/73365531335305.jpg");
+        bannerbean2.setUrl("https://raw.githubusercontent.com/704266213/data/master/WebContent/img/banner3.png");
         bannerbeens.add(bannerbean2);
 
         Bannerbean bannerbean3 = new Bannerbean();
-        bannerbean3.setUrl("http://www.yiyuanzhongle.com/statics/uploads/banner/20160109/13250429337866.jpg");
+        bannerbean3.setUrl("https://raw.githubusercontent.com/704266213/data/master/WebContent/img/banner4.png");
         bannerbeens.add(bannerbean3);
 
-        Bannerbean bannerbean4 = new Bannerbean();
-        bannerbean4.setUrl("http://www.yiyuanzhongle.com/statics/uploads/banner/20160104/78468111897088.jpg");
-        bannerbeens.add(bannerbean4);
 
         return bannerbeens;
     }

@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.alibaba.fastjson.JSON;
+import com.golove.listener.OnRequestCallBackListener;
 import com.golove.model.ResultStateModel;
 import com.golove.model.UserInfoModel;
 import com.golove.ui.neterror.NetWorkErrorView;
@@ -22,7 +23,7 @@ import okhttp3.Callback;
 import okhttp3.Response;
 
 
-public abstract class MainFragment<T extends ResultStateModel> extends Fragment implements Callback,NetWorkErrorView.OnFreshListener {
+public abstract class MainFragment<T extends ResultStateModel> extends Fragment implements Callback,NetWorkErrorView.OnFreshListener,OnRequestCallBackListener<T> {
 
     protected NetWorkErrorView netWorkErrorView;
 
@@ -99,5 +100,13 @@ public abstract class MainFragment<T extends ResultStateModel> extends Fragment 
 
     }
 
+    @Override
+    public <T> void onRequestCallBackSuccess(T bean) {
+
+    }
+
+    public void onRequestCallBackError(){
+
+    }
 
 }
