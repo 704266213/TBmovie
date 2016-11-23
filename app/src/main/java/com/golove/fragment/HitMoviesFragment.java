@@ -166,7 +166,6 @@ public class HitMoviesFragment extends TabFragment {
         }
     }
 
-
     private List<Bannerbean> initBanner(){
         List<Bannerbean> bannerbeens = new ArrayList<>();
         Bannerbean bannerbean = new Bannerbean();
@@ -185,10 +184,8 @@ public class HitMoviesFragment extends TabFragment {
         bannerbean3.setUrl("https://raw.githubusercontent.com/704266213/data/master/WebContent/img/banner4.png");
         bannerbeens.add(bannerbean3);
 
-
         return bannerbeens;
     }
-
 
     @Override
     public void onTabChange(int position) {
@@ -200,6 +197,5 @@ public class HitMoviesFragment extends TabFragment {
                 netWorkErrorView.setVisibility(View.GONE);
             }
         },3*1000);
-
     }
 }

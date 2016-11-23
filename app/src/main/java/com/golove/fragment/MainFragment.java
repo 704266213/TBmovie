@@ -1,37 +1,22 @@
 package com.golove.fragment;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.View;
 
-import com.alibaba.fastjson.JSON;
 import com.golove.listener.OnRequestCallBackListener;
 import com.golove.model.ResultStateModel;
-import com.golove.model.UserInfoModel;
 import com.golove.ui.neterror.NetWorkErrorView;
 
-import java.io.IOException;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Response;
-
-
-public abstract class MainFragment<T extends ResultStateModel> extends Fragment implements Callback,NetWorkErrorView.OnFreshListener,OnRequestCallBackListener<T> {
+public abstract class MainFragment<T extends ResultStateModel> extends Fragment implements NetWorkErrorView.OnFreshListener, OnRequestCallBackListener<T> {
 
     protected NetWorkErrorView netWorkErrorView;
 
 
-    public static MainFragment getFragmentInstance(int position){
+    public static MainFragment getFragmentInstance(int position) {
         MainFragment baseFragment = null;
-        switch (position)
-        {
+        switch (position) {
             case 0:
                 baseFragment = new FilmFragment();
                 break;
@@ -57,55 +42,20 @@ public abstract class MainFragment<T extends ResultStateModel> extends Fragment 
         super.onViewCreated(view, savedInstanceState);
     }
 
-    @Override
-    public void onFailure(Call call, IOException e) {
-        Handler handler = new Handler(Looper.getMainLooper());
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                netWorkErrorView.loadErrorView();
-            }
-        });
-    }
-
-    @Override
-    public void onResponse(Call call, Response response) throws IOException {
-        String json = response.body().string();
-        ParameterizedType pt = (ParameterizedType) this.getClass().getGenericSuperclass();
-        Type type = pt.getActualTypeArguments()[0];
-        Log.e("XLog","=======type===============" + type);
-        if(response.isSuccessful()){
-            T resultStateModel = JSON.parseObject(json,type);
-            Log.e("XLog","=======state===============" + resultStateModel.state);
-            Log.e("XLog","=======message===============" + resultStateModel.message);
-            UserInfoModel userInfoModel = (UserInfoModel)resultStateModel.getResult();
-            Log.e("XLog","=======Name===============" + userInfoModel.getName());
-            Log.e("XLog","=======Sex===============" + userInfoModel.getSex());
-            Log.e("XLog","=======HeadURL===============" + userInfoModel.getHeadURL());
-            Log.e("XLog","=======end===============" );
-        } else {
-            Handler handler = new Handler(Looper.getMainLooper());
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
-                    netWorkErrorView.loadErrorView();
-                }
-            });
-
-        }
-
-    }
-
     public void onReFresh() {
+        netWorkErrorView.loadingView();
+    }
+
+//    public abstract void requestData();
+
+    //    public abstract void  onRequestCallBackSuccess(T bean);
+
+
+    public void onRequestCallBackSuccess(T bean) {
 
     }
 
-    @Override
-    public <T> void onRequestCallBackSuccess(T bean) {
-
-    }
-
-    public void onRequestCallBackError(){
+    public void onRequestCallBackError() {
 
     }
 

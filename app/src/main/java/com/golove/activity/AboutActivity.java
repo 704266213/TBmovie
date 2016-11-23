@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.golove.R;
+import com.golove.model.ResultStateModel;
 import com.golove.param.BuildBannerParamListener;
 
 import java.io.IOException;
@@ -70,11 +71,10 @@ public class AboutActivity extends InitRequestActivity implements BuildBannerPar
                String json =  response.body().string();
                 Log.e("XLog", "==================" + json)  ;
             }
-
-
         });
 
     }
+
 
     @Override
     public void onRequestCallBackSuccess(Object bean) {

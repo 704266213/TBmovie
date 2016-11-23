@@ -8,14 +8,14 @@ import com.golove.model.ResultStateModel;
  * 创建时间：2016-04-04 22:46
  * 修改备注：
  */
-public interface OnRequestCallBackListener<T extends ResultStateModel> {
+public interface OnRequestCallBackListener<T> {
 
     /**
      * 方法描述：初始化请求成功时的回调
      * 参数说明：result网络请求成功时的回调结果
      * 返回值：
      */
-     <T> void onRequestCallBackSuccess(T bean);
+     void onRequestCallBackSuccess(T bean);
 
 
      void onRequestCallBackError();

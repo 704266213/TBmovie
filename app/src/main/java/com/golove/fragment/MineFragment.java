@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.golove.R;
+import com.golove.callback.RequestCallBack;
 import com.golove.model.ResultStateModel;
 import com.golove.model.UserInfoModel;
 import com.golove.request.BaseRequest;
@@ -30,21 +31,34 @@ public class MineFragment extends MainFragment<ResultStateModel<UserInfoModel>> 
         requestData();
     }
 
-    public void initRequest() {
-        Log.d("Mine", "MineFragment is Init");
-        requestData();
-    }
-
     private String url = "https://raw.githubusercontent.com/704266213/TBmovie/master/banber1.json";
+
     private void requestData() {
+        RequestCallBack requestCallBack = new RequestCallBack(this, netWorkErrorView);
         BaseRequest baseRequest = new BaseRequest(getActivity());
-        baseRequest.sendRequest(url,this);
+        baseRequest.sendRequest(url, requestCallBack);
     }
 
     public void onReFresh() {
         url = "https://raw.githubusercontent.com/704266213/TBmovie/master/userInfo.json";
-        netWorkErrorView.loadingView();
         requestData();
+    }
+
+    @Override
+    public  void onRequestCallBackSuccess(ResultStateModel bean){
+        ResultStateModel<UserInfoModel> resultStateModel = bean;
+        Log.e("XLog", "=======state===============" + resultStateModel.state);
+        Log.e("XLog", "=======message===============" + resultStateModel.message);
+        UserInfoModel userInfoModel =  resultStateModel.getResult();
+        Log.e("XLog", "=======Name===============" + userInfoModel.getName());
+        Log.e("XLog", "=======Sex===============" + userInfoModel.getSex());
+        Log.e("XLog", "=======HeadURL===============" + userInfoModel.getHeadURL());
+        Log.e("XLog", "=======end===============");
+        netWorkErrorView.setVisibility(View.GONE);
+    }
+
+    public void onRequestCallBackError() {
+
     }
 
 
