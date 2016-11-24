@@ -46,9 +46,11 @@ public class FilmHitRecyclerAdapter extends RecyclerView.Adapter<FilmHitRecycler
             return IS_HEADER;
         } else if (position > 0 && position < filmModels.size()) {
             return IS_NORMAL;
-        } else {
-            return IS_FOOTER;
         }
+        return IS_NORMAL;
+//        else {
+//            return IS_FOOTER;
+//        }
     }
 
 
