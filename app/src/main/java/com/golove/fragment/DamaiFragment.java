@@ -18,9 +18,8 @@ public class DamaiFragment extends MainFragment {
         return inflater.inflate(R.layout.damai_fragment, container, false);
     }
 
-    public void initRequest() {
-        Log.d("More", "DamaiFragment is Init");
+    public void requestData() {
+        Log.e("XLog","==========requestData==========");
     }
-
 
 }

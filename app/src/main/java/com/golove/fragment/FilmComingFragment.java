@@ -204,4 +204,18 @@ public class FilmComingFragment extends TabFragment {
 
     }
 
+
+    public void requestData() {
+        Log.e("XLog", "=======即将上映===============");
+    }
+
+    @Override
+    public void onRequestCallBackSuccess(Object bean) {
+
+    }
+
+    @Override
+    public void onRequestCallBackError() {
+
+    }
 }

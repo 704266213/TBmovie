@@ -13,7 +13,6 @@ public abstract class MainFragment<T extends ResultStateModel> extends Fragment 
 
     protected NetWorkErrorView netWorkErrorView;
 
-
     public static MainFragment getFragmentInstance(int position) {
         MainFragment baseFragment = null;
         switch (position) {
@@ -43,13 +42,12 @@ public abstract class MainFragment<T extends ResultStateModel> extends Fragment 
     }
 
     public void onReFresh() {
-        netWorkErrorView.loadingView();
+        requestData();
     }
 
-//    public abstract void requestData();
+    public void requestData() {
 
-    //    public abstract void  onRequestCallBackSuccess(T bean);
-
+    }
 
     public void onRequestCallBackSuccess(T bean) {
 

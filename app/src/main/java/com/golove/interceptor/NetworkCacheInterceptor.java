@@ -1,5 +1,7 @@
 package com.golove.interceptor;
 
+import android.text.TextUtils;
+
 import java.io.IOException;
 
 import okhttp3.CacheControl;
@@ -15,18 +17,19 @@ public class NetworkCacheInterceptor implements Interceptor {
         //服务器不支持缓存，本地使用缓存，执行拦截器
         Request request = chain.request();
         Response response = chain.proceed(request);
-        Response response1 = response.newBuilder()
+
+        String cacheControl = request.cacheControl().toString();
+        if (TextUtils.isEmpty(cacheControl)) {
+            cacheControl = "public, max-age=60 ,max-stale= 6000";
+        }
+        return response.newBuilder()
+                .header("Cache-Control", cacheControl)
                 .removeHeader("Pragma")
-                .removeHeader("Cache-Control")
-                //cache for 30 days
-                .header("Cache-Control", "max-age=" + 3600 * 2)
                 .build();
-        return response1;
 
 
 //        Request request = chain.request();
-////        boolean connected = NetworkUtil.isConnected(context);
-//        boolean connected = true;
+//        boolean connected = NetworkUtil.isConnected(context);
 //
 //        //请求在网络不可用的时候强制使用缓存
 //        if (!connected) {

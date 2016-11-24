@@ -58,6 +58,7 @@ public class NetWorkErrorView extends LinearLayout implements View.OnClickListen
 
     public void onClick(View v) {
         if (onFreshListener != null) {
+            loadingView();
             onFreshListener.onReFresh();
         }
     }

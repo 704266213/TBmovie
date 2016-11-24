@@ -4,10 +4,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.golove.GoloveApplication;
 import com.golove.R;
+import com.golove.model.FilmModel;
+import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,10 +30,11 @@ public class FilmHitRecyclerAdapter extends RecyclerView.Adapter<FilmHitRecycler
 
     private View headView;
 
-    List<String> mListData;
+    private List<FilmModel> filmModels = new ArrayList<>();
 
-    public FilmHitRecyclerAdapter(List<String> mListData) {
-        this.mListData = mListData;
+    public void addData(List<FilmModel> filmModels){
+        this.filmModels.addAll(filmModels);
+        notifyDataSetChanged();
     }
 
     public void setHeadView(View headView) {
@@ -37,7 +44,7 @@ public class FilmHitRecyclerAdapter extends RecyclerView.Adapter<FilmHitRecycler
     public int getItemViewType(int position) {
         if (position == 0) {
             return IS_HEADER;
-        } else if (position > 0 && position < mListData.size()) {
+        } else if (position > 0 && position < filmModels.size()) {
             return IS_NORMAL;
         } else {
             return IS_FOOTER;
@@ -66,7 +73,12 @@ public class FilmHitRecyclerAdapter extends RecyclerView.Adapter<FilmHitRecycler
     public void onBindViewHolder(RecyclerViewHolder recyclerViewHolder, int position) {
         int viewType = getItemViewType(position);
         if (viewType == IS_NORMAL) {
-//            recyclerViewHolder.name.setText(mListData.get(position));
+            FilmModel filmModel = filmModels.get(position);
+            Picasso.with(GoloveApplication.goloveApplication).load(filmModel.getFilmUrl()).into(recyclerViewHolder.filmUrl);
+            recyclerViewHolder.filmName.setText(filmModel.getFilmName());
+            recyclerViewHolder.filmActor.setText(filmModel.getFilmActor());
+            recyclerViewHolder.filmScore.setText(filmModel.getFilmScore());
+            recyclerViewHolder.filmDesc.setText(filmModel.getFilmDesc());
         } else if (viewType == IS_HEADER) {
 
         } else {
@@ -77,16 +89,28 @@ public class FilmHitRecyclerAdapter extends RecyclerView.Adapter<FilmHitRecycler
 
     @Override
     public int getItemCount() {
-        return mListData == null ? 1 : mListData.size() + 1;
+        return filmModels == null ? 1 : filmModels.size() + 1;
     }
 
     public class RecyclerViewHolder extends RecyclerView.ViewHolder {
-        private TextView name;
+        private ImageView filmUrl;
+        private TextView filmName;
+        private TextView filmActor;
+        private RatingBar scorebar;
+        private TextView filmScore;
+        private TextView filmDesc;
+        private TextView tickets;
 
         public RecyclerViewHolder(View itemView, int viewType) {
             super(itemView);
             if (viewType == IS_NORMAL) {
-                name = (TextView) itemView.findViewById(R.id.name);
+                filmUrl = (ImageView) itemView.findViewById(R.id.filmUrl);
+                filmName = (TextView) itemView.findViewById(R.id.filmName);
+                filmActor = (TextView) itemView.findViewById(R.id.filmActor);
+                scorebar = (RatingBar) itemView.findViewById(R.id.scorebar);
+                filmScore = (TextView) itemView.findViewById(R.id.filmScore);
+                filmDesc = (TextView) itemView.findViewById(R.id.filmDesc);
+                tickets = (TextView) itemView.findViewById(R.id.tickets);
             } else if (viewType == IS_HEADER) {
 
 

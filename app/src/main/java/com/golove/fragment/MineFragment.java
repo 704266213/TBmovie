@@ -28,28 +28,24 @@ public class MineFragment extends MainFragment<ResultStateModel<UserInfoModel>> 
         netWorkErrorView = (NetWorkErrorView) view.findViewById(R.id.netWorkErrorView);
         netWorkErrorView.setOnFreshListener(this);
 
-        requestData();
+//        requestData();
     }
 
     private String url = "https://raw.githubusercontent.com/704266213/TBmovie/master/banber1.json";
 
-    private void requestData() {
+    public void requestData() {
         RequestCallBack requestCallBack = new RequestCallBack(this, netWorkErrorView);
-        BaseRequest baseRequest = new BaseRequest(getActivity());
+        BaseRequest baseRequest = new BaseRequest();
         baseRequest.sendRequest(url, requestCallBack);
-    }
-
-    public void onReFresh() {
         url = "https://raw.githubusercontent.com/704266213/TBmovie/master/userInfo.json";
-        requestData();
     }
 
     @Override
-    public  void onRequestCallBackSuccess(ResultStateModel bean){
+    public void onRequestCallBackSuccess(ResultStateModel<UserInfoModel> bean) {
         ResultStateModel<UserInfoModel> resultStateModel = bean;
         Log.e("XLog", "=======state===============" + resultStateModel.state);
         Log.e("XLog", "=======message===============" + resultStateModel.message);
-        UserInfoModel userInfoModel =  resultStateModel.getResult();
+        UserInfoModel userInfoModel = resultStateModel.getResult();
         Log.e("XLog", "=======Name===============" + userInfoModel.getName());
         Log.e("XLog", "=======Sex===============" + userInfoModel.getSex());
         Log.e("XLog", "=======HeadURL===============" + userInfoModel.getHeadURL());

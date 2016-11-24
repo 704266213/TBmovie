@@ -7,12 +7,15 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.golove.R;
 import com.golove.adapter.FilmAdapter;
+import com.golove.callback.RequestCallBack;
+import com.golove.request.BaseRequest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,7 +65,6 @@ public class FilmFragment extends MainFragment implements ViewPager.OnPageChange
 
     public void onAttach(Context context) {
         super.onAttach(context);
-        context = context;
     }
 
     @Override
@@ -76,6 +78,7 @@ public class FilmFragment extends MainFragment implements ViewPager.OnPageChange
         if(!tabFragment.isSwitch){
             tabFragment.onTabChange(position);
             tabFragment.isSwitch = true;
+            tabFragment.requestData();
         }
 
     }
@@ -83,5 +86,10 @@ public class FilmFragment extends MainFragment implements ViewPager.OnPageChange
     @Override
     public void onPageScrollStateChanged(int state) {
 
+    }
+
+    public void requestData() {
+        Log.e("XLog","==========热门电影==========");
+        tabFragments.get(0).requestData();
     }
 }

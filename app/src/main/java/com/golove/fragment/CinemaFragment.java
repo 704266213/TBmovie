@@ -18,8 +18,8 @@ public class CinemaFragment extends MainFragment {
     }
 
 
-    public void initRequest(){
-        Log.d("Message", "CinemaFragment is Init");
+    public void requestData() {
+        Log.e("XLog","==========requestData==========");
     }
 
 }

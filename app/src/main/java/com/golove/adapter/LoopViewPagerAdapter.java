@@ -13,7 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.golove.R;
-import com.golove.model.Bannerbean;
+import com.golove.model.BannerModel;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -24,7 +24,7 @@ import java.util.List;
  */
 public class LoopViewPagerAdapter extends BaseLoopPagerAdapter {
 
-    private List<Bannerbean> bannerBeanList;
+    private List<BannerModel> bannerBeanList;
 
     private final ViewGroup mIndicators;
 
@@ -36,9 +36,10 @@ public class LoopViewPagerAdapter extends BaseLoopPagerAdapter {
         bannerBeanList = new ArrayList<>();
     }
 
-    public void setList(List<Bannerbean> dataList) {
+    public void addData(List<BannerModel> dataList) {
         bannerBeanList.clear();
         bannerBeanList.addAll(dataList);
+        initIndicators();
         notifyDataSetChanged();
     }
 
@@ -78,7 +79,7 @@ public class LoopViewPagerAdapter extends BaseLoopPagerAdapter {
     }
 
     @Override
-    public Bannerbean getItem(int position) {
+    public BannerModel getItem(int position) {
         return bannerBeanList.get(position);
     }
 
@@ -94,9 +95,10 @@ public class LoopViewPagerAdapter extends BaseLoopPagerAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        Bannerbean bannerbean = bannerBeanList.get(position);
-        Log.e("TAG","======url========" + bannerbean.getUrl());
-        Picasso.with(parent.getContext()).load(bannerbean.getUrl()).into(holder.ivBanner);
+        BannerModel bannerbean = bannerBeanList.get(position);
+        Log.e("TAG","======url========" + bannerbean.getBannerImageUrl());
+
+        Picasso.with(parent.getContext()).load(bannerbean.getBannerImageUrl()).into(holder.ivBanner);
         return convertView;
     }
 

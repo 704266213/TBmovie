@@ -3,97 +3,103 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:background="@color/primary"
-    android:paddingTop="8dp"
+    android:orientation="vertical"
     android:paddingBottom="8dp"
     android:paddingLeft="16dp"
-    android:orientation="vertical">
+    android:paddingTop="8dp"
+    tools:background="@color/primary">
 
     <ImageView
-        android:id="@+id/image"
+        android:id="@+id/filmUrl"
         android:layout_width="60dp"
         android:layout_height="100dp"
         android:src="@drawable/movie_loading1"
-        android:layout_marginRight="4dp"
-        android:layout_alignParentLeft="true" />
-
+        android:layout_marginRight="10dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <TextView
-        android:id="@+id/name"
+        android:id="@+id/filmName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/image"
-        android:layout_alignTop="@id/image"
-        android:textColor="#272727"
+        android:layout_alignTop="@id/filmUrl"
+        android:layout_toRightOf="@id/filmUrl"
         android:gravity="center"
         android:paddingBottom="8dp"
         android:paddingTop="8dp"
-        android:textSize="18dp"
-        android:text="绝地逃亡" />
+        android:text="绝地逃亡"
+        android:textColor="#272727"
+        android:textSize="18dp" />
 
     <TextView
-        android:id="@+id/actor"
+        android:id="@+id/filmActor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/image"
-        android:layout_alignBottom="@id/image"
-        android:textColor="#76708C"
+        android:layout_alignBottom="@id/filmUrl"
+        android:layout_toRightOf="@id/filmUrl"
+        android:ellipsize="end"
         android:gravity="center"
-        android:textSize="13dp"
-        android:text="成龙 雷尼 范冰冰" />
+        android:layout_marginRight="20dp"
+        android:lines="1"
+        android:text="成龙 雷尼 范冰冰"
+        android:textColor="#76708C"
+        android:textSize="13dp" />
 
     <RatingBar
         android:id="@+id/scorebar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         style="@style/score_ratingbar"
-        android:rating="3.6"
-        android:stepSize="0.02"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/filmName"
+        android:layout_toRightOf="@id/filmUrl"
         android:max="5"
-        android:layout_toRightOf="@id/image"
-        android:layout_below="@id/name" />
+        android:rating="3.6"
+        android:stepSize="0.02" />
 
     <TextView
-        android:id="@+id/score"
+        android:id="@+id/filmScore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/scorebar"
-        android:layout_below="@id/name"
+        android:layout_below="@id/filmName"
         android:layout_marginLeft="8dp"
-        android:textColor="#76708C"
+        android:layout_toRightOf="@id/scorebar"
         android:gravity="center"
-        android:textSize="14dp"
-        android:text="5.9" />
-
-
-    <TextView
-        android:id="@+id/summary"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/image"
+        android:text="5.9"
         android:textColor="#76708C"
-        android:gravity="center"
-        android:textSize="13dp"
-        android:layout_below="@id/scorebar"
-        android:layout_above="@id/actor"
-        android:text="成龙 范冰冰,各地被狂虐" />
+        android:textSize="14dp" />
 
 
     <TextView
         android:id="@+id/tickets"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:minWidth="48dp"
-        android:minHeight="27dp"
-        android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
-        android:textColor="#D64A5E"
-        android:gravity="center"
-        android:background="@drawable/buy_tickets_bg"
+        android:layout_centerVertical="true"
         android:layout_marginRight="20dp"
-        android:textSize="13dp"
-        android:text="购票" />
+        android:background="@drawable/buy_tickets_bg"
+        android:gravity="center"
+        android:minHeight="27dp"
+        android:minWidth="48dp"
+        android:text="购票"
+        android:textColor="#D64A5E"
+        android:textSize="13dp" />
 
+
+
+    <TextView
+        android:id="@+id/filmDesc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:lines="1"
+        android:text="成龙 范冰冰,各地被狂虐"
+        android:textColor="#76708C"
+        android:textSize="13dp"
+        android:layout_below="@+id/scorebar"
+        android:layout_alignLeft="@+id/scorebar"
+        android:layout_alignStart="@+id/scorebar" />
 
 
 </RelativeLayout>

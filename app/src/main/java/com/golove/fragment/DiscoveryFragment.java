@@ -18,9 +18,8 @@ public class DiscoveryFragment extends MainFragment {
         return inflater.inflate(R.layout.discovery_fragment, container, false);
     }
 
-    public void initRequest() {
-        Log.d("Search", "DiscoveryFragment is Init");
-
+    public void requestData() {
+        Log.e("XLog","==========requestData==========");
     }
 
 }

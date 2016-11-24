@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
     private RadioGroup tab;
     private FragmentManager fragmentManager;
     private MainFragment[] baseFragments;
-    private int selectPosition = -1;
+    private int selectPosition;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,10 +36,8 @@ public class MainActivity extends AppCompatActivity {
 
         for (int i = 0; i < count; i++) {
             tab.getChildAt(i).setOnClickListener(new OnItemClickListener(i));
+            addFragment(i);
         }
-
-        swichFragment(0);
-
     }
 
 
@@ -54,37 +52,33 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View v) {
             if (selectPosition != position) {
                 swichFragment(position);
+                baseFragments[position].requestData();
             }
-
         }
     }
 
 
     public void swichFragment(int index) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-
-        if (baseFragments[index] == null) {
-            addFragment(transaction, index);
-        }
-        if (selectPosition != -1) {
-            transaction.hide(baseFragments[selectPosition]);
-            transaction.show(baseFragments[index]);
-        }
-
+        transaction.hide(baseFragments[selectPosition]);
         selectPosition = index;
+        transaction.show(baseFragments[selectPosition]);
         transaction.commit();
-
-
     }
 
-    private void addFragment(FragmentTransaction transaction, int index) {
+    private void addFragment(int index) {
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
         MainFragment baseFragment = MainFragment.getFragmentInstance(index);
         if (baseFragment != null) {
             transaction.add(R.id.container, baseFragment);
-//            baseFragment.initRequest();
             baseFragments[index] = baseFragment;
         }
-
+        if (index == selectPosition) {
+            transaction.show(baseFragment);
+        } else {
+            transaction.hide(baseFragment);
+        }
+        transaction.commit();
     }
 
 

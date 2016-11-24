@@ -1,8 +1,7 @@
 package com.golove.request;
 
-import android.content.Context;
-
 import com.golove.BuildConfig;
+import com.golove.GoloveApplication;
 import com.golove.interceptor.HttpLoggingInterceptor;
 import com.golove.interceptor.NetworkCacheInterceptor;
 import com.golove.param.OnBuildRequestBodyListener;
@@ -27,24 +26,25 @@ public class BaseRequest {
     private CacheControl cacheControl;
     private OkHttpClient client;
 
-    public BaseRequest(Context context) {
+    public BaseRequest() {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(BuildConfig.DEBUG
                 ? HttpLoggingInterceptor.Level.BODY
                 : HttpLoggingInterceptor.Level.NONE);
 
-        Cache cache = new Cache(context.getCacheDir(), 10 * 1024 * 1024);
+        Cache cache = new Cache(GoloveApplication.goloveApplication.getCacheDir(), 10 * 1024 * 1024);
         client = new OkHttpClient.Builder()
                 .addInterceptor(interceptor)
-                .addInterceptor(new NetworkCacheInterceptor())
+                .addNetworkInterceptor(new NetworkCacheInterceptor())
                 .retryOnConnectionFailure(true)
                 .connectTimeout(30, TimeUnit.SECONDS)
                 .cache(cache)
                 .build();
 
         final CacheControl.Builder builder = new CacheControl.Builder();
-        builder.maxAge(60, TimeUnit.MILLISECONDS);//指示客户机可以接收生存期不大于指定时间的响应。
+        builder.maxAge(60  , TimeUnit.SECONDS);//指示客户机可以接收生存期不大于指定时间的响应。
         builder.minFresh(10, TimeUnit.SECONDS);//指示客户机可以接收响应时间小于当前时间加上指定时间的响应。
+        builder.maxStale(10 * 60, TimeUnit.SECONDS);
         cacheControl = builder.build();
     }
 
