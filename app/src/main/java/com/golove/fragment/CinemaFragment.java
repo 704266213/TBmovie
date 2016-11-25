@@ -17,9 +17,8 @@ public class CinemaFragment extends MainFragment {
         return inflater.inflate(R.layout.cinema_fragment, container, false);
     }
 
-
     public void requestData() {
-        Log.e("XLog","==========requestData==========");
+        Log.e("XLog","==========requestData=CinemaFragment=========");
     }
 
 }

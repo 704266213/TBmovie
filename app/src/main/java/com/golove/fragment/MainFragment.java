@@ -11,6 +11,9 @@ import com.golove.ui.neterror.NetWorkErrorView;
 
 public abstract class MainFragment<T extends ResultStateModel> extends Fragment implements NetWorkErrorView.OnFreshListener, OnRequestCallBackListener<T> {
 
+    //是否已经请求数据
+    public boolean isRequest = false;
+
     protected NetWorkErrorView netWorkErrorView;
 
     public static MainFragment getFragmentInstance(int position) {

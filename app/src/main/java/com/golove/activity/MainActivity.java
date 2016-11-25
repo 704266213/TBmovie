@@ -52,7 +52,11 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View v) {
             if (selectPosition != position) {
                 swichFragment(position);
-                baseFragments[position].requestData();
+                MainFragment mainFragment = baseFragments[position];
+                if(!mainFragment.isRequest){
+                    mainFragment.requestData();
+                    mainFragment.isRequest = true;
+                }
             }
         }
     }

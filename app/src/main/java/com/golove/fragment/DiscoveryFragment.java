@@ -19,7 +19,7 @@ public class DiscoveryFragment extends MainFragment {
     }
 
     public void requestData() {
-        Log.e("XLog","==========requestData==========");
+        Log.e("XLog","==========requestData==DiscoveryFragment========");
     }
 
 }

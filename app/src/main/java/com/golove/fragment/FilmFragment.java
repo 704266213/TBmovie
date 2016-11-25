@@ -22,9 +22,7 @@ import java.util.List;
 
 public class FilmFragment extends MainFragment implements ViewPager.OnPageChangeListener {
 
-    private Context context;
     private AppBarLayout appBarLayout;
-    private View mainLine;
     private TabLayout tabLayout;
     private ViewPager viewpager;
 
@@ -50,8 +48,8 @@ public class FilmFragment extends MainFragment implements ViewPager.OnPageChange
         FilmAdapter adapter = new FilmAdapter(getFragmentManager());
         TabFragment hitMoviesFragment = new HitMoviesFragment();
         tabFragments.add(hitMoviesFragment);
-        hitMoviesFragment.isSwitch = true;
         hitMoviesFragment.onTabChange(0);
+        hitMoviesFragment.isSwitch = true;
 
         adapter.addFrag(hitMoviesFragment, "正在热映");
         FilmComingFragment filmComingFragment = new FilmComingFragment();
@@ -78,7 +76,6 @@ public class FilmFragment extends MainFragment implements ViewPager.OnPageChange
         if(!tabFragment.isSwitch){
             tabFragment.onTabChange(position);
             tabFragment.isSwitch = true;
-            tabFragment.requestData();
         }
 
     }
@@ -88,8 +85,4 @@ public class FilmFragment extends MainFragment implements ViewPager.OnPageChange
 
     }
 
-    public void requestData() {
-        Log.e("XLog","==========热门电影==========");
-        tabFragments.get(0).requestData();
-    }
 }

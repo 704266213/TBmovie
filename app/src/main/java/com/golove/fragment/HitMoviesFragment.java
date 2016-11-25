@@ -29,11 +29,6 @@ import com.golove.ui.reflesh.PtrDefaultHandler;
 import com.golove.ui.reflesh.PtrFrameLayout;
 import com.golove.ui.reflesh.PtrHandler;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-
 public class HitMoviesFragment extends TabFragment<ResultStateModel<FilmHotModel>> {
 
 
@@ -53,6 +48,7 @@ public class HitMoviesFragment extends TabFragment<ResultStateModel<FilmHotModel
     private int verticalOffsetY;
 
     private View headView;
+    private View footerView;
     private ViewPager viewPager;
     private ViewGroup indicators;
     private LoopViewPagerAdapter mPagerAdapter;
@@ -69,6 +65,7 @@ public class HitMoviesFragment extends TabFragment<ResultStateModel<FilmHotModel
         super.onViewCreated(view, savedInstanceState);
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         netWorkErrorView = (NetWorkErrorView) view.findViewById(R.id.netWorkErrorView);
+        netWorkErrorView.setOnFreshListener(this);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -79,9 +76,12 @@ public class HitMoviesFragment extends TabFragment<ResultStateModel<FilmHotModel
 
 
 
-        headView = LayoutInflater.from(view.getContext()).inflate(R.layout.film_hit_headerview, null, false);
+        LayoutInflater layoutInflater = LayoutInflater.from(view.getContext());
+        headView = layoutInflater.inflate(R.layout.film_hit_headerview, null, false);
+        footerView = layoutInflater.inflate(R.layout.footer_loading, null, false);
         filmHitRecyclerAdapter = new FilmHitRecyclerAdapter();
         filmHitRecyclerAdapter.setHeadView(headView);
+        filmHitRecyclerAdapter.setFooterView(footerView);
 
         viewPager = (ViewPager) headView.findViewById(R.id.viewPager);
         indicators = (ViewGroup) headView.findViewById(R.id.indicators);
@@ -90,6 +90,7 @@ public class HitMoviesFragment extends TabFragment<ResultStateModel<FilmHotModel
         viewPager.addOnPageChangeListener(mPagerAdapter);
 
         recyclerView.setAdapter(filmHitRecyclerAdapter);
+
 
         appBarLayout = (AppBarLayout) getActivity().findViewById(R.id.appBarLayout);
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
@@ -138,12 +139,11 @@ public class HitMoviesFragment extends TabFragment<ResultStateModel<FilmHotModel
 
     @Override
     public void onTabChange(int position) {
-
+            requestData();
     }
 
 
     public void requestData() {
-        Log.e("XLog", "==========热门电影==========");
         String url = "https://raw.githubusercontent.com/704266213/data/master/WebContent/data/filmlist1.txt";
         RequestCallBack requestCallBack = new RequestCallBack(this, netWorkErrorView);
         BaseRequest baseRequest = new BaseRequest();
@@ -170,4 +170,7 @@ public class HitMoviesFragment extends TabFragment<ResultStateModel<FilmHotModel
     public void onRequestCallBackError() {
 
     }
+
+
+
 }

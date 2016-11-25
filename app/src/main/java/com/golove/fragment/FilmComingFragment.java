@@ -204,7 +204,6 @@ public class FilmComingFragment extends TabFragment {
 
     }
 
-
     public void requestData() {
         Log.e("XLog", "=======即将上映===============");
     }

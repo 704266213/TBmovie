@@ -2,6 +2,7 @@ package com.golove.fragment;
 
 
 import android.support.v4.app.Fragment;
+import android.util.Log;
 
 import com.golove.listener.OnRequestCallBackListener;
 import com.golove.model.ResultStateModel;
@@ -19,9 +20,7 @@ public abstract class TabFragment<T extends ResultStateModel> extends Fragment i
 
     public abstract void onTabChange(int position);
 
-    public void requestData() {
-
-    }
+    public abstract void requestData();
 
     public void onReFresh() {
         requestData();

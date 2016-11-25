@@ -27,8 +27,6 @@ public class MineFragment extends MainFragment<ResultStateModel<UserInfoModel>> 
         super.onViewCreated(view, savedInstanceState);
         netWorkErrorView = (NetWorkErrorView) view.findViewById(R.id.netWorkErrorView);
         netWorkErrorView.setOnFreshListener(this);
-
-//        requestData();
     }
 
     private String url = "https://raw.githubusercontent.com/704266213/TBmovie/master/banber1.json";

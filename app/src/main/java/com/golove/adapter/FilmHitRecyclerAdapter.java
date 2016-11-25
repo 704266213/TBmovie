@@ -29,6 +29,15 @@ public class FilmHitRecyclerAdapter extends RecyclerView.Adapter<FilmHitRecycler
     private static final int IS_NORMAL = 1;
 
     private View headView;
+    private View footerView;
+
+    public void setHeadView(View headView) {
+        this.headView = headView;
+    }
+
+    public void setFooterView(View footerView) {
+        this.footerView = footerView;
+    }
 
     private List<FilmModel> filmModels = new ArrayList<>();
 
@@ -37,9 +46,6 @@ public class FilmHitRecyclerAdapter extends RecyclerView.Adapter<FilmHitRecycler
         notifyDataSetChanged();
     }
 
-    public void setHeadView(View headView) {
-        this.headView = headView;
-    }
 
     public int getItemViewType(int position) {
         if (position == 0) {
@@ -59,9 +65,8 @@ public class FilmHitRecyclerAdapter extends RecyclerView.Adapter<FilmHitRecycler
             if(headView != null){
                 view = headView;
             }
-
         } else if (viewType == IS_FOOTER) {
-
+            view = footerView;
         } else if (viewType == IS_NORMAL) {
             view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.film_hit_list_item, viewGroup, false);
         }
@@ -77,6 +82,7 @@ public class FilmHitRecyclerAdapter extends RecyclerView.Adapter<FilmHitRecycler
             Picasso.with(GoloveApplication.goloveApplication).load(filmModel.getFilmUrl()).into(recyclerViewHolder.filmUrl);
             recyclerViewHolder.filmName.setText(filmModel.getFilmName());
             recyclerViewHolder.filmActor.setText(filmModel.getFilmActor());
+//            recyclerViewHolder.scorebar.setRating(Float.parseFloat(filmModel.getFilmScore())*10);
             recyclerViewHolder.filmScore.setText(filmModel.getFilmScore());
             recyclerViewHolder.filmDesc.setText(filmModel.getFilmDesc());
         } else if (viewType == IS_HEADER) {
@@ -112,7 +118,6 @@ public class FilmHitRecyclerAdapter extends RecyclerView.Adapter<FilmHitRecycler
                 filmDesc = (TextView) itemView.findViewById(R.id.filmDesc);
                 tickets = (TextView) itemView.findViewById(R.id.tickets);
             } else if (viewType == IS_HEADER) {
-
 
             } else {
 
