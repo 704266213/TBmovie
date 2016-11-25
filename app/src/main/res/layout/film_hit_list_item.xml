@@ -13,11 +13,11 @@
         android:id="@+id/filmUrl"
         android:layout_width="60dp"
         android:layout_height="100dp"
-        android:src="@drawable/movie_loading1"
-        android:layout_marginRight="10dp"
-        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="10dp"
+        android:src="@drawable/movie_loading1" />
 
     <TextView
         android:id="@+id/filmName"
@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/filmUrl"
         android:layout_toRightOf="@id/filmUrl"
-        android:gravity="center"
+        android:gravity="left|center_vertical"
         android:paddingBottom="8dp"
         android:paddingTop="8dp"
         android:text="绝地逃亡"
@@ -37,10 +37,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/filmUrl"
+        android:layout_marginRight="20dp"
         android:layout_toRightOf="@id/filmUrl"
         android:ellipsize="end"
-        android:gravity="center"
-        android:layout_marginRight="20dp"
+        android:gravity="left|center_vertical"
         android:lines="1"
         android:text="成龙 雷尼 范冰冰"
         android:textColor="#76708C"
@@ -64,7 +64,7 @@
         android:layout_below="@id/filmName"
         android:layout_marginLeft="8dp"
         android:layout_toRightOf="@id/scorebar"
-        android:gravity="center"
+        android:gravity="left|center_vertical"
         android:text="5.9"
         android:textColor="#76708C"
         android:textSize="14dp" />
@@ -86,20 +86,20 @@
         android:textSize="13dp" />
 
 
-
     <TextView
         android:id="@+id/filmDesc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/scorebar"
+        android:layout_alignStart="@+id/scorebar"
+        android:layout_below="@+id/scorebar"
+        android:layout_toLeftOf="@id/tickets"
         android:ellipsize="end"
-        android:gravity="center"
+        android:gravity="left|center_vertical"
         android:lines="1"
         android:text="成龙 范冰冰,各地被狂虐"
         android:textColor="#76708C"
-        android:textSize="13dp"
-        android:layout_below="@+id/scorebar"
-        android:layout_alignLeft="@+id/scorebar"
-        android:layout_alignStart="@+id/scorebar" />
+        android:textSize="13dp" />
 
 
 </RelativeLayout>
