@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.golove.GoloveApplication;
 import com.golove.R;
+import com.golove.model.BannerModel;
 import com.golove.model.FilmModel;
 import com.squareup.picasso.Picasso;
 
@@ -51,6 +52,11 @@ public class FilmHitRecyclerAdapter extends RecyclerView.Adapter<FilmHitRecycler
     public void addData(List<FilmModel> filmModels){
         this.filmModels.addAll(filmModels);
         notifyDataSetChanged();
+    }
+
+    public void addFreshData(List<FilmModel> dataList) {
+        this.filmModels.clear();
+        addData(dataList);
     }
 
 

@@ -1010,4 +1010,8 @@ public class PtrFrameLayout extends ViewGroup {
             mIsRunning = true;
         }
     }
+
+    public boolean isFreshing(){
+        return mStatus == PTR_STATUS_LOADING ? true:false;
+    }
 }

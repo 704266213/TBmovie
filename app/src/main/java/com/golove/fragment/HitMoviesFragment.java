@@ -32,6 +32,8 @@ import com.golove.ui.reflesh.PtrDefaultHandler;
 import com.golove.ui.reflesh.PtrFrameLayout;
 import com.golove.ui.reflesh.PtrHandler;
 
+import java.util.List;
+
 public class HitMoviesFragment extends TabFragment<ResultStateModel<FilmHotModel>> implements FilmHitRecyclerAdapter.OnBuyTicketListener {
 
 
@@ -114,13 +116,7 @@ public class HitMoviesFragment extends TabFragment<ResultStateModel<FilmHotModel
 
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        ptrFrameLayout.refreshComplete();
-                    }
-                }, 3 * 1000);
+                requestData();
             }
         });
     }
@@ -159,15 +155,21 @@ public class HitMoviesFragment extends TabFragment<ResultStateModel<FilmHotModel
     public void onRequestCallBackSuccess(ResultStateModel<FilmHotModel> bean) {
         ptrFrameLayout.setVisibility(View.VISIBLE);
         netWorkErrorView.setVisibility(View.GONE);
-
         FilmHotModel filmHotModel = bean.getResult();
         Log.e("XLog","=======" + filmHotModel.getBannerModels());
         for (BannerModel bannerModel : filmHotModel.getBannerModels()) {
-                    Log.e("XLog","========WebUrl==========" + bannerModel.getWebUrl());
+            Log.e("XLog","========WebUrl==========" + bannerModel.getWebUrl());
         }
-        mPagerAdapter.addData(filmHotModel.getBannerModels());
 
-        filmHitRecyclerAdapter.addData(filmHotModel.getFilmModels());
+        mPagerAdapter.addData(filmHotModel.getBannerModels());
+        List<FilmModel> filmModels = filmHotModel.getFilmModels();
+        if(ptrFrameLayout.isFreshing()){
+            ptrFrameLayout.refreshComplete();
+            filmHitRecyclerAdapter.addFreshData(filmModels);
+            return;
+        }
+
+        filmHitRecyclerAdapter.addData(filmModels);
     }
 
     @Override

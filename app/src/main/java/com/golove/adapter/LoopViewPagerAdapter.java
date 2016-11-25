@@ -43,6 +43,7 @@ public class LoopViewPagerAdapter extends BaseLoopPagerAdapter {
         notifyDataSetChanged();
     }
 
+
     /**
      * oh shit! An indicator view is badly needed!
      * this shit have no animation at all.
