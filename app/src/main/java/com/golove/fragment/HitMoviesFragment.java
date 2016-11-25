@@ -3,7 +3,6 @@ package com.golove.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.view.ViewPager;
@@ -161,15 +160,18 @@ public class HitMoviesFragment extends TabFragment<ResultStateModel<FilmHotModel
             Log.e("XLog","========WebUrl==========" + bannerModel.getWebUrl());
         }
 
-        mPagerAdapter.addData(filmHotModel.getBannerModels());
+        List<BannerModel> bannerModels = filmHotModel.getBannerModels();
+        if(bannerModels != null){
+            mPagerAdapter.addData(bannerModels);
+        }
+
         List<FilmModel> filmModels = filmHotModel.getFilmModels();
         if(ptrFrameLayout.isFreshing()){
             ptrFrameLayout.refreshComplete();
             filmHitRecyclerAdapter.addFreshData(filmModels);
-            return;
+        } else {
+            filmHitRecyclerAdapter.addData(filmModels);
         }
-
-        filmHitRecyclerAdapter.addData(filmModels);
     }
 
     @Override
