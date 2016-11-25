@@ -1,6 +1,7 @@
 package com.golove.adapter;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,12 @@ public class FilmHitRecyclerAdapter extends RecyclerView.Adapter<FilmHitRecycler
 
     private View headView;
     private View footerView;
+
+    private OnBuyTicketListener onBuyTicketListener;
+
+    public void setOnBuyTicketListener(OnBuyTicketListener onBuyTicketListener) {
+        this.onBuyTicketListener = onBuyTicketListener;
+    }
 
     public void setHeadView(View headView) {
         this.headView = headView;
@@ -78,13 +85,21 @@ public class FilmHitRecyclerAdapter extends RecyclerView.Adapter<FilmHitRecycler
     public void onBindViewHolder(RecyclerViewHolder recyclerViewHolder, int position) {
         int viewType = getItemViewType(position);
         if (viewType == IS_NORMAL) {
-            FilmModel filmModel = filmModels.get(position);
+            final FilmModel filmModel = filmModels.get(position);
             Picasso.with(GoloveApplication.goloveApplication).load(filmModel.getFilmUrl()).into(recyclerViewHolder.filmUrl);
             recyclerViewHolder.filmName.setText(filmModel.getFilmName());
             recyclerViewHolder.filmActor.setText(filmModel.getFilmActor());
-//            recyclerViewHolder.scorebar.setRating(Float.parseFloat(filmModel.getFilmScore())*10);
-            recyclerViewHolder.filmScore.setText(filmModel.getFilmScore());
+            String filmScore = filmModel.getFilmScore();
+            recyclerViewHolder.scorebar.setRating(Float.parseFloat(filmScore)/2);
+            recyclerViewHolder.filmScore.setText(filmScore);
             recyclerViewHolder.filmDesc.setText(filmModel.getFilmDesc());
+            recyclerViewHolder.tickets.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                   if(onBuyTicketListener != null){
+                       onBuyTicketListener.buyTickey(filmModel);
+                   }
+                }
+            });
         } else if (viewType == IS_HEADER) {
 
         } else {
@@ -123,5 +138,10 @@ public class FilmHitRecyclerAdapter extends RecyclerView.Adapter<FilmHitRecycler
 
             }
         }
+    }
+
+
+    public interface OnBuyTicketListener{
+        void buyTickey(FilmModel filmModel);
     }
 }

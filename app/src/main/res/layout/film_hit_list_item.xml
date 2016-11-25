@@ -28,7 +28,7 @@
         android:gravity="left|center_vertical"
         android:paddingBottom="8dp"
         android:paddingTop="8dp"
-        android:text="绝地逃亡"
+        tools:text="绝地逃亡"
         android:textColor="#272727"
         android:textSize="18dp" />
 
@@ -42,7 +42,7 @@
         android:ellipsize="end"
         android:gravity="left|center_vertical"
         android:lines="1"
-        android:text="成龙 雷尼 范冰冰"
+        tools:text="成龙 雷尼 范冰冰"
         android:textColor="#76708C"
         android:textSize="13dp" />
 
@@ -53,9 +53,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/filmName"
         android:layout_toRightOf="@id/filmUrl"
-        android:max="5"
-        android:rating="3.6"
-        android:stepSize="0.02" />
+        android:numStars="5"
+        tools:rating="3.6"
+        android:stepSize="1.0" />
 
     <TextView
         android:id="@+id/filmScore"
@@ -65,7 +65,7 @@
         android:layout_marginLeft="8dp"
         android:layout_toRightOf="@id/scorebar"
         android:gravity="left|center_vertical"
-        android:text="5.9"
+        tools:text="5.9"
         android:textColor="#76708C"
         android:textSize="14dp" />
 
@@ -80,6 +80,7 @@
         android:background="@drawable/buy_tickets_bg"
         android:gravity="center"
         android:minHeight="27dp"
+        android:clickable="true"
         android:minWidth="48dp"
         android:text="购票"
         android:textColor="#D64A5E"
@@ -97,7 +98,7 @@
         android:ellipsize="end"
         android:gravity="left|center_vertical"
         android:lines="1"
-        android:text="成龙 范冰冰,各地被狂虐"
+        tools:text="成龙 范冰冰,各地被狂虐"
         android:textColor="#76708C"
         android:textSize="13dp" />
 

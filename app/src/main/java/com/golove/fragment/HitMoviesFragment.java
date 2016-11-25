@@ -13,7 +13,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.golove.GoloveApplication;
 import com.golove.R;
 import com.golove.adapter.FilmHitRecyclerAdapter;
 import com.golove.adapter.LoopViewPagerAdapter;
@@ -21,6 +23,7 @@ import com.golove.callback.RequestCallBack;
 import com.golove.divider.FilmDivider;
 import com.golove.model.BannerModel;
 import com.golove.model.FilmHotModel;
+import com.golove.model.FilmModel;
 import com.golove.model.ResultStateModel;
 import com.golove.request.BaseRequest;
 import com.golove.ui.neterror.NetWorkErrorView;
@@ -29,7 +32,7 @@ import com.golove.ui.reflesh.PtrDefaultHandler;
 import com.golove.ui.reflesh.PtrFrameLayout;
 import com.golove.ui.reflesh.PtrHandler;
 
-public class HitMoviesFragment extends TabFragment<ResultStateModel<FilmHotModel>> {
+public class HitMoviesFragment extends TabFragment<ResultStateModel<FilmHotModel>> implements FilmHitRecyclerAdapter.OnBuyTicketListener {
 
 
     public void onCreate(Bundle savedInstanceState) {
@@ -82,6 +85,7 @@ public class HitMoviesFragment extends TabFragment<ResultStateModel<FilmHotModel
         filmHitRecyclerAdapter = new FilmHitRecyclerAdapter();
         filmHitRecyclerAdapter.setHeadView(headView);
         filmHitRecyclerAdapter.setFooterView(footerView);
+        filmHitRecyclerAdapter.setOnBuyTicketListener(this);
 
         viewPager = (ViewPager) headView.findViewById(R.id.viewPager);
         indicators = (ViewGroup) headView.findViewById(R.id.indicators);
@@ -172,5 +176,8 @@ public class HitMoviesFragment extends TabFragment<ResultStateModel<FilmHotModel
     }
 
 
-
+    @Override
+    public void buyTickey(FilmModel filmModel) {
+        Toast.makeText(GoloveApplication.goloveApplication,"购买电影名称：" + filmModel.getFilmName(),Toast.LENGTH_SHORT).show();
+    }
 }
