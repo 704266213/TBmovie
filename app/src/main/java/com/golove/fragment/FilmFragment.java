@@ -48,7 +48,6 @@ public class FilmFragment extends MainFragment implements ViewPager.OnPageChange
         FilmAdapter adapter = new FilmAdapter(getFragmentManager());
         TabFragment hitMoviesFragment = new HitMoviesFragment();
         tabFragments.add(hitMoviesFragment);
-        hitMoviesFragment.onTabChange(0);
         hitMoviesFragment.isSwitch = true;
 
         adapter.addFrag(hitMoviesFragment, "正在热映");

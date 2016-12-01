@@ -118,6 +118,8 @@ public class HitMoviesFragment extends TabFragment<ResultStateModel<FilmHotModel
                 requestData();
             }
         });
+
+        requestData();
     }
 
 
@@ -138,7 +140,7 @@ public class HitMoviesFragment extends TabFragment<ResultStateModel<FilmHotModel
 
     @Override
     public void onTabChange(int position) {
-            requestData();
+
     }
 
 

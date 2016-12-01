@@ -59,6 +59,20 @@ public class FilmHitRecyclerAdapter extends RecyclerView.Adapter<FilmHitRecycler
         addData(dataList);
     }
 
+    @Override
+    public int getItemCount() {
+        if(filmModels.size() == 0){
+            return 0;
+        } else {
+            if(headView != null && footerView != null){
+                return filmModels.size() + 1;
+            } else if(headView == null && footerView == null){
+                return filmModels.size() - 1;
+            } else {
+                return filmModels.size();
+            }
+        }
+    }
 
     public int getItemViewType(int position) {
         if (position == 0) {
@@ -112,11 +126,6 @@ public class FilmHitRecyclerAdapter extends RecyclerView.Adapter<FilmHitRecycler
 
         }
 
-    }
-
-    @Override
-    public int getItemCount() {
-        return filmModels == null ? 1 : filmModels.size() + 1;
     }
 
     public class RecyclerViewHolder extends RecyclerView.ViewHolder {

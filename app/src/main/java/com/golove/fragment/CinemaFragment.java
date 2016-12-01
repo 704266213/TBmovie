@@ -9,6 +9,9 @@ import android.view.ViewGroup;
 
 import com.golove.R;
 
+/*
+ * 影院
+ */
 public class CinemaFragment extends MainFragment {
 
 
