@@ -1,14 +1,13 @@
 package com.golove.listener;
 
-/**
- * Created by shuhj on 2016/12/1.
- */
 
 public interface OnLoadMoreListener {
 
     /**
      * 加载更多
+     * isLoadingMore 判断是否真正加载更多
      */
-    void onLoadMore();
+    void onLoadMore(boolean isLoadingMore);
+
 
 }

@@ -7,7 +7,9 @@ import android.view.ViewGroup;
 
 
 import com.golove.R;
-import com.golove.loadmore.FooterViewHolder;
+import com.golove.ui.footer.FooterView;
+import com.golove.viewhold.FooterViewHolder;
+import com.golove.viewhold.HeadViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,10 +17,18 @@ import java.util.List;
 
 public abstract class BaseRecyclerAdapter<T, VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private static final int IS_FOOTER = 2;
+    private static final int IS_HEADER = 2;
+    private static final int IS_FOOTER = 3;
     private static final int IS_NORMAL = 1;
+
     protected List<T> listData = new ArrayList<>();
+
+    private View headView;
     private View footerView;
+
+    public void setHeadView(View headView) {
+        this.headView = headView;
+    }
 
     public void setFooterView(View footerView) {
         this.footerView = footerView;
@@ -39,16 +49,28 @@ public abstract class BaseRecyclerAdapter<T, VH extends RecyclerView.ViewHolder>
         if (listData.size() == 0) {
             return 0;
         } else {
-            return listData.size() + 1;
+            int size = listData.size();
+            if (headView != null) {
+                return size + 2;
+            } else {
+                return size + 1;
+            }
         }
     }
 
     public int getItemViewType(int position) {
-        if (position == listData.size()) {
-            return IS_FOOTER;
+        if (headView != null) {
+            if (position == 0) {
+                return IS_HEADER;
+            } else if (listData.size() + 1 == position) {
+                return IS_FOOTER;
+            }
         } else {
-            return IS_NORMAL;
+            if (listData.size() == position) {
+                return IS_FOOTER;
+            }
         }
+        return IS_NORMAL;
     }
 
 
@@ -56,10 +78,11 @@ public abstract class BaseRecyclerAdapter<T, VH extends RecyclerView.ViewHolder>
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         if (viewType == IS_FOOTER) {
             if (footerView == null) {
-                LayoutInflater layoutInflater = LayoutInflater.from(viewGroup.getContext());
-                footerView = layoutInflater.inflate(R.layout.footer_loading, null, false);
+                footerView = new FooterView(viewGroup.getContext());
             }
             return new FooterViewHolder(footerView);
+        } else if (viewType == IS_HEADER) {
+            return new HeadViewHolder(headView);
         } else {
             return onCreateBodyViewHolder(viewGroup, viewType);
         }
@@ -69,7 +92,8 @@ public abstract class BaseRecyclerAdapter<T, VH extends RecyclerView.ViewHolder>
     public void onBindViewHolder(RecyclerView.ViewHolder recyclerViewHolder, int position) {
         int viewType = getItemViewType(position);
         if (viewType == IS_NORMAL) {
-            onBodyBindViewHolder((VH) recyclerViewHolder, position);
+            int realPosition = headView == null ? position : position - 1;
+            onBodyBindViewHolder((VH) recyclerViewHolder, realPosition);
         }
     }
 

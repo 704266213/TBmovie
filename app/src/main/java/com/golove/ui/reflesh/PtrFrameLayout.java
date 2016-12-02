@@ -1011,7 +1011,7 @@ public class PtrFrameLayout extends ViewGroup {
         }
     }
 
-    public boolean isFreshing(){
+    public boolean isRefreshing(){
         return mStatus == PTR_STATUS_LOADING ? true:false;
     }
 }

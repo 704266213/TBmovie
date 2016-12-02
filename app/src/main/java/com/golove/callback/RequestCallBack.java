@@ -7,7 +7,7 @@ import android.util.Log;
 import com.alibaba.fastjson.JSON;
 import com.golove.listener.OnRequestCallBackListener;
 import com.golove.model.ResultStateModel;
-import com.golove.ui.neterror.OnLoadDataListener;
+import com.golove.ui.OnLoadDataListener;
 
 import java.io.IOException;
 import java.lang.reflect.ParameterizedType;
@@ -27,7 +27,7 @@ public class RequestCallBack<T extends ResultStateModel<T>> implements Callback 
     private Runnable errorRun = new Runnable() {
 
         public void run() {
-            onLoadDataListener.loadErrorView();
+            onLoadDataListener.loadDataErrorView();
             onRequestCallBackListener.onRequestCallBackError();
         }
     };
@@ -45,11 +45,15 @@ public class RequestCallBack<T extends ResultStateModel<T>> implements Callback 
     @Override
     public void onFailure(Call call, IOException e) {
         handler.post(errorRun);
+        Log.e("XLog", "=======type===============" + e);
     }
 
     @Override
     public void onResponse(Call call, Response response) throws IOException {
         String json = response.body().string();
+        Log.e("XLog", "=======type===============" + response.isSuccessful());
+        Log.e("XLog", "=======type===============" + response.body());
+
         if (response.isSuccessful()) {
             T resultStateModel = JSON.parseObject(json, type);
             SuccessRun successRun = new SuccessRun(resultStateModel);

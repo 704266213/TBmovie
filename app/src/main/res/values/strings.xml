@@ -11,6 +11,11 @@
     <string name="loading_error">小二很忙,系统很累,稍后再试吧</string>
     <string name="refresh">刷新</string>
 
+    <string name="loading_more">哎呦没有出来~在点一次吧</string>
+    <string name="no_more_load">哎呦别点了~已经么有了</string>
+
+
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 

@@ -2,7 +2,6 @@ package com.golove.fragment;
 
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,16 +15,16 @@ import android.widget.Toast;
 
 import com.golove.R;
 import com.golove.adapter.CinemaAdapter;
-import com.golove.adapter.FilmHitRecyclerAdapter;
 import com.golove.callback.RequestCallBack;
 import com.golove.divider.FilmDivider;
 import com.golove.listener.OnLoadMoreListener;
 import com.golove.loadmore.OnLinearLoadMoreListener;
-import com.golove.model.BannerModel;
 import com.golove.model.FilmHotModel;
 import com.golove.model.FilmModel;
 import com.golove.model.ResultStateModel;
 import com.golove.request.BaseRequest;
+import com.golove.ui.OnLoadDataListener;
+import com.golove.ui.footer.FooterView;
 import com.golove.ui.neterror.NetWorkErrorView;
 
 import java.util.List;
@@ -37,6 +36,11 @@ public class DiscoveryFragment extends MainFragment<ResultStateModel<FilmHotMode
     private SwipeRefreshLayout swipeRefreshlayout;
     private CinemaAdapter cinemaAdapter;
     private OnLinearLoadMoreListener onLinearLoadMoreListener;
+    private BaseRequest baseRequest;
+
+
+    private FooterView footerView;
+    private int pageNo = 1;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -57,15 +61,24 @@ public class DiscoveryFragment extends MainFragment<ResultStateModel<FilmHotMode
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.addItemDecoration(new FilmDivider(getActivity(), LinearLayoutManager.VERTICAL, 1, getResources().getColor(R.color.top_line), (int) getResources().getDimension(R.dimen.film_line_paddingLeft)));
-
         recyclerView.setHasFixedSize(true);
 
-        cinemaAdapter = new CinemaAdapter();
-//        cinemaAdapter.setFooterView(footerView);
-        recyclerView.setAdapter(cinemaAdapter);
-        onLinearLoadMoreListener = new OnLinearLoadMoreListener(this);
-        recyclerView.addOnScrollListener(onLinearLoadMoreListener);
+        /*
+         * 加载更多时，失败的回调设置
+         */
+        footerView = new FooterView(view.getContext());
+        footerView.setOnLoadMoreListener(this);
 
+        cinemaAdapter = new CinemaAdapter();
+//        cinemaAdapter.setHeadView(headView);
+        cinemaAdapter.setFooterView(footerView);
+        recyclerView.setAdapter(cinemaAdapter);
+
+        /*
+         * 滚动到底部自动加载更多
+         */
+        onLinearLoadMoreListener = new OnLinearLoadMoreListener(footerView, this);
+        recyclerView.addOnScrollListener(onLinearLoadMoreListener);
 
         swipeRefreshlayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefreshlayout);
         // 设定下拉圆圈的背景
@@ -81,17 +94,21 @@ public class DiscoveryFragment extends MainFragment<ResultStateModel<FilmHotMode
         swipeRefreshlayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                url = "https://raw.githubusercontent.com/704266213/data/master/WebContent/data/filmlist1.txt";
-                requestData();
+                pageNo = 1;
+                requestData(footerView);
             }
         });
 
+        baseRequest = new BaseRequest();
     }
 
-    String url = "https://raw.githubusercontent.com/704266213/data/master/WebContent/data/filmlist1.txt";
     public void requestData() {
-        RequestCallBack requestCallBack = new RequestCallBack(this, netWorkErrorView);
-        BaseRequest baseRequest = new BaseRequest();
+        requestData(netWorkErrorView);
+    }
+
+    private void requestData(OnLoadDataListener onLoadDataListener) {
+        String url = "https://raw.githubusercontent.com/704266213/data/master/WebContent/data/filmlist" + pageNo + ".txt";
+        RequestCallBack requestCallBack = new RequestCallBack(this, onLoadDataListener);
         baseRequest.sendRequest(url, requestCallBack);
     }
 
@@ -102,24 +119,33 @@ public class DiscoveryFragment extends MainFragment<ResultStateModel<FilmHotMode
         FilmHotModel filmHotModel = bean.getResult();
 
         List<FilmModel> filmModels = filmHotModel.getFilmModels();
-        if(swipeRefreshlayout.isRefreshing()){
+        if (swipeRefreshlayout.isRefreshing()) {
             swipeRefreshlayout.setRefreshing(false);
             cinemaAdapter.addFreshData(filmModels);
         } else {
+            if (filmModels.size() < 15) {
+                footerView.loadNoDataOrNoMoreDataView();
+            }
             cinemaAdapter.addData(filmModels);
-            onLinearLoadMoreListener.isLoading(false);
+            onLinearLoadMoreListener.isLoadingMore(false);
         }
+        pageNo += 1;
     }
 
     @Override
     public void onRequestCallBackError() {
-
+        if (swipeRefreshlayout.isRefreshing()) {
+            Toast.makeText(getContext(), "下拉刷新失败，重试", Toast.LENGTH_SHORT).show();
+            swipeRefreshlayout.setRefreshing(false);
+        }
+        onLinearLoadMoreListener.isLoadingMore(false);
     }
 
     @Override
-    public void onLoadMore() {
-        Log.e("XLog","=============加载数据================");
-        url = "https://raw.githubusercontent.com/704266213/data/master/WebContent/data/filmlist2";
-        requestData();
+    public void onLoadMore(boolean isLoadingMore) {
+        Log.e("XLog", "=============加载数据================");
+        requestData(footerView);
+        onLinearLoadMoreListener.isLoadingMore(isLoadingMore);
     }
+
 }

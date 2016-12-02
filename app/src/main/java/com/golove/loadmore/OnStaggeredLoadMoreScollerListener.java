@@ -14,7 +14,7 @@ public abstract class OnStaggeredLoadMoreScollerListener extends OnLoadMoreScrol
     public int getLastVisibleItemPosition(RecyclerView recyclerView) {
         RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
         StaggeredGridLayoutManager staggeredGridLayoutManager = (StaggeredGridLayoutManager) layoutManager;
-        if (lastPositions == null) {
+        if (lastPositions != null) {
             lastPositions = new int[staggeredGridLayoutManager.getSpanCount()];
         }
         staggeredGridLayoutManager.findLastVisibleItemPositions(lastPositions);

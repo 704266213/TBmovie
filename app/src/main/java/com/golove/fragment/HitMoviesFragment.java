@@ -8,7 +8,6 @@ import android.support.design.widget.AppBarLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,11 +19,15 @@ import com.golove.adapter.FilmHitRecyclerAdapter;
 import com.golove.adapter.LoopViewPagerAdapter;
 import com.golove.callback.RequestCallBack;
 import com.golove.divider.FilmDivider;
+import com.golove.listener.OnLoadMoreListener;
+import com.golove.loadmore.OnLinearLoadMoreListener;
 import com.golove.model.BannerModel;
 import com.golove.model.FilmHotModel;
 import com.golove.model.FilmModel;
 import com.golove.model.ResultStateModel;
 import com.golove.request.BaseRequest;
+import com.golove.ui.OnLoadDataListener;
+import com.golove.ui.footer.FooterView;
 import com.golove.ui.neterror.NetWorkErrorView;
 import com.golove.ui.reflesh.PtrClassicFrameLayout;
 import com.golove.ui.reflesh.PtrDefaultHandler;
@@ -33,7 +36,7 @@ import com.golove.ui.reflesh.PtrHandler;
 
 import java.util.List;
 
-public class HitMoviesFragment extends TabFragment<ResultStateModel<FilmHotModel>> implements FilmHitRecyclerAdapter.OnBuyTicketListener {
+public class HitMoviesFragment extends TabFragment<ResultStateModel<FilmHotModel>> implements FilmHitRecyclerAdapter.OnBuyTicketListener, OnLoadMoreListener {
 
 
     public void onCreate(Bundle savedInstanceState) {
@@ -51,8 +54,12 @@ public class HitMoviesFragment extends TabFragment<ResultStateModel<FilmHotModel
     private PtrClassicFrameLayout ptrFrameLayout;
     private int verticalOffsetY;
 
+    private OnLinearLoadMoreListener onLinearLoadMoreListener;
+    private BaseRequest baseRequest;
+    private int pageNo = 1;
+
     private View headView;
-    private View footerView;
+    private FooterView footerView;
     private ViewPager viewPager;
     private ViewGroup indicators;
     private LoopViewPagerAdapter mPagerAdapter;
@@ -79,10 +86,15 @@ public class HitMoviesFragment extends TabFragment<ResultStateModel<FilmHotModel
         recyclerView.setHasFixedSize(true);
 
 
-
         LayoutInflater layoutInflater = LayoutInflater.from(view.getContext());
         headView = layoutInflater.inflate(R.layout.film_hit_headerview, null, false);
-        footerView = layoutInflater.inflate(R.layout.footer_loading, null, false);
+
+         /*
+         * 加载更多时，失败的回调设置
+         */
+        footerView = new FooterView(view.getContext());
+        footerView.setOnLoadMoreListener(this);
+
         filmHitRecyclerAdapter = new FilmHitRecyclerAdapter();
         filmHitRecyclerAdapter.setHeadView(headView);
         filmHitRecyclerAdapter.setFooterView(footerView);
@@ -96,12 +108,16 @@ public class HitMoviesFragment extends TabFragment<ResultStateModel<FilmHotModel
 
         recyclerView.setAdapter(filmHitRecyclerAdapter);
 
+        /*
+         * 滚动到底部自动加载更多
+         */
+        onLinearLoadMoreListener = new OnLinearLoadMoreListener(footerView, this);
+        recyclerView.addOnScrollListener(onLinearLoadMoreListener);
 
         appBarLayout = (AppBarLayout) getActivity().findViewById(R.id.appBarLayout);
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                Log.e("TAG", "====Height==========" + appBarLayout.getHeight());
                 HitMoviesFragment.this.verticalOffsetY = verticalOffset;
             }
         });
@@ -115,10 +131,12 @@ public class HitMoviesFragment extends TabFragment<ResultStateModel<FilmHotModel
 
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
-                requestData();
+                pageNo = 1;
+                requestData(footerView);
             }
         });
 
+        baseRequest = new BaseRequest();
         requestData();
     }
 
@@ -145,9 +163,12 @@ public class HitMoviesFragment extends TabFragment<ResultStateModel<FilmHotModel
 
 
     public void requestData() {
-        String url = "https://raw.githubusercontent.com/704266213/data/master/WebContent/data/filmlist1.txt";
-        RequestCallBack requestCallBack = new RequestCallBack(this, netWorkErrorView);
-        BaseRequest baseRequest = new BaseRequest();
+        requestData(netWorkErrorView);
+    }
+
+    private void requestData(OnLoadDataListener onLoadDataListener) {
+        String url = "https://raw.githubusercontent.com/704266213/data/master/WebContent/data/filmlist" + pageNo + ".txt";
+        RequestCallBack requestCallBack = new RequestCallBack(this, onLoadDataListener);
         baseRequest.sendRequest(url, requestCallBack);
     }
 
@@ -157,33 +178,46 @@ public class HitMoviesFragment extends TabFragment<ResultStateModel<FilmHotModel
         ptrFrameLayout.setVisibility(View.VISIBLE);
         netWorkErrorView.setVisibility(View.GONE);
         FilmHotModel filmHotModel = bean.getResult();
-        Log.e("XLog","=======" + filmHotModel.getBannerModels());
-        for (BannerModel bannerModel : filmHotModel.getBannerModels()) {
-            Log.e("XLog","========WebUrl==========" + bannerModel.getWebUrl());
-        }
 
         List<BannerModel> bannerModels = filmHotModel.getBannerModels();
-        if(bannerModels != null){
+        if (bannerModels != null) {
             mPagerAdapter.addData(bannerModels);
         }
 
         List<FilmModel> filmModels = filmHotModel.getFilmModels();
-        if(ptrFrameLayout.isFreshing()){
+        if (ptrFrameLayout.isRefreshing()) {
             ptrFrameLayout.refreshComplete();
             filmHitRecyclerAdapter.addFreshData(filmModels);
         } else {
+            if (filmModels.size() < 15) {
+                footerView.loadNoDataOrNoMoreDataView();
+            }
             filmHitRecyclerAdapter.addData(filmModels);
+            onLinearLoadMoreListener.isLoadingMore(false);
         }
+        pageNo += 1;
     }
 
     @Override
     public void onRequestCallBackError() {
+        if (ptrFrameLayout.isRefreshing()) {
+            ptrFrameLayout.refreshComplete();
+            Toast.makeText(getContext(), "下拉刷新失败，重试", Toast.LENGTH_SHORT).show();
+        }
+        onLinearLoadMoreListener.isLoadingMore(false);
+    }
 
+    @Override
+    public void onLoadMore(boolean isLoadingMore) {
+        requestData(footerView);
+        onLinearLoadMoreListener.isLoadingMore(isLoadingMore);
     }
 
 
     @Override
     public void buyTickey(FilmModel filmModel) {
-        Toast.makeText(GoloveApplication.goloveApplication,"购买电影名称：" + filmModel.getFilmName(),Toast.LENGTH_SHORT).show();
+        Toast.makeText(GoloveApplication.goloveApplication, "购买电影名称：" + filmModel.getFilmName(), Toast.LENGTH_SHORT).show();
     }
+
+
 }

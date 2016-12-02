@@ -8,7 +8,7 @@ public abstract class OnGridMoreScorllListener extends OnLoadMoreScrollListener 
     public int getLastVisibleItemPosition(RecyclerView recyclerView) {
         RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
         int lastVisibleItemPosition = -1;
-        if (layoutManager == null) {
+        if (layoutManager != null) {
             lastVisibleItemPosition = ((GridLayoutManager) layoutManager).findLastVisibleItemPosition();
         }
         return lastVisibleItemPosition;

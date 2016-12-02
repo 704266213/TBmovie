@@ -15,6 +15,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.golove.R;
+import com.golove.ui.OnLoadDataListener;
 
 public class NetWorkErrorView extends LinearLayout implements View.OnClickListener, OnLoadDataListener {
 
@@ -58,12 +59,12 @@ public class NetWorkErrorView extends LinearLayout implements View.OnClickListen
 
     public void onClick(View v) {
         if (onFreshListener != null) {
-            loadingView();
+            loadingDataView();
             onFreshListener.onReFresh();
         }
     }
 
-    public void loadErrorView() {
+    public void loadDataErrorView() {
         progressBar.setVisibility(GONE);
         errorImg.setVisibility(VISIBLE);
         refresh.setVisibility(VISIBLE);
@@ -71,11 +72,16 @@ public class NetWorkErrorView extends LinearLayout implements View.OnClickListen
     }
 
 
-    public void loadingView() {
+    public void loadingDataView() {
         progressBar.setVisibility(VISIBLE);
         errorImg.setVisibility(GONE);
         refresh.setVisibility(GONE);
         tips.setText(loading);
+    }
+
+    @Override
+    public void loadNoDataOrNoMoreDataView() {
+
     }
 
     public interface OnFreshListener {

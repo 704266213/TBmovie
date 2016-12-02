@@ -1,4 +1,4 @@
-package com.golove.loadmore;
+package com.golove.viewhold;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
