@@ -2,9 +2,9 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:state_pressed="true"
-        android:drawable="@drawable/buy_tickets_press_bg" />
+        android:drawable="@drawable/refresh_press_bg" />
     <item
         android:state_selected="false"
-        android:drawable="@drawable/buy_tickets_normal_bg" />
+        android:drawable="@drawable/refresh_normal_bg" />
 
 </selector>

@@ -2,13 +2,13 @@
 <resources>
 
 
-    <color name="primary">#FCFEFE</color>
+    <color name="primary">#FFFEFEFE</color>
 
 
     <color name="white">#FFFFFF</color>
     <color name="tab_on">#FE3856</color>
     <color name="tab_off">#828087</color>
-    <color name="load_textView">#7B788A</color>
+    <color name="load_textView">#FF7A768B</color>
     <color name="main_line">#E0E1DF</color>
 
     <color name="main_bg">#F5F5F5</color>

@@ -20,6 +20,16 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:minHeight="?attr/actionBarSize"
+                android:text="@string/damai"
+                android:textColor="#FF1E1E20"
+                android:textSize="17sp" />
+
             <View
                 android:id="@+id/main_line"
                 android:layout_width="match_parent"
@@ -30,10 +40,11 @@
 
     </android.support.v7.widget.Toolbar>
 
-    <TextView
+    <com.golove.ui.neterror.NetWorkErrorView
+        android:id="@+id/netWorkErrorView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/main_bg"
-        android:text="@string/damai" />
+        android:background="@color/main_bg" />
+
 
 </LinearLayout>

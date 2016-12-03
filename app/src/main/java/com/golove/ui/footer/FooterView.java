@@ -54,6 +54,9 @@ public class FooterView extends RelativeLayout implements OnLoadDataListener {
     public void loadDataErrorView() {
         progressBar.setVisibility(GONE);
         reLoadMore.setVisibility(VISIBLE);
+        reLoadMore.setClickable(true);
+        reLoadMore.setText(getResources().getString(R.string.loading_more));
+
     }
 
     @Override

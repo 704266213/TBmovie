@@ -53,6 +53,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/filmName"
         android:layout_toRightOf="@id/filmUrl"
+        android:isIndicator="true"
         android:numStars="5"
         tools:rating="3.6"
         android:stepSize="1.0" />
@@ -83,7 +84,7 @@
         android:clickable="true"
         android:minWidth="48dp"
         android:text="购票"
-        android:textColor="#D64A5E"
+        android:textColor="@color/buy_tickets_textcolor"
         android:textSize="13dp" />
 
 

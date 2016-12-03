@@ -1,4 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -6,33 +7,44 @@
     tools:context="com.golove.fragment.MineFragment">
 
     <android.support.v7.widget.Toolbar
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/toolbar"
-        android:layout_height="?attr/actionBarSize"
         android:layout_width="match_parent"
-        android:minHeight="?attr/actionBarSize"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
         android:fitsSystemWindows="true"
+        android:minHeight="?attr/actionBarSize"
         app:contentInsetLeft="0dp"
         app:contentInsetStart="0dp"
-        android:background="?attr/colorPrimary"
         app:theme="@style/AppTheme.NoActionBar">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:minHeight="?attr/actionBarSize"
+                android:text="@string/mine"
+                android:textColor="#FF1E1E20"
+                android:textSize="17sp" />
+
             <View
                 android:id="@+id/main_line"
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
                 android:layout_alignParentBottom="true"
-                android:background="@color/top_line"/>
+                android:background="@color/top_line" />
         </RelativeLayout>
 
     </android.support.v7.widget.Toolbar>
 
     <com.golove.ui.neterror.NetWorkErrorView
-    android:id="@+id/netWorkErrorView"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/main_bg"/>
+        android:id="@+id/netWorkErrorView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/main_bg" />
 
 </LinearLayout>

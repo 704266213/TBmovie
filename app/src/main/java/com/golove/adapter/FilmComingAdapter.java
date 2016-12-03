@@ -1,6 +1,7 @@
 package com.golove.adapter;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,6 +65,8 @@ public class FilmComingAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public long getItemId(int position) {
+//        return position;
+        Log.e("XLog","===================" + getItem(position).hashCode());
         return getItem(position).hashCode();
     }
 
@@ -91,14 +94,17 @@ public class FilmComingAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHo
 //        if (position == 0) {
 //            return -1;
 //        } else {
-            return getItem(position).charAt(0);
+        Log.e("XLog","===================" + getItem(position).charAt(0));
+        Log.e("XLog","======position=============" + position);
+
+        return getItem(position).charAt(0);
 //        }
+//        return position;
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateHeaderViewHolder(ViewGroup parent) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.file_coming_header, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.file_coming_header, parent, false);
         return new RecyclerView.ViewHolder(view) {
         };
     }

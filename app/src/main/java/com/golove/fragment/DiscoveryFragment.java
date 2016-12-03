@@ -135,7 +135,7 @@ public class DiscoveryFragment extends MainFragment<ResultStateModel<FilmHotMode
     @Override
     public void onRequestCallBackError() {
         if (swipeRefreshlayout.isRefreshing()) {
-            Toast.makeText(getContext(), "下拉刷新失败，重试", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "下拉刷新失败，请重试", Toast.LENGTH_SHORT).show();
             swipeRefreshlayout.setRefreshing(false);
         }
         onLinearLoadMoreListener.isLoadingMore(false);

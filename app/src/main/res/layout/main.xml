@@ -29,7 +29,7 @@
             android:paddingTop="6dp"
             android:text="@string/film"
             android:textColor="@drawable/tab_item_color"
-            android:textSize="12sp" />
+            android:textSize="10sp" />
 
         <RadioButton
             android:id="@+id/apollo"
@@ -47,7 +47,7 @@
             android:paddingTop="6dp"
             android:text="@string/cinema"
             android:textColor="@drawable/tab_item_color"
-            android:textSize="12sp" />
+            android:textSize="10sp" />
 
         <RadioButton
             android:id="@+id/poi"
@@ -65,7 +65,7 @@
             android:paddingTop="6dp"
             android:text="@string/damai"
             android:textColor="@drawable/tab_item_color"
-            android:textSize="12sp" />
+            android:textSize="10sp" />
 
         <RadioButton
             android:id="@+id/mine"
@@ -84,7 +84,7 @@
             android:paddingTop="6dp"
             android:text="@string/discovery"
             android:textColor="@drawable/tab_item_color"
-            android:textSize="12sp" />
+            android:textSize="10sp" />
 
         <RadioButton
             android:id="@+id/more"
@@ -103,7 +103,7 @@
             android:paddingTop="6dp"
             android:text="@string/mine"
             android:textColor="@drawable/tab_item_color"
-            android:textSize="12sp" />
+            android:textSize="10sp" />
     </RadioGroup>
 
     <View

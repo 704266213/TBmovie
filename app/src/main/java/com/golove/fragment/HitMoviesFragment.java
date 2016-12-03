@@ -202,7 +202,7 @@ public class HitMoviesFragment extends TabFragment<ResultStateModel<FilmHotModel
     public void onRequestCallBackError() {
         if (ptrFrameLayout.isRefreshing()) {
             ptrFrameLayout.refreshComplete();
-            Toast.makeText(getContext(), "下拉刷新失败，重试", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "下拉刷新失败，请重试", Toast.LENGTH_SHORT).show();
         }
         onLinearLoadMoreListener.isLoadingMore(false);
     }
