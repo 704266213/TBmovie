@@ -1,4 +1,4 @@
-package com.golove;
+package com.golove.popwindow;
 
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupWindow;
+
+import com.golove.R;
 
 /**
  * 类描述：

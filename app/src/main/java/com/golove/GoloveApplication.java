@@ -3,7 +3,9 @@ package com.golove;
 import android.app.Application;
 import android.content.Context;
 
+import com.baidu.mapapi.SDKInitializer;
 import com.golove.downloader.OkHttp3Downloader;
+import com.golove.service.LocationService;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.picasso.Picasso;
 
@@ -12,6 +14,7 @@ import com.squareup.picasso.Picasso;
  */
 public class GoloveApplication extends Application{
 
+    public LocationService locationService;
     public static Context goloveApplication;
 
     @Override
@@ -24,6 +27,10 @@ public class GoloveApplication extends Application{
         initPicasso();
 
         LeakCanary.install(this);
+
+        locationService = new LocationService(getApplicationContext());
+        //百度地图初始化
+        SDKInitializer.initialize(getApplicationContext());
     }
 
 

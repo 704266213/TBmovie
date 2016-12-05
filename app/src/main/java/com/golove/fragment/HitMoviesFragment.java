@@ -188,9 +188,11 @@ public class HitMoviesFragment extends TabFragment<ResultStateModel<FilmHotModel
         if (ptrFrameLayout.isRefreshing()) {
             ptrFrameLayout.refreshComplete();
             filmHitRecyclerAdapter.addFreshData(filmModels);
+            onLinearLoadMoreListener.setHasMore(true);
         } else {
             if (filmModels.size() < 15) {
                 footerView.loadNoDataOrNoMoreDataView();
+                onLinearLoadMoreListener.setHasMore(false);
             }
             filmHitRecyclerAdapter.addData(filmModels);
             onLinearLoadMoreListener.isLoadingMore(false);
@@ -208,9 +210,8 @@ public class HitMoviesFragment extends TabFragment<ResultStateModel<FilmHotModel
     }
 
     @Override
-    public void onLoadMore(boolean isLoadingMore) {
+    public void onLoadMore() {
         requestData(footerView);
-        onLinearLoadMoreListener.isLoadingMore(isLoadingMore);
     }
 
 

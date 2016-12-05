@@ -122,9 +122,11 @@ public class DiscoveryFragment extends MainFragment<ResultStateModel<FilmHotMode
         if (swipeRefreshlayout.isRefreshing()) {
             swipeRefreshlayout.setRefreshing(false);
             cinemaAdapter.addFreshData(filmModels);
+            onLinearLoadMoreListener.setHasMore(true);
         } else {
             if (filmModels.size() < 15) {
                 footerView.loadNoDataOrNoMoreDataView();
+                onLinearLoadMoreListener.setHasMore(false);
             }
             cinemaAdapter.addData(filmModels);
             onLinearLoadMoreListener.isLoadingMore(false);
@@ -142,10 +144,9 @@ public class DiscoveryFragment extends MainFragment<ResultStateModel<FilmHotMode
     }
 
     @Override
-    public void onLoadMore(boolean isLoadingMore) {
+    public void onLoadMore() {
         Log.e("XLog", "=============加载数据================");
         requestData(footerView);
-        onLinearLoadMoreListener.isLoadingMore(isLoadingMore);
     }
 
 }

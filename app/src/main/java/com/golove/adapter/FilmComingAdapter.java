@@ -5,14 +5,21 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.golove.GoloveApplication;
 import com.golove.R;
+import com.golove.model.FilmModel;
 import com.golove.ui.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
+import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Date;
 
 /**
  * 类描述：
@@ -20,86 +27,77 @@ import java.util.Collection;
  * 创建时间：2016-08-08 17:41
  * 修改备注：
  */
-public class FilmComingAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements StickyRecyclerHeadersAdapter<RecyclerView.ViewHolder> {
+public class FilmComingAdapter extends BaseRecyclerAdapter<FilmModel, FilmComingAdapter.FilmViewHolder> implements StickyRecyclerHeadersAdapter<RecyclerView.ViewHolder> {
 
-    private ArrayList<String> items = new ArrayList<String>();
 
     public FilmComingAdapter() {
         setHasStableIds(true);
     }
 
-    public void add(String object) {
-        items.add(object);
-        notifyDataSetChanged();
+    public void onBodyBindViewHolder(FilmComingAdapter.FilmViewHolder recyclerViewHolder, int position) {
+        final FilmModel filmModel = listData.get(position);
+        Picasso.with(GoloveApplication.goloveApplication).load(filmModel.getFilmUrl()).into(recyclerViewHolder.filmUrl);
+        recyclerViewHolder.filmName.setText(filmModel.getFilmName());
+        recyclerViewHolder.filmActor.setText(filmModel.getFilmActor());
+        String filmScore = filmModel.getFilmScore();
+        recyclerViewHolder.scorebar.setRating(Float.parseFloat(filmScore) / 2);
+        recyclerViewHolder.filmScore.setText(filmScore);
+        recyclerViewHolder.filmDesc.setText(filmModel.getFilmDesc());
     }
 
-    public void add(int index, String object) {
-        items.add(index, object);
-        notifyDataSetChanged();
+    public FilmComingAdapter.FilmViewHolder onCreateBodyViewHolder(ViewGroup viewGroup, int viewType) {
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.film_hit_list_item, viewGroup, false);
+        return new FilmComingAdapter.FilmViewHolder(view);
     }
 
-    public void addAll(Collection<? extends String> collection) {
-        if (collection != null) {
-            items.addAll(collection);
-            notifyDataSetChanged();
+    public class FilmViewHolder extends RecyclerView.ViewHolder {
+        private ImageView filmUrl;
+        private TextView filmName;
+        private TextView filmActor;
+        private RatingBar scorebar;
+        private TextView filmScore;
+        private TextView filmDesc;
+        private TextView tickets;
+
+        public FilmViewHolder(View itemView) {
+            super(itemView);
+            filmUrl = (ImageView) itemView.findViewById(R.id.filmUrl);
+            filmName = (TextView) itemView.findViewById(R.id.filmName);
+            filmActor = (TextView) itemView.findViewById(R.id.filmActor);
+            scorebar = (RatingBar) itemView.findViewById(R.id.scorebar);
+            filmScore = (TextView) itemView.findViewById(R.id.filmScore);
+            filmDesc = (TextView) itemView.findViewById(R.id.filmDesc);
+            tickets = (TextView) itemView.findViewById(R.id.tickets);
         }
     }
 
-    public void addAll(String... items) {
-        addAll(Arrays.asList(items));
-    }
-
-    public void clear() {
-        items.clear();
-        notifyDataSetChanged();
-    }
-
-    public void remove(String object) {
-        items.remove(object);
-        notifyDataSetChanged();
-    }
-
-    public String getItem(int position) {
-        return items.get(position);
-    }
 
     @Override
     public long getItemId(int position) {
-//        return position;
-        Log.e("XLog","===================" + getItem(position).hashCode());
-        return getItem(position).hashCode();
+        FilmModel filmModel = listData.get(position);
+        return filmModel.getReleaseDate().hashCode();
     }
 
     @Override
     public int getItemCount() {
-        return items.size();
-    }
-
-
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.film_hit_list_item, parent, false);
-        return new RecyclerView.ViewHolder(view) {
-        };
-    }
-
-    @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-//        TextView textView = (TextView) holder.itemView;
-//        textView.setText(getItem(position));
+        return listData.size();
     }
 
     @Override
     public long getHeaderId(int position) {
-//        if (position == 0) {
-//            return -1;
-//        } else {
-        Log.e("XLog","===================" + getItem(position).charAt(0));
-        Log.e("XLog","======position=============" + position);
-
-        return getItem(position).charAt(0);
-//        }
-//        return position;
+        FilmModel filmModel = listData.get(position);
+        String str = filmModel.getReleaseDate();
+        SimpleDateFormat simpleDateFormat;
+        Date date;
+        try {
+            simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            date = simpleDateFormat.parse(str.split(" ")[0]);
+            //继续转换得到秒数的long型
+            return date.getTime() / 1000;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 1;
     }
 
     @Override
@@ -111,8 +109,9 @@ public class FilmComingAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public void onBindHeaderViewHolder(RecyclerView.ViewHolder holder, int position) {
+        FilmModel filmModel = listData.get(position);
         TextView textView = (TextView) holder.itemView;
-        textView.setText(String.valueOf(getItem(position).charAt(0)));
+        textView.setText(filmModel.getReleaseDate());
     }
 
 

@@ -10,7 +10,6 @@ import com.golove.ui.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 import com.golove.ui.stickyheadersrecyclerview.util.OrientationProvider;
 
 
-
 /**
  * An implementation of {@link HeaderProvider} that creates and caches header views
  */

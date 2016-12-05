@@ -17,10 +17,17 @@ public abstract class OnLoadMoreScrollListener extends RecyclerView.OnScrollList
     protected OnLoadMoreListener onLoadMoreListener;
     protected OnLoadDataListener onLoadDataListener;
 
+    //是否正在加载数据
     private boolean isLoadingMore = false;
+    //是否有更多数据
+    private boolean hasMore = true;
 
     public void isLoadingMore(boolean loadingMore) {
         isLoadingMore = loadingMore;
+    }
+
+    public void setHasMore(boolean hasMore) {
+        this.hasMore = hasMore;
     }
 
     /**
@@ -31,7 +38,7 @@ public abstract class OnLoadMoreScrollListener extends RecyclerView.OnScrollList
     @Override
     public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
         super.onScrolled(recyclerView, dx, dy);
-        if (!isLoadingMore) {
+        if (hasMore) {
             lastVisibleItemPosition = getLastVisibleItemPosition(recyclerView);
         }
     }
@@ -39,19 +46,19 @@ public abstract class OnLoadMoreScrollListener extends RecyclerView.OnScrollList
     @Override
     public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
         super.onScrollStateChanged(recyclerView, newState);
-        if (!isLoadingMore) {
+        if (hasMore) {
             currentScrollState = newState;
             RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
             int visibleItemCount = layoutManager.getChildCount();
             int totalItemCount = layoutManager.getItemCount();
             if (visibleItemCount > 0 && currentScrollState == RecyclerView.SCROLL_STATE_IDLE && (lastVisibleItemPosition) >= totalItemCount - 1) {
                 //自动显示加载更多布局的加载中的布局
-                if(onLoadDataListener != null){
+                if(onLoadDataListener != null && hasMore){
                     onLoadDataListener.loadingDataView();
                 }
-                if (onLoadMoreListener != null) {
+                if (onLoadMoreListener != null && !isLoadingMore) {
                     isLoadingMore = true;
-                    onLoadMoreListener.onLoadMore(isLoadingMore);
+                    onLoadMoreListener.onLoadMore();
                 }
             }
         }

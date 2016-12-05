@@ -1,11 +1,9 @@
 package com.golove.model;
 
-/**
- * Created by shuhj on 2016/11/24.
- */
 
 public class FilmModel {
 
+    private String releaseDate;
     private String filmName;
     private String filmUrl;
     private String filmScore;
@@ -13,6 +11,14 @@ public class FilmModel {
     private String filmActor;
 
     public FilmModel() {
+    }
+
+    public String getReleaseDate() {
+        return releaseDate;
+    }
+
+    public void setReleaseDate(String releaseDate) {
+        this.releaseDate = releaseDate;
     }
 
     public String getFilmName() {

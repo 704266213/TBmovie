@@ -44,7 +44,7 @@ public class FooterView extends RelativeLayout implements OnLoadDataListener {
             public void onClick(View v) {
                 loadingDataView();
                 if(onLoadMoreListener != null){
-                    onLoadMoreListener.onLoadMore(true);
+                    onLoadMoreListener.onLoadMore();
                 }
             }
         });

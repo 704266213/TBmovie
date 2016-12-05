@@ -15,10 +15,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.golove.GoloveApplication;
 import com.golove.R;
 import com.golove.adapter.FilmComingAdapter;
+import com.golove.adapter.FilmHitRecyclerAdapter;
 import com.golove.adapter.LoopViewPagerAdapter;
+import com.golove.callback.RequestCallBack;
 import com.golove.divider.FilmDivider;
+import com.golove.listener.OnLoadMoreListener;
+import com.golove.loadmore.OnLinearLoadMoreListener;
+import com.golove.model.BannerModel;
+import com.golove.model.FilmHotModel;
+import com.golove.model.FilmModel;
+import com.golove.model.ResultStateModel;
+import com.golove.request.BaseRequest;
+import com.golove.ui.OnLoadDataListener;
+import com.golove.ui.footer.FooterView;
 import com.golove.ui.neterror.NetWorkErrorView;
 import com.golove.ui.reflesh.PtrClassicFrameLayout;
 import com.golove.ui.reflesh.PtrDefaultHandler;
@@ -27,54 +39,19 @@ import com.golove.ui.reflesh.PtrHandler;
 import com.golove.ui.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
 import com.golove.ui.stickyheadersrecyclerview.StickyRecyclerHeadersTouchListener;
 
+import java.util.List;
+
 
 /**
- * A simple {@link Fragment} subclass.
- * Use the {@link FilmComingFragment#newInstance} factory method to
- * create an instance of this fragment.
+ * 即将上映的电影
  */
-public class FilmComingFragment extends TabFragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+public class FilmComingFragment extends TabFragment<ResultStateModel<FilmHotModel>> implements FilmHitRecyclerAdapter.OnBuyTicketListener, OnLoadMoreListener {
 
 
-    public FilmComingFragment() {
-        // Required empty public constructor
-    }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment FilmComingFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static FilmComingFragment newInstance(String param1, String param2) {
-        FilmComingFragment fragment = new FilmComingFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
-
 
     private String mItemData = "iorem m m";
 
@@ -86,9 +63,11 @@ public class FilmComingFragment extends TabFragment {
     private NetWorkErrorView netWorkErrorView;
 
     private View headView;
-    private ViewPager viewPager;
-    private ViewGroup indicators;
-    private LoopViewPagerAdapter mPagerAdapter;
+    private FooterView footerView;
+
+    private OnLinearLoadMoreListener onLinearLoadMoreListener;
+    private BaseRequest baseRequest;
+    private int pageNo = 1;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -103,6 +82,7 @@ public class FilmComingFragment extends TabFragment {
 
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         netWorkErrorView = (NetWorkErrorView) view.findViewById(R.id.netWorkErrorView);
+        netWorkErrorView.setOnFreshListener(this);
 
 //        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
 //        recyclerView.setLayoutManager(linearLayoutManager);
@@ -114,8 +94,8 @@ public class FilmComingFragment extends TabFragment {
 
 
 //        headView = LayoutInflater.from(view.getContext()).inflate(R.layout.film_hit_headerview, null, false);
-//        filmHitRecyclerAdapter = new FilmHitRecyclerAdapter(list);
-//        filmHitRecyclerAdapter.setHeadView(headView);
+//        filmComingAdapter = new filmComingAdapter(list);
+//        filmComingAdapter.setHeadView(headView);
 //
 //        viewPager = (ViewPager) headView.findViewById(R.id.viewPager);
 //        indicators = (ViewGroup) headView.findViewById(R.id.indicators);
@@ -124,8 +104,14 @@ public class FilmComingFragment extends TabFragment {
 //        viewPager.addOnPageChangeListener(mPagerAdapter);
 //
 //
-//        recyclerView.setAdapter(filmHitRecyclerAdapter);
+//        recyclerView.setAdapter(filmComingAdapter);
 
+
+         /*
+         * 加载更多时，失败的回调设置
+         */
+        footerView = new FooterView(view.getContext());
+        footerView.setOnLoadMoreListener(this);
 
         appBarLayout = (AppBarLayout) getActivity().findViewById(R.id.appBarLayout);
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
@@ -145,20 +131,23 @@ public class FilmComingFragment extends TabFragment {
 
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        ptrFrameLayout.refreshComplete();
-                    }
-                }, 3 * 1000);
+                pageNo = 1;
+                requestData(footerView);
             }
         });
 
 
         // Set adapter populated with example dummy data
         filmComingAdapter = new FilmComingAdapter();
+        filmComingAdapter.setFooterView(footerView);
+//        filmComingAdapter.setOnBuyTicketListener(this);
         recyclerView.setAdapter(filmComingAdapter);
+
+         /*
+         * 滚动到底部自动加载更多
+         */
+        onLinearLoadMoreListener = new OnLinearLoadMoreListener(footerView, this);
+        recyclerView.addOnScrollListener(onLinearLoadMoreListener);
 
 
         // Set layout manager
@@ -184,36 +173,68 @@ public class FilmComingFragment extends TabFragment {
                                 Toast.LENGTH_SHORT).show();
                     }
                 }
-
         );
+
+        baseRequest = new BaseRequest();
     }
 
 
     @Override
     public void onTabChange(int position) {
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                ptrFrameLayout.setVisibility(View.VISIBLE);
-                netWorkErrorView.setVisibility(View.GONE);
-                filmComingAdapter.addAll(mItemData.split(" "));
-            }
-        },3*1000);
-
+        requestData(netWorkErrorView);
     }
 
     public void requestData() {
-        Log.e("XLog", "=======即将上映===============");
+        requestData(netWorkErrorView);
     }
 
-    @Override
-    public void onRequestCallBackSuccess(Object bean) {
+    private void requestData(OnLoadDataListener onLoadDataListener) {
+        String url = "https://raw.githubusercontent.com/704266213/data/master/WebContent/data/filmlist" + pageNo + ".txt";
+        RequestCallBack requestCallBack = new RequestCallBack(this, onLoadDataListener);
+        baseRequest.sendRequest(url, requestCallBack);
+    }
 
+
+    @Override
+    public void onRequestCallBackSuccess(ResultStateModel<FilmHotModel> bean) {
+        ptrFrameLayout.setVisibility(View.VISIBLE);
+        netWorkErrorView.setVisibility(View.GONE);
+        FilmHotModel filmHotModel = bean.getResult();
+
+
+        List<FilmModel> filmModels = filmHotModel.getFilmModels();
+        if (ptrFrameLayout.isRefreshing()) {
+            ptrFrameLayout.refreshComplete();
+            filmComingAdapter.addFreshData(filmModels);
+            onLinearLoadMoreListener.setHasMore(true);
+        } else {
+            if (filmModels.size() < 15) {
+                footerView.loadNoDataOrNoMoreDataView();
+                onLinearLoadMoreListener.setHasMore(false);
+            }
+            filmComingAdapter.addData(filmModels);
+            onLinearLoadMoreListener.isLoadingMore(false);
+        }
+        pageNo += 1;
     }
 
     @Override
     public void onRequestCallBackError() {
-
+        if (ptrFrameLayout.isRefreshing()) {
+            ptrFrameLayout.refreshComplete();
+            Toast.makeText(getContext(), "下拉刷新失败，请重试", Toast.LENGTH_SHORT).show();
+        }
+        onLinearLoadMoreListener.isLoadingMore(false);
     }
+
+    @Override
+    public void onLoadMore() {
+        requestData(footerView);
+    }
+
+    @Override
+    public void buyTickey(FilmModel filmModel) {
+        Toast.makeText(GoloveApplication.goloveApplication, "购买电影名称：" + filmModel.getFilmName(), Toast.LENGTH_SHORT).show();
+    }
+
 }
