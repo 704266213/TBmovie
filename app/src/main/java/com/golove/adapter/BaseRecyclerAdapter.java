@@ -1,12 +1,9 @@
 package com.golove.adapter;
 
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-
-import com.golove.R;
 import com.golove.ui.footer.FooterView;
 import com.golove.viewhold.FooterViewHolder;
 import com.golove.viewhold.HeadViewHolder;
@@ -23,7 +20,7 @@ public abstract class BaseRecyclerAdapter<T, VH extends RecyclerView.ViewHolder>
 
     protected List<T> listData = new ArrayList<>();
 
-    private View headView;
+    protected View headView;
     private View footerView;
 
     public void setHeadView(View headView) {

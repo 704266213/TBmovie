@@ -2,29 +2,26 @@ package com.golove.fragment;
 
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.golove.GoloveApplication;
 import com.golove.R;
 import com.golove.adapter.FilmComingAdapter;
 import com.golove.adapter.FilmHitRecyclerAdapter;
-import com.golove.adapter.LoopViewPagerAdapter;
+import com.golove.adapter.FilmReviewAdapter;
 import com.golove.callback.RequestCallBack;
 import com.golove.divider.FilmDivider;
 import com.golove.listener.OnLoadMoreListener;
 import com.golove.loadmore.OnLinearLoadMoreListener;
-import com.golove.model.BannerModel;
 import com.golove.model.FilmHotModel;
 import com.golove.model.FilmModel;
 import com.golove.model.ResultStateModel;
@@ -48,12 +45,10 @@ import java.util.List;
 public class FilmComingFragment extends TabFragment<ResultStateModel<FilmHotModel>> implements FilmHitRecyclerAdapter.OnBuyTicketListener, OnLoadMoreListener {
 
 
-
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
-    private String mItemData = "iorem m m";
 
     private RecyclerView recyclerView;
     private FilmComingAdapter filmComingAdapter;
@@ -63,6 +58,9 @@ public class FilmComingFragment extends TabFragment<ResultStateModel<FilmHotMode
     private NetWorkErrorView netWorkErrorView;
 
     private View headView;
+    private RadioGroup radioGroup;
+    private RecyclerView filmReviewList;
+    private FilmReviewAdapter filmReviewAdapter;
     private FooterView footerView;
 
     private OnLinearLoadMoreListener onLinearLoadMoreListener;
@@ -84,27 +82,17 @@ public class FilmComingFragment extends TabFragment<ResultStateModel<FilmHotMode
         netWorkErrorView = (NetWorkErrorView) view.findViewById(R.id.netWorkErrorView);
         netWorkErrorView.setOnFreshListener(this);
 
-//        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
-//        recyclerView.setLayoutManager(linearLayoutManager);
-//        recyclerView.addItemDecoration(new FilmDivider(
-//                getActivity(), LinearLayoutManager.VERTICAL, 1, getResources().getColor(R.color.top_line),(int)getResources().getDimension(R.dimen.film_line_paddingLeft)));
-//
-//        recyclerView.setHasFixedSize(true);
 
+        headView = LayoutInflater.from(view.getContext()).inflate(R.layout.film_guide, null, false);
+        radioGroup = (RadioGroup) headView.findViewById(R.id.radioGroup);
+        filmReviewList = (RecyclerView) headView.findViewById(R.id.filmReviewList);
 
+        final LinearLayoutManager filmReviewLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        filmReviewList.setLayoutManager(filmReviewLayoutManager);
+        filmReviewList.setHasFixedSize(true);
 
-//        headView = LayoutInflater.from(view.getContext()).inflate(R.layout.film_hit_headerview, null, false);
-//        filmComingAdapter = new filmComingAdapter(list);
-//        filmComingAdapter.setHeadView(headView);
-//
-//        viewPager = (ViewPager) headView.findViewById(R.id.viewPager);
-//        indicators = (ViewGroup) headView.findViewById(R.id.indicators);
-//        mPagerAdapter = new LoopViewPagerAdapter(viewPager, indicators);
-//        viewPager.setAdapter(mPagerAdapter);
-//        viewPager.addOnPageChangeListener(mPagerAdapter);
-//
-//
-//        recyclerView.setAdapter(filmComingAdapter);
+        filmReviewAdapter = new FilmReviewAdapter();
+        filmReviewList.setAdapter(filmReviewAdapter);
 
 
          /*
@@ -139,6 +127,7 @@ public class FilmComingFragment extends TabFragment<ResultStateModel<FilmHotMode
 
         // Set adapter populated with example dummy data
         filmComingAdapter = new FilmComingAdapter();
+        filmComingAdapter.setHeadView(headView);
         filmComingAdapter.setFooterView(footerView);
 //        filmComingAdapter.setOnBuyTicketListener(this);
         recyclerView.setAdapter(filmComingAdapter);

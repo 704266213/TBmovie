@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FFF2F2F2"
+        android:minHeight="12dp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="20dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp">
+
+        <TextView
+            android:id="@+id/film_review_tips"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:gravity="center"
+            android:text="每月观影指南"
+            android:textColor="#FF1C1D1D"
+            android:textSize="16dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/film_review_tips"
+            android:gravity="center"
+            android:paddingTop="4dp"
+            android:text="近3个月最受期待的电影"
+            android:textColor="#FF7B7888"
+            android:textSize="13dp" />
+
+        <RadioGroup
+            android:id="@+id/radioGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/film_review_month_bg"
+                android:button="@null"
+                android:checked="false"
+                android:gravity="center"
+                android:minHeight="20dp"
+                android:minWidth="40dp"
+                android:text="12月"
+                android:textColor="@color/film_review_month"
+                android:textSize="12sp" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/film_review_month_bg"
+                android:button="@null"
+                android:checked="false"
+                android:gravity="center"
+                android:minHeight="20dp"
+                android:minWidth="40dp"
+                android:text="1月"
+                android:textColor="@color/film_review_month"
+                android:textSize="12sp" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/film_review_month_bg"
+                android:button="@null"
+                android:checked="false"
+                android:gravity="center"
+                android:minHeight="20dp"
+                android:minWidth="40dp"
+                android:text="2月"
+                android:textColor="@color/film_review_month"
+                android:textSize="12sp" />
+
+        </RadioGroup>
+
+
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/filmReviewList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/primary"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        tools:listitem="@layout/film_hit_list_item" />
+
+
+</LinearLayout>

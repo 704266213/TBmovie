@@ -1,7 +1,6 @@
 package com.golove.adapter;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,9 +15,6 @@ import com.golove.ui.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Date;
 
 /**
@@ -74,30 +70,41 @@ public class FilmComingAdapter extends BaseRecyclerAdapter<FilmModel, FilmComing
 
     @Override
     public long getItemId(int position) {
-        FilmModel filmModel = listData.get(position);
-        return filmModel.getReleaseDate().hashCode();
+        if (position > 0 && position < listData.size()) {
+            FilmModel filmModel = listData.get(position-1);
+            String str = filmModel.getReleaseDate();
+            SimpleDateFormat simpleDateFormat;
+            Date date;
+            try {
+                simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                date = simpleDateFormat.parse(str.split(" ")[0]);
+                //继续转换得到秒数的long型
+                return date.getTime() / 1000;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return -1;
     }
 
-    @Override
-    public int getItemCount() {
-        return listData.size();
-    }
 
     @Override
     public long getHeaderId(int position) {
-        FilmModel filmModel = listData.get(position);
-        String str = filmModel.getReleaseDate();
-        SimpleDateFormat simpleDateFormat;
-        Date date;
-        try {
-            simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            date = simpleDateFormat.parse(str.split(" ")[0]);
-            //继续转换得到秒数的long型
-            return date.getTime() / 1000;
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (position > 0 && position < listData.size()) {
+            FilmModel filmModel = listData.get(position-1);
+            String str = filmModel.getReleaseDate();
+            SimpleDateFormat simpleDateFormat;
+            Date date;
+            try {
+                simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                date = simpleDateFormat.parse(str.split(" ")[0]);
+                //继续转换得到秒数的long型
+                return date.getTime() / 1000;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-        return 1;
+        return -1;
     }
 
     @Override
@@ -109,13 +116,13 @@ public class FilmComingAdapter extends BaseRecyclerAdapter<FilmModel, FilmComing
 
     @Override
     public void onBindHeaderViewHolder(RecyclerView.ViewHolder holder, int position) {
-        FilmModel filmModel = listData.get(position);
-        TextView textView = (TextView) holder.itemView;
-        textView.setText(filmModel.getReleaseDate());
+        if (position > 0 && position < listData.size()) {
+            FilmModel filmModel = listData.get(position-1);
+            TextView textView = (TextView) holder.itemView;
+            textView.setText(filmModel.getReleaseDate());
+        }
+
     }
 
 
 }
-
-
-
