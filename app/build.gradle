@@ -10,6 +10,11 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+        // dex突破65535的限制
+        multiDexEnabled true
+        ndk {
+            abiFilters 'armeabi', 'arm64-v8a'
+        }
     }
 
     File signFile = rootProject.file('./keystore.properties')
@@ -86,20 +91,12 @@ android {
         abortOnError false
     }
 
-    defaultConfig {
-        // dex突破65535的限制
-        multiDexEnabled true
-    }
-
     sourceSets {
         main {
-            jniLibs.srcDirs = ['libs']
+            jniLibs.srcDirs = ['src/main/jniLibs']
         }
     }
 
-    configurations {
-
-    }
 }
 
 dependencies {
@@ -107,7 +104,9 @@ dependencies {
     compile files('src/main/libs/okio-1.9.0.jar')
     compile files('src/main/libs/okhttp-3.4.2.jar')
     compile files('src/main/libs/fastjson-1.1.48.android.jar')
-    compile files('src/main/libs/BaiduLBS_Android.jar')
+    compile files('src/main/jniLibs/BaiduLBS_Android.jar')
+
+
 
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4-beta2'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
@@ -119,5 +118,4 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.2'
     //    compile 'com.squareup.okhttp3:okhttp:3.4.2'
     //compile 'com.squareup.okhttp3:logging-interceptor:3.4.2'
-
 }
