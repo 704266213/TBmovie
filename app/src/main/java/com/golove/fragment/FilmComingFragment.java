@@ -110,7 +110,7 @@ public class FilmComingFragment extends TabFragment<ResultStateModel<FilmHotMode
 
 
         ptrFrameLayout = (PtrClassicFrameLayout) view.findViewById(R.id.ptrFrameLayout);
-        ptrFrameLayout.disableWhenHorizontalMove(true);
+        ptrFrameLayout.disableWhenHorizontalMove(false);
         ptrFrameLayout.setPtrHandler(new PtrHandler() {
             @Override
             public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {

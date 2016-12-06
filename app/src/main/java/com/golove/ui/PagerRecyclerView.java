@@ -40,14 +40,12 @@ public class PagerRecyclerView extends RecyclerView {
 
 
     @Override
-    public boolean onInterceptTouchEvent(MotionEvent ev) {
+    public boolean dispatchTouchEvent(MotionEvent ev) {
         switch (ev.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 // 记录手指按下的位置
                 startY = ev.getY();
                 startX = ev.getX();
-                distanceX = 0;
-                distanceY = 0;
                 break;
             case MotionEvent.ACTION_MOVE:
                 // 获取当前手指位置
@@ -55,15 +53,11 @@ public class PagerRecyclerView extends RecyclerView {
                 float endX = ev.getX();
                 distanceX = Math.abs(endX - startX);
                 distanceY = Math.abs(endY - startY);
-                // 如果X轴位移大于Y轴位移，那么将事件交给child处理。
-                Log.e("XLog", "================" + (distanceY > touchSlop && distanceY > distanceX));
-
                 if (distanceY > touchSlop && distanceY > distanceX) {
                     Log.e("XLog", "================" + getParent().getParent().getParent());
                     getParent().getParent().getParent().requestDisallowInterceptTouchEvent(true);
+                    break;
                 }
-                startY = ev.getY();
-                startX = ev.getX();
                 break;
 
             case MotionEvent.ACTION_UP:
@@ -72,7 +66,7 @@ public class PagerRecyclerView extends RecyclerView {
 
         }
 
-        return super.onInterceptTouchEvent(ev);
+        return super.dispatchTouchEvent(ev);
     }
 
 
