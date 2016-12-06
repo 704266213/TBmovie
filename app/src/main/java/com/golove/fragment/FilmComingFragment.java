@@ -6,7 +6,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -105,10 +104,11 @@ public class FilmComingFragment extends TabFragment<ResultStateModel<FilmHotMode
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
-                Log.e("TAG", "====Height==========" + appBarLayout.getHeight());
                 FilmComingFragment.this.verticalOffsetY = verticalOffset;
             }
         });
+
+
         ptrFrameLayout = (PtrClassicFrameLayout) view.findViewById(R.id.ptrFrameLayout);
         ptrFrameLayout.disableWhenHorizontalMove(true);
         ptrFrameLayout.setPtrHandler(new PtrHandler() {

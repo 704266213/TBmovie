@@ -7,15 +7,12 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.golove.R;
 import com.golove.adapter.FilmAdapter;
-import com.golove.callback.RequestCallBack;
-import com.golove.request.BaseRequest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +36,7 @@ public class FilmFragment extends MainFragment implements ViewPager.OnPageChange
         appBarLayout = (AppBarLayout) view.findViewById(R.id.appBarLayout);
         tabLayout = (TabLayout) view.findViewById(R.id.tabLayout);
         viewpager = (ViewPager) view.findViewById(R.id.viewpager);
+
 
         setupViewPager(viewpager);
     }

@@ -14,11 +14,10 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.Poi;
 import com.golove.GoloveApplication;
-import com.golove.popwindow.FilterPopWindow;
 import com.golove.R;
+import com.golove.popwindow.FilterPopWindow;
 import com.golove.service.LocationService;
 import com.golove.ui.neterror.NetWorkErrorView;
-import com.golove.uitls.XLog;
 
 /*
  * 影院
@@ -193,7 +192,7 @@ public class CinemaFragment extends MainFragment implements View.OnClickListener
                     sb.append("\ndescribe : ");
                     sb.append("无法获取有效定位依据导致定位失败，一般是由于手机的原因，处于飞行模式下一般会造成这种结果，可以试着重启手机");
                 }
-                XLog.e("XLog",sb.toString());
+//                XLog.e("XLog",sb.toString());
             }
         }
 
