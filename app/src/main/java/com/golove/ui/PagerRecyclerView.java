@@ -22,6 +22,7 @@ public class PagerRecyclerView extends RecyclerView {
     private int touchSlop;
     private float distanceX;
     private float distanceY;
+    private boolean flag = true;
 
     public PagerRecyclerView(Context context) {
         super(context);
@@ -44,26 +45,27 @@ public class PagerRecyclerView extends RecyclerView {
         switch (ev.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 // 记录手指按下的位置
-                startY = ev.getY();
-                startX = ev.getX();
+                startY = ev.getRawY();
+                startX = ev.getRawX();
                 break;
             case MotionEvent.ACTION_MOVE:
                 // 获取当前手指位置
-                float endY = ev.getY();
-                float endX = ev.getX();
+                float endY = ev.getRawY();
+                float endX = ev.getRawX();
                 distanceX = Math.abs(endX - startX);
                 distanceY = Math.abs(endY - startY);
-                if (distanceY > touchSlop && distanceY > distanceX) {
+                if (flag && distanceY > touchSlop && distanceY > distanceX) {
                     Log.e("XLog", "================" + getParent().getParent().getParent());
                     getParent().getParent().getParent().requestDisallowInterceptTouchEvent(true);
+                    flag = false;
                     break;
                 }
                 break;
 
             case MotionEvent.ACTION_UP:
-
+                getParent().getParent().getParent().requestDisallowInterceptTouchEvent(false);
+                flag = true;
                 break;
-
         }
 
         return super.dispatchTouchEvent(ev);
