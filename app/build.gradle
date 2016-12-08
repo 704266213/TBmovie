@@ -69,7 +69,7 @@ android {
             // 混淆文件的位置
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
             //签名文件配置
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
 
             applicationVariants.all { variant ->
                 variant.outputs.each { output ->
