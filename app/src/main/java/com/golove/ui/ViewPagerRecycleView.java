@@ -11,12 +11,14 @@ import android.util.AttributeSet;
  * 修改备注：
  */
 public class ViewPagerRecycleView extends ViewPager {
-    public ViewPagerRecycleView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-    }
+
 
     public ViewPagerRecycleView(Context context) {
         super(context);
+    }
+
+    public ViewPagerRecycleView(Context context, AttributeSet attrs) {
+        super(context, attrs);
     }
 
     private int lastX;

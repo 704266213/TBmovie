@@ -41,7 +41,6 @@ public class FilmReviewAdapter extends RecyclerView.Adapter<FilmReviewAdapter.Fi
     public void onBindViewHolder(FilmReviewAdapter.FilmViewHolder recyclerViewHolder, int position) {
         String url = "https://raw.githubusercontent.com/704266213/data/master/WebContent/img/yourname.png";
         Picasso.with(GoloveApplication.goloveApplication).load(url).into(recyclerViewHolder.filmUrl);
-
     }
 
 

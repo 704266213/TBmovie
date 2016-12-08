@@ -70,21 +70,7 @@ public class FilmComingAdapter extends BaseRecyclerAdapter<FilmModel, FilmComing
 
     @Override
     public long getItemId(int position) {
-        if (position > 0 && position < listData.size()) {
-            FilmModel filmModel = listData.get(position-1);
-            String str = filmModel.getReleaseDate();
-            SimpleDateFormat simpleDateFormat;
-            Date date;
-            try {
-                simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                date = simpleDateFormat.parse(str.split(" ")[0]);
-                //继续转换得到秒数的long型
-                return date.getTime() / 1000;
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        return -1;
+        return position;
     }
 
 

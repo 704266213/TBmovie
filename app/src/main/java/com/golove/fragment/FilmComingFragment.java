@@ -48,7 +48,6 @@ public class FilmComingFragment extends TabFragment<ResultStateModel<FilmHotMode
         super.onCreate(savedInstanceState);
     }
 
-
     private RecyclerView recyclerView;
     private FilmComingAdapter filmComingAdapter;
     private AppBarLayout appBarLayout;
@@ -67,9 +66,7 @@ public class FilmComingFragment extends TabFragment<ResultStateModel<FilmHotMode
     private int pageNo = 1;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_film_coming, container, false);
     }
 
@@ -77,14 +74,10 @@ public class FilmComingFragment extends TabFragment<ResultStateModel<FilmHotMode
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
-        netWorkErrorView = (NetWorkErrorView) view.findViewById(R.id.netWorkErrorView);
-        netWorkErrorView.setOnFreshListener(this);
-
-
         headView = LayoutInflater.from(view.getContext()).inflate(R.layout.film_guide, null, false);
         radioGroup = (RadioGroup) headView.findViewById(R.id.radioGroup);
         filmReviewList = (RecyclerView) headView.findViewById(R.id.filmReviewList);
+        filmReviewList.requestDisallowInterceptTouchEvent(false);
 
         final LinearLayoutManager filmReviewLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         filmReviewList.setLayoutManager(filmReviewLayoutManager);
@@ -93,13 +86,6 @@ public class FilmComingFragment extends TabFragment<ResultStateModel<FilmHotMode
         filmReviewAdapter = new FilmReviewAdapter();
         filmReviewList.setAdapter(filmReviewAdapter);
 
-
-         /*
-         * 加载更多时，失败的回调设置
-         */
-        footerView = new FooterView(view.getContext());
-        footerView.setOnLoadMoreListener(this);
-
         appBarLayout = (AppBarLayout) getActivity().findViewById(R.id.appBarLayout);
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
@@ -107,7 +93,6 @@ public class FilmComingFragment extends TabFragment<ResultStateModel<FilmHotMode
                 FilmComingFragment.this.verticalOffsetY = verticalOffset;
             }
         });
-
 
         ptrFrameLayout = (PtrClassicFrameLayout) view.findViewById(R.id.ptrFrameLayout);
         ptrFrameLayout.disableWhenHorizontalMove(false);
@@ -125,13 +110,27 @@ public class FilmComingFragment extends TabFragment<ResultStateModel<FilmHotMode
         });
 
 
-        // Set adapter populated with example dummy data
+        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
+        netWorkErrorView = (NetWorkErrorView) view.findViewById(R.id.netWorkErrorView);
+        netWorkErrorView.setOnFreshListener(this);
+
+        /*
+         * 加载更多时，失败的回调设置
+         */
+        footerView = new FooterView(view.getContext());
+        footerView.setOnLoadMoreListener(this);
+
         filmComingAdapter = new FilmComingAdapter();
         filmComingAdapter.setHeadView(headView);
         filmComingAdapter.setFooterView(footerView);
-//        filmComingAdapter.setOnBuyTicketListener(this);
+
+        // filmComingAdapter.setOnBuyTicketListener(this);
         recyclerView.setAdapter(filmComingAdapter);
 
+
+        // Set layout manager
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(layoutManager);
          /*
          * 滚动到底部自动加载更多
          */
@@ -139,30 +138,13 @@ public class FilmComingFragment extends TabFragment<ResultStateModel<FilmHotMode
         recyclerView.addOnScrollListener(onLinearLoadMoreListener);
 
 
-        // Set layout manager
-        final LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-        recyclerView.setLayoutManager(layoutManager);
-
         // Add the sticky headers decoration
         final StickyRecyclerHeadersDecoration headersDecor = new StickyRecyclerHeadersDecoration(filmComingAdapter);
         recyclerView.addItemDecoration(headersDecor);
 
         // Add decoration for dividers between list items
         recyclerView.addItemDecoration(new FilmDivider(
-                getActivity(), LinearLayoutManager.VERTICAL, 1, getResources().getColor(R.color.top_line)));
-
-        // Add touch listeners
-        StickyRecyclerHeadersTouchListener touchListener =
-                new StickyRecyclerHeadersTouchListener(recyclerView, headersDecor);
-        touchListener.setOnHeaderClickListener(
-                new StickyRecyclerHeadersTouchListener.OnHeaderClickListener() {
-                    @Override
-                    public void onHeaderClick(View header, int position, long headerId) {
-                        Toast.makeText(getContext(), "Header position: " + position + ", id: " + headerId,
-                                Toast.LENGTH_SHORT).show();
-                    }
-                }
-        );
+                getActivity(), LinearLayoutManager.VERTICAL, 1, getResources().getColor(R.color.top_line), (int) getResources().getDimension(R.dimen.film_line_paddingLeft)));
 
         baseRequest = new BaseRequest();
     }

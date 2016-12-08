@@ -1,6 +1,7 @@
 package com.golove.adapter;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -16,7 +17,7 @@ public abstract class BaseRecyclerAdapter<T, VH extends RecyclerView.ViewHolder>
 
     private static final int IS_HEADER = 2;
     private static final int IS_FOOTER = 3;
-    private static final int IS_NORMAL = 1;
+    public static final int IS_NORMAL = 1;
 
     protected List<T> listData = new ArrayList<>();
 
