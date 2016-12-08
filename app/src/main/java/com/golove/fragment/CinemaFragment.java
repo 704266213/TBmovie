@@ -1,43 +1,80 @@
 package com.golove.fragment;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.Poi;
 import com.golove.GoloveApplication;
 import com.golove.R;
+import com.golove.adapter.CinemaAdapter;
+import com.golove.callback.RequestCallBack;
+import com.golove.divider.FilmDivider;
+import com.golove.listener.OnLoadMoreListener;
+import com.golove.loadmore.OnLinearLoadMoreListener;
+import com.golove.model.FilmHotModel;
+import com.golove.model.FilmModel;
+import com.golove.model.ResultStateModel;
+import com.golove.popwindow.CinemaLocalPopWindow;
 import com.golove.popwindow.FilterPopWindow;
+import com.golove.request.BaseRequest;
 import com.golove.service.LocationService;
+import com.golove.ui.OnLoadDataListener;
+import com.golove.ui.footer.FooterView;
 import com.golove.ui.neterror.NetWorkErrorView;
+
+import java.util.List;
 
 /*
  * 影院
  */
-public class CinemaFragment extends MainFragment implements View.OnClickListener {
+public class CinemaFragment extends MainFragment<ResultStateModel<FilmHotModel>> implements View.OnClickListener ,OnLoadMoreListener {
 
     private TextView location;
     private ImageButton search;
     private ImageButton filter;
     private View mainLine;
+    private RecyclerView recyclerView;
+    private SwipeRefreshLayout swipeRefreshlayout;
+    private CinemaAdapter cinemaAdapter;
+    private OnLinearLoadMoreListener onLinearLoadMoreListener;
+    private BaseRequest baseRequest;
+
+
+    private FooterView footerView;
+    private int pageNo = 1;
 
     private LocationService locationService;
+
+    private View parentView;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.cinema_fragment, container, false);
     }
 
@@ -51,34 +88,116 @@ public class CinemaFragment extends MainFragment implements View.OnClickListener
     public void onStart() {
         super.onStart();
         locationService = ((GoloveApplication) (getActivity().getApplication())).locationService;
+
         //获取locationservice实例，建议应用中只初始化1个location实例，然后使用，可以参考其他示例的activity，都是通过此种方式获取locationservice实例的
         locationService.registerListener(mListener);
         locationService.start();// 定位SDK
-        //注册监听
-//        int type = getIntent().getIntExtra("from", 0);
-//        if (type == 0) {
-            locationService.setLocationOption(locationService.getDefaultLocationClientOption());
-//        } else if (type == 1) {
-//            locationService.setLocationOption(locationService.getOption());
-//        }
+        locationService.setLocationOption(locationService.getDefaultLocationClientOption());
         locationService.start();// 定位SDK
     }
 
     private void initView(View view){
+        parentView = view;
         location = (TextView) view.findViewById(R.id.location);
         location.setOnClickListener(this);
         search = (ImageButton) view.findViewById(R.id.search);
         search.setOnClickListener(this);
         filter = (ImageButton) view.findViewById(R.id.filter);
         filter.setOnClickListener(this);
+        mainLine = view.findViewById(R.id.main_line);
 
+        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
 
-        mainLine = (View) view.findViewById(R.id.main_line);
         netWorkErrorView = (NetWorkErrorView) view.findViewById(R.id.netWorkErrorView);
+        netWorkErrorView.setOnFreshListener(this);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.addItemDecoration(new FilmDivider(getActivity(), LinearLayoutManager.VERTICAL, 1, getResources().getColor(R.color.top_line), (int) getResources().getDimension(R.dimen.film_line_paddingLeft)));
+        recyclerView.setHasFixedSize(true);
+
+        /*
+         * 加载更多时，失败的回调设置
+         */
+        footerView = new FooterView(view.getContext());
+        footerView.setOnLoadMoreListener(this);
+
+        cinemaAdapter = new CinemaAdapter();
+//        discoveryAdapter.setHeadView(headView);
+        cinemaAdapter.setFooterView(footerView);
+        recyclerView.setAdapter(cinemaAdapter);
+
+        /*
+         * 滚动到底部自动加载更多
+         */
+        onLinearLoadMoreListener = new OnLinearLoadMoreListener(footerView, this);
+        recyclerView.addOnScrollListener(onLinearLoadMoreListener);
+
+        swipeRefreshlayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefreshlayout);
+        // 设定下拉圆圈的背景
+        swipeRefreshlayout.setProgressBackgroundColorSchemeResource(android.R.color.white);
+        // 设置下拉圆圈上的颜色，蓝色、绿色、橙色、红色
+        swipeRefreshlayout.setColorSchemeResources(android.R.color.holo_red_light);
+
+        // 设置手指在屏幕下拉多少距离会触发下拉刷新
+//        swipeRefreshlayout.setDistanceToTriggerSync(400);
+        swipeRefreshlayout.setProgressViewOffset(false, -100, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics()));
+        swipeRefreshlayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                pageNo = 1;
+                requestData(footerView);
+            }
+        });
+
+        baseRequest = new BaseRequest();
     }
 
     public void requestData() {
-        Log.e("XLog","==========requestData=CinemaFragment=========");
+        requestData(netWorkErrorView);
+    }
+
+    private void requestData(OnLoadDataListener onLoadDataListener) {
+        String url = "https://raw.githubusercontent.com/704266213/data/master/WebContent/data/filmlist" + pageNo + ".txt";
+        RequestCallBack requestCallBack = new RequestCallBack(this, onLoadDataListener);
+        baseRequest.sendRequest(url, requestCallBack);
+    }
+
+    @Override
+    public void onRequestCallBackSuccess(ResultStateModel<FilmHotModel> bean) {
+        swipeRefreshlayout.setVisibility(View.VISIBLE);
+        netWorkErrorView.setVisibility(View.GONE);
+        FilmHotModel filmHotModel = bean.getResult();
+
+        List<FilmModel> filmModels = filmHotModel.getFilmModels();
+        if (swipeRefreshlayout.isRefreshing()) {
+            swipeRefreshlayout.setRefreshing(false);
+            cinemaAdapter.addFreshData(filmModels);
+            onLinearLoadMoreListener.setHasMore(true);
+        } else {
+            if (filmModels.size() < 15) {
+                footerView.loadNoDataOrNoMoreDataView();
+                onLinearLoadMoreListener.setHasMore(false);
+            }
+            cinemaAdapter.addData(filmModels);
+            onLinearLoadMoreListener.isLoadingMore(false);
+        }
+        pageNo += 1;
+    }
+
+    @Override
+    public void onRequestCallBackError() {
+        if (swipeRefreshlayout.isRefreshing()) {
+            Toast.makeText(getContext(), "下拉刷新失败，请重试", Toast.LENGTH_SHORT).show();
+            swipeRefreshlayout.setRefreshing(false);
+        }
+        onLinearLoadMoreListener.isLoadingMore(false);
+    }
+
+    @Override
+    public void onLoadMore() {
+        Log.e("XLog", "=============加载数据================");
+        requestData(footerView);
     }
 
 
@@ -87,7 +206,8 @@ public class CinemaFragment extends MainFragment implements View.OnClickListener
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.location:
-
+                CinemaLocalPopWindow cinemaLocalPopWindow = new CinemaLocalPopWindow(getContext());
+                cinemaLocalPopWindow.showAtLocation(parentView, Gravity.BOTTOM,0,0);
                 break;
             case R.id.filter:
                 FilterPopWindow filterPopWindow = new FilterPopWindow(getContext());
@@ -197,4 +317,5 @@ public class CinemaFragment extends MainFragment implements View.OnClickListener
         }
 
     };
+
 }

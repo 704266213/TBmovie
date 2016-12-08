@@ -46,7 +46,7 @@ android {
             // 日志开关
             buildConfigField "boolean", "ISBUG", "true"
             //移除无用的资源文件
-//            shrinkResources true
+            shrinkResources true
             // 优化压缩
             zipAlignEnabled true
             // 是否进行混淆
@@ -61,7 +61,7 @@ android {
             // 日志开关
             buildConfigField "boolean", "ISBUG", "true"
             //移除无用的资源文件
-//            shrinkResources true
+            shrinkResources true
             // 优化压缩
             zipAlignEnabled true
             // 是否进行混淆
@@ -69,7 +69,7 @@ android {
             // 混淆文件的位置
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
             //签名文件配置
-            signingConfig signingConfigs.release
+            signingConfig signingConfigs.debug
 
             applicationVariants.all { variant ->
                 variant.outputs.each { output ->

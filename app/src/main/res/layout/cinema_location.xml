@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:minHeight="40dp"
+    android:background="#FFF2F2F2">
+
+
+    <TextView
+        android:id="@+id/openMap"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:lines="1"
+        android:text="地图模式"
+        android:textColor="#FF787488"
+        android:textSize="13sp" />
+
+    <View
+        android:id="@+id/line"
+        android:layout_width="1dp"
+        android:layout_height="16dp"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="dp"
+        android:layout_marginLeft="16dp"
+        android:background="#FFDCDCDC"
+        android:layout_toLeftOf="@id/openMap"/>
+
+    <TextView
+        android:id="@+id/location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@id/line"
+        android:ellipsize="end"
+        android:lines="1"
+        android:text="我在：宝安区建安一路与新圳路交汇处的海雅广场四层"
+        android:textColor="#FF787488"
+        android:textSize="13sp" />
+
+
+
+</RelativeLayout>

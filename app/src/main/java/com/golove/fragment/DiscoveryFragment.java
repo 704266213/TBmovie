@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.golove.R;
-import com.golove.adapter.CinemaAdapter;
+import com.golove.adapter.DiscoveryAdapter;
 import com.golove.callback.RequestCallBack;
 import com.golove.divider.FilmDivider;
 import com.golove.listener.OnLoadMoreListener;
@@ -34,7 +34,7 @@ public class DiscoveryFragment extends MainFragment<ResultStateModel<FilmHotMode
 
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshlayout;
-    private CinemaAdapter cinemaAdapter;
+    private DiscoveryAdapter discoveryAdapter;
     private OnLinearLoadMoreListener onLinearLoadMoreListener;
     private BaseRequest baseRequest;
 
@@ -54,7 +54,9 @@ public class DiscoveryFragment extends MainFragment<ResultStateModel<FilmHotMode
     }
 
     public void initView(View view) {
+
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
+
         netWorkErrorView = (NetWorkErrorView) view.findViewById(R.id.netWorkErrorView);
         netWorkErrorView.setOnFreshListener(this);
 
@@ -69,10 +71,10 @@ public class DiscoveryFragment extends MainFragment<ResultStateModel<FilmHotMode
         footerView = new FooterView(view.getContext());
         footerView.setOnLoadMoreListener(this);
 
-        cinemaAdapter = new CinemaAdapter();
-//        cinemaAdapter.setHeadView(headView);
-        cinemaAdapter.setFooterView(footerView);
-        recyclerView.setAdapter(cinemaAdapter);
+        discoveryAdapter = new DiscoveryAdapter();
+//        discoveryAdapter.setHeadView(headView);
+        discoveryAdapter.setFooterView(footerView);
+        recyclerView.setAdapter(discoveryAdapter);
 
         /*
          * 滚动到底部自动加载更多
@@ -88,9 +90,7 @@ public class DiscoveryFragment extends MainFragment<ResultStateModel<FilmHotMode
 
         // 设置手指在屏幕下拉多少距离会触发下拉刷新
 //        swipeRefreshlayout.setDistanceToTriggerSync(400);
-        swipeRefreshlayout.setProgressViewOffset(false, -100, (int) TypedValue
-                .applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources()
-                        .getDisplayMetrics()));
+        swipeRefreshlayout.setProgressViewOffset(false, -100, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics()));
         swipeRefreshlayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -121,14 +121,14 @@ public class DiscoveryFragment extends MainFragment<ResultStateModel<FilmHotMode
         List<FilmModel> filmModels = filmHotModel.getFilmModels();
         if (swipeRefreshlayout.isRefreshing()) {
             swipeRefreshlayout.setRefreshing(false);
-            cinemaAdapter.addFreshData(filmModels);
+            discoveryAdapter.addFreshData(filmModels);
             onLinearLoadMoreListener.setHasMore(true);
         } else {
             if (filmModels.size() < 15) {
                 footerView.loadNoDataOrNoMoreDataView();
                 onLinearLoadMoreListener.setHasMore(false);
             }
-            cinemaAdapter.addData(filmModels);
+            discoveryAdapter.addData(filmModels);
             onLinearLoadMoreListener.isLoadingMore(false);
         }
         pageNo += 1;

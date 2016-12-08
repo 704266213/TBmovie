@@ -19,8 +19,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:clickable="true"
             android:layout_marginLeft="15dp"
+            android:clickable="true"
             android:drawablePadding="4dp"
             android:drawableRight="@drawable/more_arrow"
             android:text="深圳"
@@ -43,8 +43,8 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="15dp"
-            android:clickable="true"
             android:background="@null"
+            android:clickable="true"
             android:src="@drawable/ic_action_search" />
 
         <ImageButton
@@ -54,8 +54,8 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="15dp"
             android:layout_toLeftOf="@id/search"
-            android:clickable="true"
             android:background="@null"
+            android:clickable="true"
             android:src="@drawable/ic_action_filter" />
 
 
@@ -75,5 +75,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/main_bg" />
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshlayout"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:scrollbars="vertical"
+        android:visibility="gone">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/primary"
+            tools:listitem="@layout/film_hit_list_item" />
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </LinearLayout>
