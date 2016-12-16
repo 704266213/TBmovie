@@ -4,7 +4,6 @@
     android:versionCode="1"
     android:versionName="1.0">
 
-
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -20,7 +19,6 @@
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
-
     <application
         android:name=".GoloveApplication"
         android:allowBackup="true"
@@ -29,17 +27,20 @@
         android:theme="@style/AppTheme.NoActionBar">
 
         <!-- 百度地图开始 -->
-        <!--http://lbsyun.baidu.com/apiconsole/key
-          	key=7Hai6w2A9EaZH8rDS791sRN3K3e4tPbQ -->
+        <!--
+            http://lbsyun.baidu.com/apiconsole/key
+          	key=7Hai6w2A9EaZH8rDS791sRN3K3e4tPbQ
+        -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="UVrmVbmzovN2BsUjvMs3XX2xvleOAc9s" />
+
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
             android:process=":remote">
             <intent-filter>
-                <action android:name="com.baidu.location.service_v2.2"></action>
+                <action android:name="com.baidu.location.service_v2.2" />
             </intent-filter>
         </service>
 
@@ -57,11 +58,10 @@
         </activity>
         <activity
             android:name=".activity.SettingsActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activity.AboutActivity" />
         <activity android:name=".activity.LoadMoreActivity" />
-
-
+        <activity android:name=".activity.NearCinemaActivity"></activity>
     </application>
 
 </manifest>

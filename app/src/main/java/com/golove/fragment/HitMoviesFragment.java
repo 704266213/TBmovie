@@ -2,6 +2,7 @@ package com.golove.fragment;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 
 import com.golove.GoloveApplication;
 import com.golove.R;
+import com.golove.activity.NearCinemaActivity;
 import com.golove.adapter.FilmHitRecyclerAdapter;
 import com.golove.adapter.LoopViewPagerAdapter;
 import com.golove.callback.RequestCallBack;
@@ -218,6 +220,8 @@ public class HitMoviesFragment extends TabFragment<ResultStateModel<FilmHotModel
     @Override
     public void buyTickey(FilmModel filmModel) {
         Toast.makeText(GoloveApplication.goloveApplication, "购买电影名称：" + filmModel.getFilmName(), Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(getContext(), NearCinemaActivity.class);
+        startActivity(intent);
     }
 
 
