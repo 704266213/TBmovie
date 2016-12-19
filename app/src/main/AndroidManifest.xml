@@ -29,11 +29,11 @@
         <!-- 百度地图开始 -->
         <!--
             http://lbsyun.baidu.com/apiconsole/key
-          	key=7Hai6w2A9EaZH8rDS791sRN3K3e4tPbQ
+          	key=UVrmVbmzovN2BsUjvMs3XX2xvleOAc9s
         -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="UVrmVbmzovN2BsUjvMs3XX2xvleOAc9s" />
+            android:value="7Hai6w2A9EaZH8rDS791sRN3K3e4tPbQ" />
 
         <service
             android:name="com.baidu.location.f"
