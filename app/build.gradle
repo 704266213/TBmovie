@@ -46,7 +46,7 @@ android {
             // 日志开关
             buildConfigField "boolean", "ISBUG", "true"
             //移除无用的资源文件
-            shrinkResources true
+//            shrinkResources true
             // 优化压缩
             zipAlignEnabled true
             // 是否进行混淆
@@ -54,14 +54,14 @@ android {
             // 混淆文件的位置
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
             //配置在debug包中也签上名,好处是debug包换release包不会清数据
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
         }
 
         release {
             // 日志开关
             buildConfigField "boolean", "ISBUG", "true"
             //移除无用的资源文件
-            shrinkResources true
+//            shrinkResources true
             // 优化压缩
             zipAlignEnabled true
             // 是否进行混淆
@@ -69,7 +69,7 @@ android {
             // 混淆文件的位置
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
             //签名文件配置
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
 
             applicationVariants.all { variant ->
                 variant.outputs.each { output ->
@@ -104,7 +104,11 @@ dependencies {
     compile files('src/main/libs/okio-1.9.0.jar')
     compile files('src/main/libs/okhttp-3.4.2.jar')
     compile files('src/main/libs/fastjson-1.1.48.android.jar')
-    compile files('src/main/jniLibs/BaiduLBS_Android.jar')
+    compile files('src/main/jniLibs/baidumapapi_base_v4_1_1.jar')
+    compile files('src/main/jniLibs/baidumapapi_cloud_v4_1_1.jar')
+    compile files('src/main/jniLibs/baidumapapi_map_v4_1_1.jar')
+    compile files('src/main/jniLibs/baidumapapi_search_v4_1_1.jar')
+    compile files('src/main/jniLibs/locSDK_6.13.jar')
 
 
 

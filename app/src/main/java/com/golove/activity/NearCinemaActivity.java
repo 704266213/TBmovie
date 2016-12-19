@@ -5,6 +5,14 @@ import android.os.Bundle;
 import android.util.Log;
 
 
+import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.search.core.PoiInfo;
+import com.baidu.mapapi.search.poi.OnGetPoiSearchResultListener;
+import com.baidu.mapapi.search.poi.PoiCitySearchOption;
+import com.baidu.mapapi.search.poi.PoiDetailResult;
+import com.baidu.mapapi.search.poi.PoiIndoorResult;
+import com.baidu.mapapi.search.poi.PoiResult;
+import com.baidu.mapapi.search.poi.PoiSearch;
 import com.golove.R;
 
 import java.util.List;
@@ -42,10 +50,11 @@ public class NearCinemaActivity extends AppCompatActivity {
        public void onGetPoiResult(PoiResult result){
            //获取POI检索结果
            List<PoiInfo> poiInfos = result.getAllPoi();
-           for(PoiInfo poiInfo : poiInfos){
-               Log.e("XLog","========name============" +  poiInfo.name);
+           if(poiInfos != null){
+               for(PoiInfo poiInfo : poiInfos){
+                   Log.e("XLog","========name============" +  poiInfo.name);
+               }
            }
-
        }
        public void onGetPoiDetailResult(PoiDetailResult result){
            //获取Place详情页检索结果

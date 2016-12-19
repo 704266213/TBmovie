@@ -37,6 +37,7 @@ import com.golove.service.LocationService;
 import com.golove.ui.OnLoadDataListener;
 import com.golove.ui.footer.FooterView;
 import com.golove.ui.neterror.NetWorkErrorView;
+import com.golove.uitls.XLog;
 
 import java.util.List;
 
@@ -244,7 +245,7 @@ public class CinemaFragment extends MainFragment<ResultStateModel<FilmHotModel>>
                 sb.append("\nlocType : ");// 定位类型
                 sb.append(location.getLocType());
                 sb.append("\nlocType description : ");// *****对应的定位类型说明*****
-                sb.append(location.getLocTypeDescription());
+//                sb.append(location.getLocTypeDescription());
                 sb.append("\nlatitude : ");// 纬度
                 sb.append(location.getLatitude());
                 sb.append("\nlontitude : ");// 经度
@@ -266,7 +267,7 @@ public class CinemaFragment extends MainFragment<ResultStateModel<FilmHotModel>>
                 sb.append("\naddr : ");// 地址信息
                 sb.append(location.getAddrStr());
                 sb.append("\nUserIndoorState: ");// *****返回用户室内外判断结果*****
-                sb.append(location.getUserIndoorState());
+//                sb.append(location.getUserIndoorState());
                 sb.append("\nDirection(not all devices have value): ");
                 sb.append(location.getDirection());// 方向
                 sb.append("\nlocationdescribe: ");
@@ -286,7 +287,7 @@ public class CinemaFragment extends MainFragment<ResultStateModel<FilmHotModel>>
                     sb.append("\nheight : ");
                     sb.append(location.getAltitude());// 海拔高度 单位：米
                     sb.append("\ngps status : ");
-                    sb.append(location.getGpsAccuracyStatus());// *****gps质量判断*****
+//                    sb.append(location.getGpsAccuracyStatus());// *****gps质量判断*****
                     sb.append("\ndescribe : ");
                     sb.append("gps定位成功");
                 } else if (location.getLocType() == BDLocation.TypeNetWorkLocation) {// 网络定位结果
@@ -312,7 +313,7 @@ public class CinemaFragment extends MainFragment<ResultStateModel<FilmHotModel>>
                     sb.append("\ndescribe : ");
                     sb.append("无法获取有效定位依据导致定位失败，一般是由于手机的原因，处于飞行模式下一般会造成这种结果，可以试着重启手机");
                 }
-//                XLog.e("XLog",sb.toString());
+                XLog.e("XLog",sb.toString());
             }
         }
 
