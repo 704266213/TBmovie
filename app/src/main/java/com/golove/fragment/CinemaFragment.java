@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +24,8 @@ import com.baidu.location.Poi;
 import com.golove.GoloveApplication;
 import com.golove.R;
 import com.golove.adapter.CinemaAdapter;
+import com.golove.adapter.CinemaHeaderAdapter;
+import com.golove.adapter.FilmReviewAdapter;
 import com.golove.callback.RequestCallBack;
 import com.golove.divider.FilmDivider;
 import com.golove.listener.OnLoadMoreListener;
@@ -35,10 +38,13 @@ import com.golove.popwindow.FilterPopWindow;
 import com.golove.request.BaseRequest;
 import com.golove.service.LocationService;
 import com.golove.ui.OnLoadDataListener;
+import com.golove.ui.circlerecyclerview.CircleRecyclerView;
+import com.golove.ui.circlerecyclerview.CircularViewMode;
 import com.golove.ui.footer.FooterView;
 import com.golove.ui.neterror.NetWorkErrorView;
 import com.golove.uitls.XLog;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /*
@@ -56,6 +62,9 @@ public class CinemaFragment extends MainFragment<ResultStateModel<FilmHotModel>>
     private OnLinearLoadMoreListener onLinearLoadMoreListener;
     private BaseRequest baseRequest;
 
+    private View headView;
+    private CinemaHeaderAdapter cinemaHeaderAdapter;
+    private CircleRecyclerView circleRecyclerView;
 
     private FooterView footerView;
     private int pageNo = 1;
@@ -107,6 +116,21 @@ public class CinemaFragment extends MainFragment<ResultStateModel<FilmHotModel>>
         filter.setOnClickListener(this);
         mainLine = view.findViewById(R.id.main_line);
 
+
+        LayoutInflater layoutInflater = LayoutInflater.from(view.getContext());
+        headView = layoutInflater.inflate(R.layout.cinema_headerview, null, false);
+        LinearLayout indicators = (LinearLayout)headView.findViewById(R.id.indicators);
+        circleRecyclerView = (CircleRecyclerView)headView.findViewById(R.id.circleRecyclerView);
+        final LinearLayoutManager filmReviewLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        circleRecyclerView.setLayoutManager(filmReviewLayoutManager);
+        CircularViewMode mItemViewMode = new CircularViewMode();
+        circleRecyclerView.setViewMode(mItemViewMode);
+        circleRecyclerView.setNeedCenterForce(true);
+        circleRecyclerView.setNeedLoop(true);
+        cinemaHeaderAdapter = new CinemaHeaderAdapter(indicators);
+        circleRecyclerView.setAdapter(cinemaHeaderAdapter);
+
+
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
 
         netWorkErrorView = (NetWorkErrorView) view.findViewById(R.id.netWorkErrorView);
@@ -124,7 +148,7 @@ public class CinemaFragment extends MainFragment<ResultStateModel<FilmHotModel>>
         footerView.setOnLoadMoreListener(this);
 
         cinemaAdapter = new CinemaAdapter();
-//        discoveryAdapter.setHeadView(headView);
+        cinemaAdapter.setHeadView(headView);
         cinemaAdapter.setFooterView(footerView);
         recyclerView.setAdapter(cinemaAdapter);
 
@@ -183,6 +207,14 @@ public class CinemaFragment extends MainFragment<ResultStateModel<FilmHotModel>>
             cinemaAdapter.addData(filmModels);
             onLinearLoadMoreListener.isLoadingMore(false);
         }
+
+        List<String> list = new ArrayList<>();
+        list.add("https://raw.githubusercontent.com/704266213/data/master/WebContent/img/banner1.png");
+        list.add("https://raw.githubusercontent.com/704266213/data/master/WebContent/img/banner2.png");
+        list.add("https://raw.githubusercontent.com/704266213/data/master/WebContent/img/banner3.png");
+        list.add("https://raw.githubusercontent.com/704266213/data/master/WebContent/img/banner4.png");
+        cinemaHeaderAdapter.addDataToList(list);
+
         pageNo += 1;
     }
 
@@ -313,7 +345,7 @@ public class CinemaFragment extends MainFragment<ResultStateModel<FilmHotModel>>
                     sb.append("\ndescribe : ");
                     sb.append("无法获取有效定位依据导致定位失败，一般是由于手机的原因，处于飞行模式下一般会造成这种结果，可以试着重启手机");
                 }
-                XLog.e("XLog",sb.toString());
+//                XLog.e("XLog",sb.toString());
             }
         }
 
