@@ -76,19 +76,75 @@
         android:layout_height="match_parent"
         android:background="@color/main_bg" />
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/swipeRefreshlayout"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:scrollbars="vertical"
-        android:visibility="gone">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerView"
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipeRefreshlayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/primary"
-            tools:listitem="@layout/film_hit_list_item" />
-    </android.support.v4.widget.SwipeRefreshLayout>
+            android:scrollbars="vertical"
+            android:visibility="gone">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/primary"
+                tools:listitem="@layout/film_hit_list_item" />
+        </android.support.v4.widget.SwipeRefreshLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FFF2F2F2"
+            android:minHeight="40dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            app:layout_anchor="@id/recyclerView"
+            app:layout_anchorGravity="bottom"
+            app:layout_behavior="com.golove.behavior.FloatingFooterView"
+            app:layout_scrollFlags="scroll|enterAlways|snap">
+
+            <TextView
+                android:id="@+id/openMap"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:lines="1"
+                android:text="地图模式"
+                android:textColor="#FF787488"
+                android:textSize="13sp" />
+
+            <View
+                android:id="@+id/line"
+                android:layout_width="1dp"
+                android:layout_height="16dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="8dp"
+                android:layout_toLeftOf="@id/openMap"
+                android:background="#FFDCDCDC" />
+
+            <TextView
+                android:id="@+id/locationDetail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@id/line"
+                android:ellipsize="end"
+                android:lines="1"
+                android:text="我在：宝安区建安一路与新圳路交汇处的海雅广场四层"
+                android:textColor="#FF787488"
+                android:textSize="13sp" />
+
+        </RelativeLayout>
+
+    </android.support.design.widget.CoordinatorLayout>
+
 
 </LinearLayout>

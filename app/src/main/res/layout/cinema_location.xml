@@ -7,7 +7,6 @@
     android:minHeight="40dp"
     android:background="#FFF2F2F2">
 
-
     <TextView
         android:id="@+id/openMap"
         android:layout_width="wrap_content"
@@ -41,7 +40,5 @@
         android:text="我在：宝安区建安一路与新圳路交汇处的海雅广场四层"
         android:textColor="#FF787488"
         android:textSize="13sp" />
-
-
 
 </RelativeLayout>
