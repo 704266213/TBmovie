@@ -15,7 +15,7 @@
 
 
     <TextView
-        android:id="@+id/distance"
+        android:id="@+id/cinemaDistance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
@@ -29,7 +29,7 @@
 
 
     <TextView
-        android:id="@+id/location"
+        android:id="@+id/cinemaLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -38,6 +38,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
+        android:layout_toLeftOf="@id/cinemaDistance"
         android:ellipsize="end"
         android:lines="1"
         android:maxHeight="40dp"
@@ -50,7 +51,7 @@
         android:id="@+id/cinemaName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@id/location"
+        android:layout_alignLeft="@id/cinemaLocation"
         android:layout_marginRight="4dp"
         android:layout_marginTop="12dp"
         android:ellipsize="end"
@@ -77,7 +78,7 @@
         android:id="@+id/cinemaInfo1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@id/location"
+        android:layout_alignLeft="@id/cinemaLocation"
         android:layout_alignParentBottom="true"
         android:layout_marginRight="4dp"
         android:background="@drawable/cinema_info"

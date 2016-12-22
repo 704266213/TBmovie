@@ -9,7 +9,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,8 +26,7 @@ import com.golove.callback.RequestCallBack;
 import com.golove.divider.FilmDivider;
 import com.golove.listener.OnLoadMoreListener;
 import com.golove.loadmore.OnLinearLoadMoreListener;
-import com.golove.model.FilmHotModel;
-import com.golove.model.FilmModel;
+import com.golove.model.CinemaModel;
 import com.golove.model.ResultStateModel;
 import com.golove.popwindow.CinemaLocalPopWindow;
 import com.golove.popwindow.FilterPopWindow;
@@ -43,16 +41,19 @@ import java.util.List;
 /*
  * 影院
  */
-public class CinemaFragment extends MainFragment<ResultStateModel<FilmHotModel>> implements View.OnClickListener ,OnLoadMoreListener {
+public class CinemaFragment extends MainFragment<ResultStateModel<List<CinemaModel>>> implements View.OnClickListener ,OnLoadMoreListener {
 
     private TextView location;
     private ImageButton search;
     private ImageButton filter;
     private View mainLine;
+    private CinemaLocalPopWindow cinemaLocalPopWindow;
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshlayout;
     private CinemaAdapter cinemaAdapter;
     private OnLinearLoadMoreListener onLinearLoadMoreListener;
+    private OnPopWindowLocalListener onPopWindowLocalListener;
+    private View tab;
     private BaseRequest baseRequest;
 
 
@@ -61,11 +62,13 @@ public class CinemaFragment extends MainFragment<ResultStateModel<FilmHotModel>>
 
     private LocationService locationService;
 
-    private View parentView;
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        if(context != null){
+            if(context instanceof OnPopWindowLocalListener)
+            onPopWindowLocalListener = (OnPopWindowLocalListener)context;
+        }
 
     }
 
@@ -97,7 +100,9 @@ public class CinemaFragment extends MainFragment<ResultStateModel<FilmHotModel>>
     }
 
     private void initView(View view){
-        parentView = view;
+
+        tab = onPopWindowLocalListener.popWindowLocalView();
+
         location = (TextView) view.findViewById(R.id.location);
         location.setOnClickListener(this);
         search = (ImageButton) view.findViewById(R.id.search);
@@ -158,28 +163,27 @@ public class CinemaFragment extends MainFragment<ResultStateModel<FilmHotModel>>
     }
 
     private void requestData(OnLoadDataListener onLoadDataListener) {
-        String url = "https://raw.githubusercontent.com/704266213/data/master/WebContent/data/filmlist" + pageNo + ".txt";
+        String url = "https://raw.githubusercontent.com/704266213/data/master/WebContent/data/cinemalist" + pageNo + ".txt";
         RequestCallBack requestCallBack = new RequestCallBack(this, onLoadDataListener);
         baseRequest.sendRequest(url, requestCallBack);
     }
 
     @Override
-    public void onRequestCallBackSuccess(ResultStateModel<FilmHotModel> bean) {
+    public void onRequestCallBackSuccess(ResultStateModel<List<CinemaModel>> bean) {
         swipeRefreshlayout.setVisibility(View.VISIBLE);
         netWorkErrorView.setVisibility(View.GONE);
-        FilmHotModel filmHotModel = bean.getResult();
+        List<CinemaModel> cinemaModels = bean.getResult();
 
-        List<FilmModel> filmModels = filmHotModel.getFilmModels();
         if (swipeRefreshlayout.isRefreshing()) {
             swipeRefreshlayout.setRefreshing(false);
-            cinemaAdapter.addFreshData(filmModels);
+            cinemaAdapter.addFreshData(cinemaModels);
             onLinearLoadMoreListener.setHasMore(true);
         } else {
-            if (filmModels.size() < 15) {
+            if (cinemaModels.size() < 15) {
                 footerView.loadNoDataOrNoMoreDataView();
                 onLinearLoadMoreListener.setHasMore(false);
             }
-            cinemaAdapter.addData(filmModels);
+            cinemaAdapter.addData(cinemaModels);
             onLinearLoadMoreListener.isLoadingMore(false);
         }
         pageNo += 1;
@@ -206,8 +210,8 @@ public class CinemaFragment extends MainFragment<ResultStateModel<FilmHotModel>>
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.location:
-                CinemaLocalPopWindow cinemaLocalPopWindow = new CinemaLocalPopWindow(getContext());
-                cinemaLocalPopWindow.showAtLocation(parentView, Gravity.BOTTOM,0,0);
+//                cinemaLocalPopWindow = new CinemaLocalPopWindow(getContext());
+//                cinemaLocalPopWindow.showAtLocation(getView(), Gravity.LEFT|Gravity.BOTTOM,0,tab.getHeight());
                 break;
             case R.id.filter:
                 FilterPopWindow filterPopWindow = new FilterPopWindow(getContext());
@@ -317,5 +321,23 @@ public class CinemaFragment extends MainFragment<ResultStateModel<FilmHotModel>>
         }
 
     };
+
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+//        if(cinemaLocalPopWindow != null){
+//            if(!hidden){
+//                cinemaLocalPopWindow.showAtLocation(getView(), Gravity.BOTTOM,0,tab.getHeight());
+//            } else {
+//                cinemaLocalPopWindow.dismiss();
+//            }
+//        }
+    }
+
+    public interface OnPopWindowLocalListener{
+
+        View popWindowLocalView();
+    }
 
 }

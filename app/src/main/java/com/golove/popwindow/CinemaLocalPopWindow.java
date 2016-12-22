@@ -36,6 +36,10 @@ public class CinemaLocalPopWindow extends PopupWindow {
 //        ColorDrawable dw = new ColorDrawable(0000000000);
         // 点back键和其他地方使其消失,设置了这个才能触发OnDismisslistener ，设置其他控件变化等操作
 //        this.setBackgroundDrawable(dw);
+
+        // 设置弹出窗体显示时的动画，从底部向上弹出
+        this.setAnimationStyle(R.style.cinemaPopWindowAnimation);
+
     }
 
 
