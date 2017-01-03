@@ -76,15 +76,15 @@
         android:layout_height="match_parent"
         android:background="@color/main_bg" />
 
+
     <android.support.design.widget.CoordinatorLayout
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/swipeRefreshlayout"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:scrollbars="vertical"
             android:visibility="gone">
 
@@ -93,21 +93,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/primary"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 tools:listitem="@layout/film_hit_list_item" />
         </android.support.v4.widget.SwipeRefreshLayout>
 
-
-        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#FFF2F2F2"
             android:minHeight="40dp"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
-            app:layout_anchor="@id/swipeRefreshlayout"
-            app:layout_anchorGravity="bottom|right|end">
-
+            app:layout_anchor="@id/recyclerView"
+            app:layout_anchorGravity="bottom"
+            app:layout_behavior="com.golove.behavior.FloatingFooterView"
+            app:layout_scrollFlags="scroll|enterAlways|snap">
 
             <TextView
                 android:id="@+id/openMap"
@@ -131,7 +130,7 @@
                 android:background="#FFDCDCDC" />
 
             <TextView
-                android:id="@+id/selfLocation"
+                android:id="@+id/locationDetail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
@@ -144,7 +143,6 @@
                 android:textSize="13sp" />
 
         </RelativeLayout>
-
 
     </android.support.design.widget.CoordinatorLayout>
 

@@ -7,7 +7,6 @@
     android:minHeight="40dp"
     android:background="#FFF2F2F2">
 
-
     <TextView
         android:id="@+id/openMap"
         android:layout_width="wrap_content"

@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.golove.GoloveApplication;
 import com.golove.R;
 import com.golove.activity.NearCinemaActivity;
+import com.golove.activity.ReleaseFilmInCinemaActivity;
 import com.golove.adapter.FilmHitRecyclerAdapter;
 import com.golove.adapter.LoopViewPagerAdapter;
 import com.golove.callback.RequestCallBack;
@@ -68,8 +69,7 @@ public class HitMoviesFragment extends TabFragment<ResultStateModel<FilmHotModel
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_hit_movies, container, false);
     }
 
@@ -219,8 +219,8 @@ public class HitMoviesFragment extends TabFragment<ResultStateModel<FilmHotModel
 
     @Override
     public void buyTickey(FilmModel filmModel) {
-        Toast.makeText(GoloveApplication.goloveApplication, "购买电影名称：" + filmModel.getFilmName(), Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(getContext(), NearCinemaActivity.class);
+        Intent intent = new Intent(getContext(),ReleaseFilmInCinemaActivity.class);
+        intent.putExtra("fileName",filmModel.getFilmName());
         startActivity(intent);
     }
 

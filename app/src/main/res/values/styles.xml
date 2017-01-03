@@ -60,10 +60,9 @@
         <item name="android:maxHeight">20dp</item>
     </style>
 
-    <style name="cinemaPopWindowAnimation" parent="android:Animation">
-        <item name="android:windowEnterAnimation">@anim/cinema_popwindow_enter_animation</item>
-        <item name="android:windowExitAnimation">@anim/cinema_popwindow_exit_animation</item>
-    </style>
+    <style name="AppTheme.NoActionBar.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.NoActionBar.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 
 </resources>

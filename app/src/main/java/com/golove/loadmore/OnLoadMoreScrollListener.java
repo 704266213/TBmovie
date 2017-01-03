@@ -38,6 +38,9 @@ public abstract class OnLoadMoreScrollListener extends RecyclerView.OnScrollList
     @Override
     public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
         super.onScrolled(recyclerView, dx, dy);
+        if (onScrollListener != null) {
+            onScrollListener.onScrolled(recyclerView, dx, dy);
+        }
         if (hasMore) {
             lastVisibleItemPosition = getLastVisibleItemPosition(recyclerView);
         }
@@ -46,6 +49,9 @@ public abstract class OnLoadMoreScrollListener extends RecyclerView.OnScrollList
     @Override
     public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
         super.onScrollStateChanged(recyclerView, newState);
+        if (onScrollListener != null) {
+            onScrollListener.onScrollStateChanged(recyclerView, newState);
+        }
         if (hasMore) {
             currentScrollState = newState;
             RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
@@ -53,7 +59,7 @@ public abstract class OnLoadMoreScrollListener extends RecyclerView.OnScrollList
             int totalItemCount = layoutManager.getItemCount();
             if (visibleItemCount > 0 && currentScrollState == RecyclerView.SCROLL_STATE_IDLE && (lastVisibleItemPosition) >= totalItemCount - 1) {
                 //自动显示加载更多布局的加载中的布局
-                if(onLoadDataListener != null && hasMore){
+                if (onLoadDataListener != null && hasMore) {
                     onLoadDataListener.loadingDataView();
                 }
                 if (onLoadMoreListener != null && !isLoadingMore) {
@@ -66,5 +72,21 @@ public abstract class OnLoadMoreScrollListener extends RecyclerView.OnScrollList
 
 
     public abstract int getLastVisibleItemPosition(RecyclerView recyclerView);
+
+
+    private OnScrollListener onScrollListener;
+
+    public void addOnScrollListener(OnScrollListener onScrollListener) {
+        this.onScrollListener = onScrollListener;
+    }
+
+
+    public interface OnScrollListener {
+
+        void onScrollStateChanged(RecyclerView recyclerView, int newState);
+
+        void onScrolled(RecyclerView recyclerView, int dx, int dy);
+
+    }
 
 }

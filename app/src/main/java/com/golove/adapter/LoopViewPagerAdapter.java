@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.golove.R;
 import com.golove.model.BannerModel;
@@ -85,7 +86,7 @@ public class LoopViewPagerAdapter extends BaseLoopPagerAdapter {
     }
 
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, final ViewGroup parent) {
         ViewHolder holder ;
         if (convertView == null) {
             convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.banner_item, parent, false);
@@ -96,10 +97,15 @@ public class LoopViewPagerAdapter extends BaseLoopPagerAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        BannerModel bannerbean = bannerBeanList.get(position);
-        Log.e("TAG","======url========" + bannerbean.getBannerImageUrl());
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(parent.getContext(),"position = " + position, Toast.LENGTH_SHORT).show();
+            }
+        });
 
-        Picasso.with(parent.getContext()).load(bannerbean.getBannerImageUrl()).into(holder.ivBanner);
+        BannerModel bannerModel = bannerBeanList.get(position);
+        Picasso.with(parent.getContext()).load(bannerModel.getBannerImageUrl()).into(holder.ivBanner);
         return convertView;
     }
 

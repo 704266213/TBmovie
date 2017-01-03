@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_cinema_release_film"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.golove.activity.NearCinemaActivity">
+    tools:context="com.golove.activity.CinemaReleaseFilmActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -38,13 +39,5 @@
         android:layout_height="0.5dp"
         android:layout_alignParentBottom="true"
         android:background="@color/top_line" />
-
-    <com.baidu.mapapi.map.MapView
-        android:id="@+id/mapView"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:clickable="true"
-        android:screenOrientation="portrait" />
-
 
 </LinearLayout>
