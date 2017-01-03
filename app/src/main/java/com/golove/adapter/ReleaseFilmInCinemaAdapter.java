@@ -1,10 +1,6 @@
 package com.golove.adapter;
 
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
-import android.text.Spannable;
-import android.text.SpannableStringBuilder;
-import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,31 +8,37 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.golove.R;
-import com.golove.model.FilmModel;
 
 /**
- * 类描述：
- * 创建人：alan
- * 创建时间：2016-12-12 21:35
- * 修改备注：
+ *
  */
 
-public class CinemaAdapter extends BaseRecyclerAdapter<FilmModel, CinemaAdapter.FilmViewHolder>{
+public class ReleaseFilmInCinemaAdapter extends RecyclerView.Adapter<ReleaseFilmInCinemaAdapter.ReleaseFilmInCinemaAdapterHolder> {
 
+    private int itemCount = 8;
 
-    public void onBodyBindViewHolder(CinemaAdapter.FilmViewHolder recyclerViewHolder, int position) {
-        SpannableStringBuilder builder = new SpannableStringBuilder("17.8元起");
-        ForegroundColorSpan redSpan = new ForegroundColorSpan(Color.parseColor("#FFE24557"));
-        builder.setSpan(redSpan, 0, 4, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        recyclerViewHolder.cinemaMinPrice.setText(builder);
+    public void updateAdapterData(int itemCount){
+        this.itemCount = itemCount;
+        notifyDataSetChanged();
     }
 
-    public CinemaAdapter.FilmViewHolder onCreateBodyViewHolder(ViewGroup viewGroup, int viewType) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.cinema_list_item, viewGroup, false);
-        return new CinemaAdapter.FilmViewHolder(view);
+    @Override
+    public ReleaseFilmInCinemaAdapter.ReleaseFilmInCinemaAdapterHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.release_film_in_cinema_item, parent, false);
+        return new ReleaseFilmInCinemaAdapter.ReleaseFilmInCinemaAdapterHolder(view);
     }
 
-    public class FilmViewHolder extends RecyclerView.ViewHolder {
+    @Override
+    public void onBindViewHolder(ReleaseFilmInCinemaAdapter.ReleaseFilmInCinemaAdapterHolder holder, int position) {
+
+    }
+
+    @Override
+    public int getItemCount() {
+        return itemCount;
+    }
+
+    public final class ReleaseFilmInCinemaAdapterHolder extends RecyclerView.ViewHolder {
         private ImageView lastedCinema;
         private TextView distance;
         private TextView location;
@@ -47,9 +49,7 @@ public class CinemaAdapter extends BaseRecyclerAdapter<FilmModel, CinemaAdapter.
         private TextView cinemaDiscount;
         private TextView cinemaCard;
 
-
-
-        public FilmViewHolder(View itemView) {
+        public ReleaseFilmInCinemaAdapterHolder(View itemView) {
             super(itemView);
             lastedCinema = (ImageView) itemView.findViewById(R.id.lastedCinema);
             distance = (TextView) itemView.findViewById(R.id.distance);
@@ -62,5 +62,4 @@ public class CinemaAdapter extends BaseRecyclerAdapter<FilmModel, CinemaAdapter.
             cinemaCard = (TextView) itemView.findViewById(R.id.cinemaCard);
         }
     }
-
 }

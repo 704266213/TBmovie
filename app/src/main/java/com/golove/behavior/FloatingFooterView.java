@@ -4,12 +4,14 @@ import android.content.Context;
 import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.view.ViewCompat;
+import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
 import android.view.animation.TranslateAnimation;
+
+import com.golove.R;
 
 /**
  *
@@ -18,7 +20,7 @@ import android.view.animation.TranslateAnimation;
 public class FloatingFooterView extends CoordinatorLayout.Behavior<View> {
 
     private Handler handler;
-    private boolean isScoller = false;
+    private boolean isShow = true;
 
     public FloatingFooterView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -34,55 +36,82 @@ public class FloatingFooterView extends CoordinatorLayout.Behavior<View> {
 
     public void onNestedScrollAccepted(CoordinatorLayout coordinatorLayout, View child, View directTargetChild, View target, int nestedScrollAxes) {
         // Do nothing
-        Log.e("XLog", "===========接收滚动事件================");
-
-
     }
 
     public void onNestedScroll(CoordinatorLayout coordinatorLayout, View child, View target, int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed) {
-        if (!isScoller) {
-            hide(child);
-            isScoller = true;
-        }
+        hide(child);
     }
 
     // 页面停止滑动。
     public void onStopNestedScroll(CoordinatorLayout coordinatorLayout, final View child, View target) {
-        Log.e("XLog", "===========停止滚动事件================");
-
-        isScoller = false;
-        handler.removeCallbacksAndMessages(null);
-        handler.postDelayed(new Runnable() {
-            public void run() {
-                show(child);
-            }
-        }, 2000);
+        RecyclerView recyclerView = (RecyclerView) target.findViewById(R.id.recyclerView);
+        if (recyclerView.getScrollState() == RecyclerView.SCROLL_STATE_IDLE) {
+            Log.e("XLog", "===========停止滚动事件================");
+            handler.removeCallbacksAndMessages(null);
+            handler.postDelayed(new Runnable() {
+                public void run() {
+                    show(child);
+                }
+            }, 500);
+        }
     }
 
 
     private void hide(final View view) {
-        Animation hideTranslateAnimation = new TranslateAnimation(0, 0, 0, 2 * view.getHeight());
-        if (!hideTranslateAnimation.hasStarted()) {
-            //初始化 Translate动画
-            AnimationSet set = new AnimationSet(true);
-            set.addAnimation(hideTranslateAnimation);
-            //设置动画时间 (作用到每个动画)
-            set.setDuration(500);
-            view.startAnimation(set);
-        }
+        Animation hideTranslateAnimation = new TranslateAnimation(0, 0, 0, view.getHeight());
+        //初始化 Translate动画
+//        AnimationSet set = new AnimationSet(true);
+//        set.addAnimation(hideTranslateAnimation);
+        //设置动画时间 (作用到每个动画)
+        hideTranslateAnimation.setDuration(500);
+        hideTranslateAnimation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
 
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                int left = view.getLeft();
+                int top = view.getTop();
+                int right = view.getRight();
+                int bottom = view.getBottom();
+                int height = view.getHeight();
+                view.clearAnimation();
+                view.layout(left, top + height, right, bottom);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        view.startAnimation(hideTranslateAnimation);
     }
 
 
     private void show(final View view) {
         TranslateAnimation showTranslateAnimation = new TranslateAnimation(0, 0, view.getHeight(), 0);
-        if (showTranslateAnimation.hasStarted()) {
-            AnimationSet set = new AnimationSet(true);
-            set.addAnimation(showTranslateAnimation);
-            //设置动画时间 (作用到每个动画)
-            set.setDuration(500);
-            view.startAnimation(set);
-        }
+//        AnimationSet set = new AnimationSet(true);
+//        set.addAnimation(showTranslateAnimation);
+        //设置动画时间 (作用到每个动画)
+        showTranslateAnimation.setDuration(500);
+        showTranslateAnimation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
 
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        view.startAnimation(showTranslateAnimation);
     }
 }

@@ -96,7 +96,6 @@ android {
             jniLibs.srcDirs = ['src/main/jniLibs']
         }
     }
-
 }
 
 dependencies {
@@ -108,6 +107,7 @@ dependencies {
     compile files('src/main/jniLibs/baidumapapi_cloud_v4_1_1.jar')
     compile files('src/main/jniLibs/baidumapapi_map_v4_1_1.jar')
     compile files('src/main/jniLibs/baidumapapi_search_v4_1_1.jar')
+
     compile files('src/main/jniLibs/locSDK_6.13.jar')
 
 

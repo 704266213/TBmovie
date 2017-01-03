@@ -60,8 +60,10 @@
             android:name=".activity.SettingsActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activity.AboutActivity" />
-        <activity android:name=".activity.LoadMoreActivity" />
-        <activity android:name=".activity.NearCinemaActivity"></activity>
+        <activity android:name=".activity.NearCinemaActivity" />
+        <activity android:name=".activity.BaseActivity" />
+        <activity android:name=".activity.CinemaReleaseFilmActivity" />
+        <activity android:name=".activity.ReleaseFilmInCinemaActivity"></activity>
     </application>
 
 </manifest>

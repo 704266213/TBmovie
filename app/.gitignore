@@ -1,1 +1,3 @@
 /build
+!/src/main/jniLibs/baidumapapi_radar_v4_1_1.jar
+!/src/main/jniLibs/baidumapapi_util_v4_1_1.jar
