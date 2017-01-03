@@ -7,8 +7,9 @@ import android.util.TypedValue;
 import android.view.View;
 
 import com.golove.R;
+import com.golove.model.ResultStateModel;
 
-public class BaseActivity extends AppCompatActivity {
+public class BaseActivity<T> extends AppCompatActivity {
 
     protected SwipeRefreshLayout swipeRefreshlayout;
 

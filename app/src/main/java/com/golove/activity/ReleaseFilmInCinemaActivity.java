@@ -11,13 +11,18 @@ import android.widget.TextView;
 
 import com.golove.R;
 import com.golove.adapter.ReleaseFilmInCinemaAdapter;
+import com.golove.callback.RequestCallBack;
 import com.golove.divider.FilmDivider;
+import com.golove.listener.OnRequestCallBackListener;
+import com.golove.model.ResultStateModel;
+import com.golove.request.BaseRequest;
+import com.golove.ui.OnLoadDataListener;
 import com.golove.ui.neterror.NetWorkErrorView;
 
 /*
  * 影院列表
  */
-public class ReleaseFilmInCinemaActivity extends BaseActivity implements TabLayout.OnTabSelectedListener, SwipeRefreshLayout.OnRefreshListener {
+public class ReleaseFilmInCinemaActivity extends BaseActivity<ResultStateModel> implements TabLayout.OnTabSelectedListener, SwipeRefreshLayout.OnRefreshListener, OnRequestCallBackListener {
 
     private TextView title;
     private TabLayout tabLayout;
@@ -26,6 +31,9 @@ public class ReleaseFilmInCinemaActivity extends BaseActivity implements TabLayo
     private View line;
 
     private ReleaseFilmInCinemaAdapter releaseFilmInCinemaAdapter;
+
+    private BaseRequest baseRequest;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,9 +72,12 @@ public class ReleaseFilmInCinemaActivity extends BaseActivity implements TabLayo
         recyclerView.addItemDecoration(new FilmDivider(this, LinearLayoutManager.VERTICAL, 1, getResources().getColor(R.color.top_line), (int) getResources().getDimension(R.dimen.film_line_paddingLeft)));
         recyclerView.setHasFixedSize(true);
 
-
         releaseFilmInCinemaAdapter = new ReleaseFilmInCinemaAdapter();
         recyclerView.setAdapter(releaseFilmInCinemaAdapter);
+
+
+        baseRequest = new BaseRequest();
+        requestData(netWorkErrorView);
     }
 
     @Override
@@ -97,5 +108,23 @@ public class ReleaseFilmInCinemaActivity extends BaseActivity implements TabLayo
      */
     public void onRefresh() {
         swipeRefreshlayout.setRefreshing(false);
+    }
+
+
+    private void requestData(OnLoadDataListener onLoadDataListener) {
+        String url = "https://github.com/704266213/data/blob/master/WebContent/data/releasefilmincinema.txt";
+        RequestCallBack requestCallBack = new RequestCallBack(this, onLoadDataListener);
+        baseRequest.sendRequest(url, requestCallBack);
+    }
+
+
+    @Override
+    public void onRequestCallBackSuccess(Object bean) {
+
+    }
+
+    @Override
+    public void onRequestCallBackError() {
+
     }
 }
