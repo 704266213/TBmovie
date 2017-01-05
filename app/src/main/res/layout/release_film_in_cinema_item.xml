@@ -13,39 +13,6 @@
         android:layout_alignParentTop="true"
         android:src="@drawable/lasted_cinema" />
 
-
-    <TextView
-        android:id="@+id/distance"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="10dp"
-        android:ellipsize="end"
-        android:lines="1"
-        android:text="1.10km"
-        android:textColor="#FF787585"
-        android:textSize="13sp" />
-
-
-    <TextView
-        android:id="@+id/location"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-        android:ellipsize="end"
-        android:lines="1"
-        android:maxHeight="40dp"
-        android:text="宝安区建安一路与新圳路交汇处的海雅广场四层"
-        android:textColor="#FF787585"
-        android:textSize="13sp" />
-
-
     <TextView
         android:id="@+id/cinemaName"
         android:layout_width="wrap_content"
@@ -72,13 +39,44 @@
         android:textColor="#FF787585"
         android:textSize="13sp" />
 
+    <TextView
+        android:id="@+id/distance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/cinemaName"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:ellipsize="end"
+        android:lines="1"
+        android:text="1.10km"
+        android:textColor="#FF787585"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/cinemaName"
+        android:layout_toLeftOf="@id/distance"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:ellipsize="end"
+        android:lines="1"
+        android:maxHeight="40dp"
+        android:text="宝安区建安一路与新圳路交汇处的海雅广场四层"
+        android:textColor="#FF787585"
+        android:textSize="13sp" />
 
     <TextView
         android:id="@+id/cinemaInfo1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@id/location"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@id/location"
         android:layout_marginRight="4dp"
         android:background="@drawable/cinema_info"
         android:ellipsize="end"
@@ -95,7 +93,7 @@
         android:id="@+id/cinemaInfo2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@id/location"
         android:layout_marginRight="4dp"
         android:layout_toRightOf="@id/cinemaInfo1"
         android:background="@drawable/cinema_info"
@@ -113,7 +111,7 @@
         android:id="@+id/cinemaDiscount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@id/location"
         android:layout_marginRight="4dp"
         android:layout_toRightOf="@id/cinemaInfo2"
         android:background="@drawable/cinema_discount"
@@ -131,7 +129,7 @@
         android:id="@+id/cinemaCard"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@id/location"
         android:layout_marginRight="4dp"
         android:layout_toRightOf="@id/cinemaDiscount"
         android:background="@drawable/cinema_card"
@@ -144,6 +142,30 @@
         android:text="影城卡特惠"
         android:textColor="#FF71B670"
         android:textSize="10sp" />
+
+
+    <TextView
+        android:id="@+id/recentFilm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/cinemaInfo1"
+        android:layout_below="@id/cinemaInfo1"
+        android:layout_marginTop="12dp"
+        android:ellipsize="end"
+        android:lines="1"
+        android:text="近期场次："
+        android:textColor="#FF787585"
+        android:textSize="13sp" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/cinemaInfo1"
+        android:layout_below="@id/cinemaInfo1"
+        android:layout_marginTop="12dp"
+        android:background="@android:color/transparent"
+        android:visibility="gone" />
 
 
 </RelativeLayout>

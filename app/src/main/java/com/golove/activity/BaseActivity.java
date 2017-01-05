@@ -7,9 +7,10 @@ import android.util.TypedValue;
 import android.view.View;
 
 import com.golove.R;
+import com.golove.listener.OnRequestCallBackListener;
 import com.golove.model.ResultStateModel;
 
-public class BaseActivity<T> extends AppCompatActivity {
+public class BaseActivity<T extends ResultStateModel> extends AppCompatActivity implements OnRequestCallBackListener<T> {
 
     protected SwipeRefreshLayout swipeRefreshlayout;
 
@@ -33,5 +34,16 @@ public class BaseActivity<T> extends AppCompatActivity {
         swipeRefreshlayout.setColorSchemeResources(android.R.color.holo_red_light);
         swipeRefreshlayout.setProgressViewOffset(false, -100, (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics()));
         swipeRefreshlayout.setOnRefreshListener(onRefreshListener);
+    }
+
+
+    @Override
+    public void onRequestCallBackSuccess(T bean) {
+
+    }
+
+    @Override
+    public void onRequestCallBackError() {
+
     }
 }

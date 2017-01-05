@@ -111,7 +111,6 @@ public class CinemaAdapter extends BaseRecyclerAdapter<CinemaModel, CinemaAdapte
             textViews.add(cinemaInfo2);
             textViews.add(cinemaDiscount);
             textViews.add(cinemaCard);
-
         }
     }
 

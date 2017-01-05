@@ -36,6 +36,7 @@ import com.golove.divider.FilmDivider;
 import com.golove.listener.OnLoadMoreListener;
 import com.golove.loadmore.OnLinearLoadMoreListener;
 import com.golove.loadmore.OnLoadMoreScrollListener;
+import com.golove.model.CinemaModel;
 import com.golove.model.FilmHotModel;
 import com.golove.model.FilmModel;
 import com.golove.model.ResultStateModel;
@@ -58,7 +59,7 @@ import static com.golove.loadmore.OnLoadMoreScrollListener.*;
 /*
  * 影院
  */
-public class CinemaFragment extends MainFragment<ResultStateModel<FilmHotModel>> implements View.OnClickListener ,OnLoadMoreListener {
+public class CinemaFragment extends MainFragment<ResultStateModel<List<CinemaModel>>> implements View.OnClickListener ,OnLoadMoreListener {
 
     private TextView location;
     private ImageButton search;
@@ -199,28 +200,27 @@ public class CinemaFragment extends MainFragment<ResultStateModel<FilmHotModel>>
     }
 
     private void requestData(OnLoadDataListener onLoadDataListener) {
-        String url = "https://raw.githubusercontent.com/704266213/data/master/WebContent/data/filmlist" + pageNo + ".txt";
+        String url = "https://raw.githubusercontent.com/704266213/data/master/WebContent/data/cinemalist" + pageNo + ".txt";
         RequestCallBack requestCallBack = new RequestCallBack(this, onLoadDataListener);
         baseRequest.sendRequest(url, requestCallBack);
     }
 
     @Override
-    public void onRequestCallBackSuccess(ResultStateModel<FilmHotModel> bean) {
+    public void onRequestCallBackSuccess(ResultStateModel<List<CinemaModel>> bean) {
         swipeRefreshlayout.setVisibility(View.VISIBLE);
         netWorkErrorView.setVisibility(View.GONE);
-        FilmHotModel filmHotModel = bean.getResult();
+        List<CinemaModel> cinemaModels = bean.getResult();
 
-        List<FilmModel> filmModels = filmHotModel.getFilmModels();
         if (swipeRefreshlayout.isRefreshing()) {
             swipeRefreshlayout.setRefreshing(false);
-            cinemaAdapter.addFreshData(filmModels);
+            cinemaAdapter.addFreshData(cinemaModels);
             onLinearLoadMoreListener.setHasMore(true);
         } else {
-            if (filmModels.size() < 15) {
+            if (cinemaModels.size() < 15) {
                 footerView.loadNoDataOrNoMoreDataView();
                 onLinearLoadMoreListener.setHasMore(false);
             }
-            cinemaAdapter.addData(filmModels);
+            cinemaAdapter.addData(cinemaModels);
             onLinearLoadMoreListener.isLoadingMore(false);
         }
 

@@ -15,7 +15,7 @@
     <color name="tab_bg">#FEFEFE</color>
     <color name="top_line">#E5E7E7</color>
 
-
+    <color name="release_recycleview_bg">#FEFEFC</color>
     <color name="film_tab_line">#E9425A</color>
     <color name="film_tab_text_color">#79758C</color>
     <color name="film_tab_selected_text_color">#F24152</color>

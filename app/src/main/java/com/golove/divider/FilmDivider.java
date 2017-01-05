@@ -43,6 +43,18 @@ public class FilmDivider extends RecyclerView.ItemDecoration {
         a.recycle();
     }
 
+    /**
+     * 自定义分割线
+     *
+     * @param context
+     * @param orientation   列表方向
+     */
+    public FilmDivider(Context context, int orientation,int padding) {
+        this(context, orientation);
+        mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mPaint.setStyle(Paint.Style.FILL);
+        this.padding = padding;
+    }
 
     /**
      * 自定义分割线
@@ -76,6 +88,8 @@ public class FilmDivider extends RecyclerView.ItemDecoration {
         mPaint.setStyle(Paint.Style.FILL);
         this.padding = padding;
     }
+
+
 
 
 

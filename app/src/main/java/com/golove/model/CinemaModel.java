@@ -18,6 +18,7 @@ public class CinemaModel extends ResultStateModel<List<CinemaModel>> {
     private int lastedCinema;
     private float cinemaMinPrice;
     private List<CinemaInfo> cinemaInfos;
+    private List<HallModel> hallInfos;
 
     public CinemaModel() {
     }
@@ -68,5 +69,13 @@ public class CinemaModel extends ResultStateModel<List<CinemaModel>> {
 
     public void setCinemaInfos(List<CinemaInfo> cinemaInfos) {
         this.cinemaInfos = cinemaInfos;
+    }
+
+    public List<HallModel> getHallInfos() {
+        return hallInfos;
+    }
+
+    public void setHallInfos(List<HallModel> hallInfos) {
+        this.hallInfos = hallInfos;
     }
 }

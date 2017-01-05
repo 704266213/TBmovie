@@ -44,8 +44,7 @@
         android:id="@+id/netWorkErrorView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/main_bg"
-        android:visibility="gone" />
+        android:background="@color/main_bg" />
 
     <android.support.design.widget.TabLayout xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/tabLayout"
@@ -54,7 +53,7 @@
         android:background="@color/main_bg"
         android:fillViewport="false"
         android:minHeight="40dp"
-        android:visibility="visible"
+        android:visibility="gone"
         app:tabIndicatorColor="@color/film_tab_line"
         app:tabIndicatorHeight="1.5dp"
         app:tabMode="scrollable"
@@ -67,20 +66,20 @@
         android:layout_height="0.5dp"
         android:layout_alignParentBottom="true"
         android:background="@color/top_line"
-        android:visibility="visible" />
+        android:visibility="gone" />
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshlayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="vertical"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/main_bg" />
+            android:background="@color/release_recycleview_bg" />
     </android.support.v4.widget.SwipeRefreshLayout>
 
 

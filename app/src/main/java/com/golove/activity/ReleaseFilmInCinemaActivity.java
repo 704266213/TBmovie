@@ -13,16 +13,19 @@ import com.golove.R;
 import com.golove.adapter.ReleaseFilmInCinemaAdapter;
 import com.golove.callback.RequestCallBack;
 import com.golove.divider.FilmDivider;
-import com.golove.listener.OnRequestCallBackListener;
+import com.golove.model.CinemaModel;
+import com.golove.model.ReleaseFilmInCinemaModel;
 import com.golove.model.ResultStateModel;
 import com.golove.request.BaseRequest;
 import com.golove.ui.OnLoadDataListener;
 import com.golove.ui.neterror.NetWorkErrorView;
 
+import java.util.List;
+
 /*
  * 影院列表
  */
-public class ReleaseFilmInCinemaActivity extends BaseActivity<ResultStateModel> implements TabLayout.OnTabSelectedListener, SwipeRefreshLayout.OnRefreshListener, OnRequestCallBackListener {
+public class ReleaseFilmInCinemaActivity extends BaseActivity<ResultStateModel<List<ReleaseFilmInCinemaModel>>> implements TabLayout.OnTabSelectedListener, SwipeRefreshLayout.OnRefreshListener {
 
     private TextView title;
     private TabLayout tabLayout;
@@ -33,6 +36,7 @@ public class ReleaseFilmInCinemaActivity extends BaseActivity<ResultStateModel> 
     private ReleaseFilmInCinemaAdapter releaseFilmInCinemaAdapter;
 
     private BaseRequest baseRequest;
+    private List<ReleaseFilmInCinemaModel> releaseFilmInCinemaModels;
 
 
     @Override
@@ -50,19 +54,6 @@ public class ReleaseFilmInCinemaActivity extends BaseActivity<ResultStateModel> 
         netWorkErrorView = (NetWorkErrorView) findViewById(R.id.netWorkErrorView);
         line = findViewById(R.id.line);
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
-        TabLayout.Tab tab = tabLayout.newTab().setText("今天 01-03");
-        tabLayout.addTab(tab, 0, true);
-        TabLayout.Tab tab1 = tabLayout.newTab().setText("明天 01-04");
-        tabLayout.addTab(tab1, 1, false);
-        TabLayout.Tab tab2 = tabLayout.newTab().setText("后台 01-05");
-        tabLayout.addTab(tab2, 2, false);
-        TabLayout.Tab tab3 = tabLayout.newTab().setText("周五 01-06");
-        tabLayout.addTab(tab3, 3, false);
-        TabLayout.Tab tab4 = tabLayout.newTab().setText("周六 01-07");
-        tabLayout.addTab(tab4, 4, false);
-        TabLayout.Tab tab5 = tabLayout.newTab().setText("周日 01-08");
-        tabLayout.addTab(tab5, 5, false);
-        tabLayout.setOnTabSelectedListener(this);
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
 
         initRefreshView(this);
@@ -83,14 +74,7 @@ public class ReleaseFilmInCinemaActivity extends BaseActivity<ResultStateModel> 
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
         int position = tab.getPosition();
-        recyclerView.scrollToPosition(0);
-        if (position == 0) {
-            releaseFilmInCinemaAdapter.updateAdapterData(20);
-        } else if (position == 5) {
-            releaseFilmInCinemaAdapter.updateAdapterData(0);
-        } else {
-            releaseFilmInCinemaAdapter.updateAdapterData(position * 4);
-        }
+        updateAdapterData(position);
     }
 
     @Override
@@ -103,6 +87,30 @@ public class ReleaseFilmInCinemaActivity extends BaseActivity<ResultStateModel> 
 
     }
 
+    private void initTabLayout() {
+        if (releaseFilmInCinemaModels != null) {
+            int size = releaseFilmInCinemaModels.size();
+            for (int i = 0; i < size; i++) {
+                ReleaseFilmInCinemaModel releaseFilmInCinemaModel = releaseFilmInCinemaModels.get(i);
+                TabLayout.Tab tab = tabLayout.newTab().setText(releaseFilmInCinemaModel.getReleaseDate());
+                tabLayout.addTab(tab, i, i == 0 ? true : false);
+            }
+            tabLayout.setOnTabSelectedListener(this);
+            updateAdapterData(0);
+        }
+    }
+
+    private void updateAdapterData(int position) {
+        ReleaseFilmInCinemaModel releaseFilmInCinemaModel = releaseFilmInCinemaModels.get(position);
+        if (releaseFilmInCinemaModel != null) {
+            List<CinemaModel> cinemaModels = releaseFilmInCinemaModel.getCinemaList();
+            if (cinemaModels != null) {
+                recyclerView.scrollToPosition(0);
+                releaseFilmInCinemaAdapter.updateAdapterData(cinemaModels);
+            }
+        }
+    }
+
     /*
      * 下拉刷新回调
      */
@@ -112,15 +120,20 @@ public class ReleaseFilmInCinemaActivity extends BaseActivity<ResultStateModel> 
 
 
     private void requestData(OnLoadDataListener onLoadDataListener) {
-        String url = "https://github.com/704266213/data/blob/master/WebContent/data/releasefilmincinema.txt";
+        String url = "https://raw.githubusercontent.com/704266213/data/master/WebContent/data/releasefilmincinema.txt";
         RequestCallBack requestCallBack = new RequestCallBack(this, onLoadDataListener);
         baseRequest.sendRequest(url, requestCallBack);
     }
 
 
     @Override
-    public void onRequestCallBackSuccess(Object bean) {
-
+    public void onRequestCallBackSuccess(ResultStateModel<List<ReleaseFilmInCinemaModel>> bean) {
+        netWorkErrorView.setVisibility(View.GONE);
+        tabLayout.setVisibility(View.VISIBLE);
+        line.setVisibility(View.VISIBLE);
+        swipeRefreshlayout.setVisibility(View.VISIBLE);
+        releaseFilmInCinemaModels = bean.getResult();
+        initTabLayout();
     }
 
     @Override
