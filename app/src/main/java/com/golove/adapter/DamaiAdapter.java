@@ -111,7 +111,9 @@ public class DamaiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     int type = getItemViewType(position);
                     switch (type){
                         case TYPE_HEAD:
+                            return 6;
                         case TYPE_TITLE:
+                            return 6;
                         case TYPE_TWO:
                             return 3;
                         case TYPE_THREE:
