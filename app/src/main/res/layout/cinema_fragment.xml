@@ -105,7 +105,7 @@
             android:paddingRight="16dp"
             app:layout_anchor="@id/recyclerView"
             app:layout_anchorGravity="bottom"
-            app:layout_behavior="com.golove.behavior.FloatingFooterView"
+            app:layout_behavior="com.golove.behavior.CinemaFooterBehavior"
             app:layout_scrollFlags="scroll|enterAlways|snap">
 
             <TextView

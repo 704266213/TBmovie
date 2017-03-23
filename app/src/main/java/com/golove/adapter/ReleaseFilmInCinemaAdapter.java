@@ -74,7 +74,7 @@ public class ReleaseFilmInCinemaAdapter extends RecyclerView.Adapter<ReleaseFilm
                 int size = hallModels.size();
                 for (int i = 0; i < size; i++) {
                     if (i < 3) {
-                        recentFilmStr = recentFilmStr + hallModels.get(i).getPlayTime() + " | ";
+                        recentFilmStr = recentFilmStr + hallModels.get(i).getPlayTime() + " |";
                     }
                 }
                 recentFilmStr = recentFilmStr.substring(0, recentFilmStr.length() - 1) + "...";

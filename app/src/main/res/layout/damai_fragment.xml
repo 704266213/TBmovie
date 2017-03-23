@@ -1,24 +1,22 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".fragment.DamaiFragment">
+    android:layout_height="match_parent">
 
-    <android.support.v7.widget.Toolbar xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/toolbar"
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        android:fitsSystemWindows="true"
-        app:contentInsetLeft="0dp"
-        app:contentInsetStart="0dp"
-        android:minHeight="?attr/actionBarSize"
-        app:theme="@style/AppTheme.NoActionBar">
+        android:background="@color/primary"
+        app:elevation="0dp">
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            app:layout_scrollFlags="snap|scroll|enterAlways">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -38,13 +36,31 @@
                 android:background="@color/top_line" />
         </RelativeLayout>
 
-    </android.support.v7.widget.Toolbar>
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshlayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"
+        android:visibility="gone"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/primary"
+            tools:listitem="@layout/film_hit_list_item" />
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
     <com.golove.ui.neterror.NetWorkErrorView
         android:id="@+id/netWorkErrorView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize"
         android:background="@color/main_bg" />
 
+</android.support.design.widget.CoordinatorLayout>
 
-</LinearLayout>
