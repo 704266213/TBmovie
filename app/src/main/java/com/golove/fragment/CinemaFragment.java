@@ -10,13 +10,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
-import android.view.animation.TranslateAnimation;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -24,23 +20,17 @@ import android.widget.Toast;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
-import com.baidu.location.Poi;
 import com.golove.GoloveApplication;
 import com.golove.R;
 import com.golove.activity.NearCinemaActivity;
 import com.golove.adapter.CinemaAdapter;
 import com.golove.adapter.CinemaHeaderAdapter;
-import com.golove.adapter.FilmReviewAdapter;
 import com.golove.callback.RequestCallBack;
 import com.golove.divider.FilmDivider;
 import com.golove.listener.OnLoadMoreListener;
 import com.golove.loadmore.OnLinearLoadMoreListener;
-import com.golove.loadmore.OnLoadMoreScrollListener;
 import com.golove.model.CinemaModel;
-import com.golove.model.FilmHotModel;
-import com.golove.model.FilmModel;
 import com.golove.model.ResultStateModel;
-import com.golove.popwindow.CinemaLocalPopWindow;
 import com.golove.popwindow.FilterPopWindow;
 import com.golove.request.BaseRequest;
 import com.golove.service.LocationService;
@@ -49,12 +39,9 @@ import com.golove.ui.circlerecyclerview.CircleRecyclerView;
 import com.golove.ui.circlerecyclerview.CircularViewMode;
 import com.golove.ui.footer.FooterView;
 import com.golove.ui.neterror.NetWorkErrorView;
-import com.golove.uitls.XLog;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.golove.loadmore.OnLoadMoreScrollListener.*;
 
 /*
  * 影院
@@ -255,8 +242,8 @@ public class CinemaFragment extends MainFragment<ResultStateModel<List<CinemaMod
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.location:
-                CinemaLocalPopWindow cinemaLocalPopWindow = new CinemaLocalPopWindow(getContext());
-                cinemaLocalPopWindow.showAtLocation(parentView, Gravity.BOTTOM,0,0);
+//                CinemaLocalPopWindow cinemaLocalPopWindow = new CinemaLocalPopWindow(getContext());
+//                cinemaLocalPopWindow.showAtLocation(parentView, Gravity.BOTTOM,0,0);
                 break;
             case R.id.filter:
                 FilterPopWindow filterPopWindow = new FilterPopWindow(getContext());
