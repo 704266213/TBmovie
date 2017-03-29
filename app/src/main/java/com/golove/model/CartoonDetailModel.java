@@ -8,6 +8,7 @@ package com.golove.model;
 public class CartoonDetailModel extends CartoonModel {
 
     private int id;
+    private int position;
     private String title;
     private String likes;
     private String description;
@@ -63,5 +64,13 @@ public class CartoonDetailModel extends CartoonModel {
 
     public void setVertical_image_url(String vertical_image_url) {
         this.vertical_image_url = vertical_image_url;
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
     }
 }

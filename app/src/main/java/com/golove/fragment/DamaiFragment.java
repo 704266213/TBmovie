@@ -15,7 +15,7 @@ import android.widget.Toast;
 import com.golove.R;
 import com.golove.adapter.DamaiAdapter;
 import com.golove.callback.RequestCallBack;
-import com.golove.divider.CartoonDivider;
+import com.golove.divider.GridSpacingItemDecoration;
 import com.golove.model.CartoonDetailModel;
 import com.golove.model.ResultStateModel;
 import com.golove.request.BaseRequest;
@@ -64,9 +64,21 @@ public class DamaiFragment extends MainFragment<ResultStateModel<List<CartoonDet
 //            }
 //        });
 
-//        recyclerView.addItemDecoration(new CartoonDivider(getContext()));
+//        recyclerView.addItemDecoration(new FilmDivider(getActivity(), LinearLayoutManager.VERTICAL, 1, getResources().getColor(R.color.top_line), (int) getResources().getDimension(R.dimen.film_line_paddingLeft)));
 //        recyclerView.setHasFixedSize(true);
 
+//        recyclerView.addItemDecoration(new VerticalDividerItemDecoration.Builder(getContext()).size(20).colorResId(R.color.primary).build());
+
+        GridSpacingItemDecoration itemDecoration = new GridSpacingItemDecoration.Builder(getActivity(),2)
+                .hasHeader()
+                .setSpanCount(2)
+                .setH_spacing(80)
+//                .setDividerColor(Color.parseColor("#008E00"))
+//                .setmDivider(colorDrawable)
+//                .setmDivider(mDivider)
+                .build();
+
+        recyclerView.addItemDecoration(itemDecoration);
 
         damaiAdapter = new DamaiAdapter(getActivity());
         recyclerView.setAdapter(damaiAdapter);

@@ -32,27 +32,28 @@ public class DamaiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public static final int TYPE_THREE = 0xff04;
     public static final int TYPE_ONE = 0xff05;
 
+    private Context context;
     private LayoutInflater layoutInflater;
     private List<CartoonDetailModel> cartoonModels;
     private Picasso picasso;
-    private int widthTwo ;
+    private int widthTwo;
     private int heightTwo;
     private int widthThree;
     private int heightThree;
 
 
-
-    public DamaiAdapter(Context context){
-        layoutInflater =LayoutInflater.from(context);
+    public DamaiAdapter(Context context) {
+        this.context = context;
+        layoutInflater = LayoutInflater.from(context);
         cartoonModels = new ArrayList<>();
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics metric = new DisplayMetrics();
         wm.getDefaultDisplay().getMetrics(metric);
         int width = metric.widthPixels;     // 屏幕宽度（像素）
         widthTwo = width / 2 + 10;
-        heightTwo = (int)(widthTwo / 1.5);
+        heightTwo = (int) (widthTwo / 1.5);
         widthThree = width / 3;
-        heightThree = (int)(widthThree / 0.8);
+        heightThree = (int) (widthThree / 0.8);
         picasso = Picasso.with(GoloveApplication.goloveApplication);
     }
 
@@ -61,9 +62,13 @@ public class DamaiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         notifyDataSetChanged();
     }
 
+    public int getPostionInType(int position) {
+        return cartoonModels.get(position).getPosition();
+    }
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        switch (viewType){
+        switch (viewType) {
             case TYPE_HEAD:
                 View headView = layoutInflater.inflate(R.layout.cartoon_headview, parent, false);
                 return new HeadViewHolder(headView);
@@ -86,33 +91,28 @@ public class DamaiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (position != 0){
+        if (position != 0) {
             CartoonDetailModel cartoonModel = cartoonModels.get(position - 1);
             String title = cartoonModel.getTitle();
             String description = cartoonModel.getDescription();
-            if (holder instanceof CartoonTitleViewHolder){
+            if (holder instanceof CartoonTitleViewHolder) {
                 CartoonTitleViewHolder cartoonTitleViewHolder = (CartoonTitleViewHolder) holder;
                 cartoonTitleViewHolder.cartoonTitle.setText(cartoonModel.getCartoonTitle());
                 cartoonTitleViewHolder.line.setVisibility(position == 1 ? View.GONE : View.VISIBLE);
-            } else if (holder instanceof CartoonTwoColumnViewHolder){
+            } else if (holder instanceof CartoonTwoColumnViewHolder) {
                 CartoonTwoColumnViewHolder cartoonTwoColumnViewHolder = ((CartoonTwoColumnViewHolder) holder);
                 cartoonTwoColumnViewHolder.title.setText(title);
                 cartoonTwoColumnViewHolder.description.setText(description);
                 picasso.load(cartoonModel.getCover_image_url())
-                        .placeholder(R.drawable.placeholder_horizontal)
-                        .resizeDimen(R.dimen.placeholder_horizontal_width,R.dimen.placeholder_horizontal_height)
-                        .centerCrop()
                         .into(cartoonTwoColumnViewHolder.cartoonImage);
-            } else if (holder instanceof CartoonThreeColumnViewHolder){
+            } else if (holder instanceof CartoonThreeColumnViewHolder) {
                 CartoonThreeColumnViewHolder cartoonThreeColumnViewHolder = ((CartoonThreeColumnViewHolder) holder);
                 cartoonThreeColumnViewHolder.title.setText(cartoonModel.getTitle());
                 cartoonThreeColumnViewHolder.description.setText(cartoonModel.getDescription());
                 picasso.load(cartoonModel.getVertical_image_url())
-                        .placeholder(R.drawable.placeholder_vertical)
-                        .resizeDimen(R.dimen.placeholder_vertical_width,R.dimen.placeholder_vertical_height)
-                        .centerCrop()
+                        .resize(widthThree, heightThree)
                         .into(cartoonThreeColumnViewHolder.cartoonImage);
-            } else if (holder instanceof CartoonOneColumnViewHolder){
+            } else if (holder instanceof CartoonOneColumnViewHolder) {
                 CartoonOneColumnViewHolder cartoonOneColumnViewHolder = ((CartoonOneColumnViewHolder) holder);
                 cartoonOneColumnViewHolder.title.setText(cartoonModel.getTitle());
                 cartoonOneColumnViewHolder.description.setText(cartoonModel.getDescription());
@@ -132,7 +132,7 @@ public class DamaiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
     public int getItemViewType(int position) {
-        if (position == 0){
+        if (position == 0) {
             return TYPE_HEAD;
         } else {
             CartoonDetailModel cartoonModel = cartoonModels.get(position - 1);
@@ -157,12 +157,13 @@ public class DamaiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         super.onAttachedToRecyclerView(recyclerView);
 
         RecyclerView.LayoutManager manager = recyclerView.getLayoutManager();
-        if(manager instanceof GridLayoutManager) {
+
+        if (manager instanceof GridLayoutManager) {
             final GridLayoutManager gridManager = ((GridLayoutManager) manager);
             gridManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
                 public int getSpanSize(int position) {
                     int type = getItemViewType(position);
-                    switch (type){
+                    switch (type) {
                         case TYPE_HEAD:
                             return 6;
                         case TYPE_TITLE:
@@ -187,6 +188,7 @@ public class DamaiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         TextView cartoonTitle;
         TextView more;
         View line;
+
         public CartoonTitleViewHolder(View itemView) {
             super(itemView);
             line = itemView.findViewById(R.id.line);
@@ -196,17 +198,18 @@ public class DamaiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
 
-
     public class CartoonTwoColumnViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView cartoonImage;
         private TextView title;
         private TextView description;
+
         public CartoonTwoColumnViewHolder(View itemView) {
             super(itemView);
             cartoonImage = (ImageView) itemView.findViewById(R.id.cartoonImage);
             title = (TextView) itemView.findViewById(R.id.title);
             description = (TextView) itemView.findViewById(R.id.description);
+
         }
     }
 
@@ -215,6 +218,7 @@ public class DamaiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         private ImageView cartoonImage;
         private TextView title;
         private TextView description;
+
         public CartoonThreeColumnViewHolder(View itemView) {
             super(itemView);
             cartoonImage = (ImageView) itemView.findViewById(R.id.cartoonImage);
@@ -229,6 +233,7 @@ public class DamaiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         private ImageView cartoonImage;
         private TextView title;
         private TextView description;
+
         public CartoonOneColumnViewHolder(View itemView) {
             super(itemView);
             cartoonImage = (ImageView) itemView.findViewById(R.id.cartoonImage);

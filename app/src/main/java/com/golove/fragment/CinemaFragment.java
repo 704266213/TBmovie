@@ -107,7 +107,7 @@ public class CinemaFragment extends MainFragment<ResultStateModel<List<CinemaMod
         locationService.start();// 定位SDK
     }
 
-    private void initView(View view){
+    public void initView(View view){
         parentView = view;
         location = (TextView) view.findViewById(R.id.location);
         location.setOnClickListener(this);
