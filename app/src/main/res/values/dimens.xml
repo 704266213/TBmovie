@@ -13,4 +13,10 @@
     <dimen name="indicator_margin">6dp</dimen>
 
     <dimen name="film_line_paddingLeft">16dp</dimen>
+
+    <dimen name="placeholder_horizontal_width">192dp</dimen>
+    <dimen name="placeholder_horizontal_height">120dp</dimen>
+
+    <dimen name="placeholder_vertical_width">120dp</dimen>
+    <dimen name="placeholder_vertical_height">160dp</dimen>
 </resources>

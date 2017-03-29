@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.golove.R;
 import com.golove.adapter.DamaiAdapter;
 import com.golove.callback.RequestCallBack;
+import com.golove.divider.CartoonDivider;
 import com.golove.model.CartoonDetailModel;
 import com.golove.model.ResultStateModel;
 import com.golove.request.BaseRequest;
@@ -63,7 +64,7 @@ public class DamaiFragment extends MainFragment<ResultStateModel<List<CartoonDet
 //            }
 //        });
 
-//        recyclerView.addItemDecoration(new FilmDivider(getActivity(), LinearLayoutManager.VERTICAL, 1, getResources().getColor(R.color.top_line), (int) getResources().getDimension(R.dimen.film_line_paddingLeft)));
+//        recyclerView.addItemDecoration(new CartoonDivider(getContext()));
 //        recyclerView.setHasFixedSize(true);
 
 

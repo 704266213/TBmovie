@@ -99,13 +99,18 @@ public class DamaiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 cartoonTwoColumnViewHolder.title.setText(title);
                 cartoonTwoColumnViewHolder.description.setText(description);
                 picasso.load(cartoonModel.getCover_image_url())
+                        .placeholder(R.drawable.placeholder_horizontal)
+                        .resizeDimen(R.dimen.placeholder_horizontal_width,R.dimen.placeholder_horizontal_height)
+                        .centerCrop()
                         .into(cartoonTwoColumnViewHolder.cartoonImage);
             } else if (holder instanceof CartoonThreeColumnViewHolder){
                 CartoonThreeColumnViewHolder cartoonThreeColumnViewHolder = ((CartoonThreeColumnViewHolder) holder);
                 cartoonThreeColumnViewHolder.title.setText(cartoonModel.getTitle());
                 cartoonThreeColumnViewHolder.description.setText(cartoonModel.getDescription());
                 picasso.load(cartoonModel.getVertical_image_url())
-                        .resize(widthThree,heightThree)
+                        .placeholder(R.drawable.placeholder_vertical)
+                        .resizeDimen(R.dimen.placeholder_vertical_width,R.dimen.placeholder_vertical_height)
+                        .centerCrop()
                         .into(cartoonThreeColumnViewHolder.cartoonImage);
             } else if (holder instanceof CartoonOneColumnViewHolder){
                 CartoonOneColumnViewHolder cartoonOneColumnViewHolder = ((CartoonOneColumnViewHolder) holder);
@@ -202,7 +207,6 @@ public class DamaiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             cartoonImage = (ImageView) itemView.findViewById(R.id.cartoonImage);
             title = (TextView) itemView.findViewById(R.id.title);
             description = (TextView) itemView.findViewById(R.id.description);
-
         }
     }
 
