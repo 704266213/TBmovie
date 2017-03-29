@@ -37,7 +37,6 @@ public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
     public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
         super.onDraw(c, parent, state);
 
-
         if(isCanDraw){
             RecyclerView.Adapter adapter = parent.getAdapter();
 
@@ -88,7 +87,6 @@ public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
         int itemType = adapter.getItemViewType(position);
         if (itemType == DamaiAdapter.TYPE_TWO){
             isCanDraw = true;
-
             int pos = adapter.getPostionInType(position-1);
             if(pos % 2 == 0){
                 outRect.left = builder.h_spacing / builder.spanCount;
@@ -96,19 +94,6 @@ public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
             } else {
                 outRect.right = builder.h_spacing / builder.spanCount;
             }
-
-
-
-//            int column = position % builder.spanCount;
-//
-//            outRect.left = column * builder.h_spacing / builder.spanCount;
-//
-//            outRect.right = column * builder.h_spacing / builder.spanCount;
-
-//            outRect.right = builder.h_spacing - (column + 1) * builder.h_spacing / builder.spanCount;
-//            if (position >= builder.spanCount) {
-//                outRect.top = builder.v_spacing;
-//            }
         } else {
             isCanDraw = false;
         }

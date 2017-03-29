@@ -16,16 +16,14 @@ import com.golove.R;
 import com.golove.adapter.DamaiAdapter;
 import com.golove.callback.RequestCallBack;
 import com.golove.divider.GridSpacingItemDecoration;
-import com.golove.model.CartoonDetailModel;
+import com.golove.model.CartoonModel;
 import com.golove.model.ResultStateModel;
 import com.golove.request.BaseRequest;
 import com.golove.ui.OnLoadDataListener;
 import com.golove.ui.neterror.NetWorkErrorView;
 
-import java.util.List;
 
-
-public class DamaiFragment extends MainFragment<ResultStateModel<List<CartoonDetailModel>>> {
+public class DamaiFragment extends MainFragment<ResultStateModel<CartoonModel>> {
 
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshlayout;
@@ -53,29 +51,11 @@ public class DamaiFragment extends MainFragment<ResultStateModel<List<CartoonDet
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(),6);
         recyclerView.setLayoutManager(gridLayoutManager);
-//        gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-//
-//            public int getSpanSize(int position) {
-//                int spanSize = 2;
-//                if (position == 0){
-//                    spanSize = 6;
-//                }
-//                return spanSize;
-//            }
-//        });
-
-//        recyclerView.addItemDecoration(new FilmDivider(getActivity(), LinearLayoutManager.VERTICAL, 1, getResources().getColor(R.color.top_line), (int) getResources().getDimension(R.dimen.film_line_paddingLeft)));
-//        recyclerView.setHasFixedSize(true);
-
-//        recyclerView.addItemDecoration(new VerticalDividerItemDecoration.Builder(getContext()).size(20).colorResId(R.color.primary).build());
 
         GridSpacingItemDecoration itemDecoration = new GridSpacingItemDecoration.Builder(getActivity(),2)
                 .hasHeader()
                 .setSpanCount(2)
-                .setH_spacing(80)
-//                .setDividerColor(Color.parseColor("#008E00"))
-//                .setmDivider(colorDrawable)
-//                .setmDivider(mDivider)
+                .setH_spacing(60)
                 .build();
 
         recyclerView.addItemDecoration(itemDecoration);
@@ -107,20 +87,21 @@ public class DamaiFragment extends MainFragment<ResultStateModel<List<CartoonDet
     }
 
     private void requestData(OnLoadDataListener onLoadDataListener) {
-        String url = "https://raw.githubusercontent.com/704266213/data/master/WebContent/data/damai1.txt";
+        String url = "https://raw.githubusercontent.com/704266213/data/master/WebContent/data/show.txt";
         RequestCallBack requestCallBack = new RequestCallBack(this, onLoadDataListener);
         baseRequest.sendRequest(url, requestCallBack);
     }
 
     @Override
-    public void onRequestCallBackSuccess(ResultStateModel<List<CartoonDetailModel>> bean) {
+    public void onRequestCallBackSuccess(ResultStateModel<CartoonModel> cartoonModelResultStateModel) {
         swipeRefreshlayout.setVisibility(View.VISIBLE);
         netWorkErrorView.setVisibility(View.GONE);
-        List<CartoonDetailModel> cartoonModels = bean.getResult();
+        CartoonModel cartoonModel = cartoonModelResultStateModel.getResult();
         if (swipeRefreshlayout.isRefreshing()) {
             swipeRefreshlayout.setRefreshing(false);
         }
-        damaiAdapter.addData(cartoonModels);
+
+        damaiAdapter.addData(cartoonModel.getCartoons());
     }
 
     @Override

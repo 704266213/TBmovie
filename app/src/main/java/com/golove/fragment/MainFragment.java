@@ -38,8 +38,8 @@ public abstract class MainFragment<T extends ResultStateModel> extends Fragment 
                 baseFragment = new DiscoveryFragment();
                 break;
             case 4:
-//                baseFragment = new MineFragment();
-                baseFragment = new ShowFragment();
+                baseFragment = new MineFragment();
+//                baseFragment = new ShowFragment();
                 break;
         }
         return baseFragment;

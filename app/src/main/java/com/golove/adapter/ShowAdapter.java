@@ -93,6 +93,7 @@ public class ShowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
             CartoonTwoColumnAdapter cartoonTwoColumnAdapter = new CartoonTwoColumnAdapter(context);
 
+            showViewHolder.recyclerView.setNestedScrollingEnabled(true);
             showViewHolder.recyclerView.setAdapter(cartoonTwoColumnAdapter);
 
             cartoonTwoColumnAdapter.addData(cartoonInfo.getData());

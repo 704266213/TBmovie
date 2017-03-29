@@ -6,36 +6,37 @@ import java.util.List;
  * Created by shuhj on 2017/3/23.
  */
 
-public class CartoonModel extends ResultStateModel<List<CartoonDetailModel>> {
+public class CartoonModel extends ResultStateModel<CartoonModel> {
 
-    private int cartoonType;
-    private String cartoonTitle;
-    private int cartoonLayout;
+
+    private List<CartoonDetailModel> cartoons;
+    private List<CartoonBannerModel> banners;
+    private List<CartoonTabModel> tabs;
 
     public CartoonModel() {
     }
 
-    public int getCartoonType() {
-        return cartoonType;
+    public List<CartoonDetailModel> getCartoons() {
+        return cartoons;
     }
 
-    public void setCartoonType(int cartoonType) {
-        this.cartoonType = cartoonType;
+    public void setCartoons(List<CartoonDetailModel> cartoons) {
+        this.cartoons = cartoons;
     }
 
-    public String getCartoonTitle() {
-        return cartoonTitle;
+    public List<CartoonBannerModel> getBanners() {
+        return banners;
     }
 
-    public void setCartoonTitle(String cartoonTitle) {
-        this.cartoonTitle = cartoonTitle;
+    public void setBanners(List<CartoonBannerModel> banners) {
+        this.banners = banners;
     }
 
-    public int getCartoonLayout() {
-        return cartoonLayout;
+    public List<CartoonTabModel> getTabs() {
+        return tabs;
     }
 
-    public void setCartoonLayout(int cartoonLayout) {
-        this.cartoonLayout = cartoonLayout;
+    public void setTabs(List<CartoonTabModel> tabs) {
+        this.tabs = tabs;
     }
 }

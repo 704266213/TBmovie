@@ -17,6 +17,6 @@
     <dimen name="placeholder_horizontal_width">192dp</dimen>
     <dimen name="placeholder_horizontal_height">120dp</dimen>
 
-    <dimen name="placeholder_vertical_width">120dp</dimen>
-    <dimen name="placeholder_vertical_height">160dp</dimen>
+    <dimen name="placeholder_vertical_width">90dp</dimen>
+    <dimen name="placeholder_vertical_height">120dp</dimen>
 </resources>

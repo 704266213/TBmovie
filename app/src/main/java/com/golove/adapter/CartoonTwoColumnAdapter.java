@@ -2,7 +2,6 @@ package com.golove.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,13 +71,8 @@ public class CartoonTwoColumnAdapter extends RecyclerView.Adapter<RecyclerView.V
         CartoonTwoColumnViewHolder cartoonTwoColumnViewHolder = ((CartoonTwoColumnViewHolder) holder);
         cartoonTwoColumnViewHolder.title.setText(title);
         cartoonTwoColumnViewHolder.description.setText(description);
-        picasso.load(cartoonModel.getCover_image_url())
+        picasso.load(cartoonModel.getPic())
                 .into(cartoonTwoColumnViewHolder.cartoonImage);
-
-
-        Log.e("XLog","========position=============" + position);
-        Log.e("XLog","========holder===============" + holder);
-
 
     }
 
