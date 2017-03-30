@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingLeft="9dp"
-    android:paddingRight="9dp"
-    android:paddingBottom="4dp"
     android:fitsSystemWindows="true"
-    android:minHeight="50dp">
+    android:minHeight="50dp"
+    android:paddingBottom="4dp"
+    android:paddingLeft="9dp"
+    android:paddingRight="9dp">
 
     <ImageView
         android:id="@+id/cartoonImage"
@@ -17,38 +17,80 @@
         android:contentDescription="@null"
         android:scaleType="fitXY"
         app:layout_constraintLeft_toLeftOf="parent"
-        tools:background="@drawable/placeholder_horizontal"/>
+        tools:background="@drawable/placeholder_horizontal" />
 
 
     <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="4dp"
-        android:paddingBottom="4dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:gravity="left"
-        tools:text="照明商店"
+        android:paddingBottom="2dp"
+        android:paddingTop="4dp"
         android:textColor="@android:color/black"
         android:textSize="15sp"
-        app:layout_constraintLeft_toRightOf="@id/cartoonImage" />
+        app:layout_constraintLeft_toRightOf="@id/cartoonImage"
+        tools:text="照明商店" />
 
     <TextView
         android:id="@+id/category"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
         android:layout_marginTop="8dp"
+        android:background="@drawable/cartoon_category"
         android:ellipsize="end"
-        android:gravity="left"
+        android:gravity="center"
+        android:minHeight="20dp"
+        android:lines="1"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:textColor="#BDC0C5"
+        android:textSize="13sp"
+        app:layout_constraintLeft_toRightOf="@id/cartoonImage"
+        app:layout_constraintTop_toBottomOf="@id/title"
+        tools:text="灵异" />
+
+    <TextView
+        android:id="@+id/category2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:minHeight="20dp"
+        android:background="@drawable/cartoon_category"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:lines="1"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        tools:text="灵异"
+        android:textColor="#BDC0C5"
+        android:textSize="13sp"
+        app:layout_constraintLeft_toRightOf="@+id/category"
+        app:layout_constraintTop_toBottomOf="@id/title" />
+
+    <TextView
+        android:id="@+id/category3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minHeight="20dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        tools:text="灵异"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/cartoon_category"
+        android:ellipsize="end"
+        android:gravity="center"
         android:lines="1"
-        android:textColor="#434343"
-        android:textSize="14sp"
-        app:layout_constraintLeft_toRightOf="@id/cartoonImage"
-        app:layout_constraintTop_toBottomOf="@id/title"/>
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        tools:text="灵异"
+        android:textColor="#BDC0C5"
+        android:textSize="13sp"
+        app:layout_constraintLeft_toRightOf="@id/category2"
+        app:layout_constraintTop_toBottomOf="@id/title" />
 
     <TextView
         android:id="@+id/description"
@@ -56,15 +98,15 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="10dp"
         android:ellipsize="end"
         android:gravity="left"
         android:lines="1"
-        tools:text="史上最感人的烧脑故事"
         android:textColor="#434343"
         android:textSize="11sp"
         app:layout_constraintLeft_toRightOf="@id/cartoonImage"
-        app:layout_constraintTop_toBottomOf="@id/category"/>
+        app:layout_constraintTop_toBottomOf="@id/category"
+        tools:text="史上最感人的烧脑故事" />
 
 
 </android.support.constraint.ConstraintLayout>

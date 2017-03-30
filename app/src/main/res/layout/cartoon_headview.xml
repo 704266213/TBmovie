@@ -1,12 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="200dp"
-    android:orientation="vertical"
-    xmlns:tools="http://schemas.android.com/tools"
-    >
+    android:paddingBottom="16dp"
+    android:fitsSystemWindows="true">
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="0dp"
+        android:layout_height="200dp"
+        android:background="@android:color/darker_gray"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/weekRank"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="16dp"
+        android:contentDescription="@null"
+        android:minHeight="80dp"
+        android:minWidth="74dp"
+        android:scaleType="fitXY"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/newCartoon"
+        app:layout_constraintTop_toBottomOf="@+id/viewPager"
+        app:layout_goneMarginLeft="8dp"
+        app:layout_goneMarginRight="4dp"
+        tools:background="@drawable/damai_checked" />
+
+    <ImageView
+        android:id="@+id/newCartoon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="16dp"
+        android:contentDescription="@null"
+        android:minHeight="80dp"
+        android:minWidth="74dp"
+        android:scaleType="fitXY"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintLeft_toRightOf="@+id/weekRank"
+        app:layout_constraintRight_toLeftOf="@+id/overCartoon"
+        app:layout_constraintTop_toBottomOf="@+id/viewPager"
+        app:layout_goneMarginLeft="4dp"
+        app:layout_goneMarginRight="4dp"
+        android:background="@color/colorPrimaryDark" />
+
+    <ImageView
+        android:id="@+id/overCartoon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="16dp"
+        android:contentDescription="@null"
+        android:minHeight="80dp"
+        android:minWidth="74dp"
+        android:scaleType="fitXY"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintLeft_toRightOf="@+id/newCartoon"
+        app:layout_constraintRight_toLeftOf="@+id/cartoonCategory"
+        app:layout_constraintTop_toBottomOf="@+id/viewPager"
+        app:layout_goneMarginLeft="4dp"
+        app:layout_goneMarginRight="4dp"
+        android:background="@color/colorPrimaryDark" />
+
+    <ImageView
+        android:id="@+id/cartoonCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="16dp"
+        android:contentDescription="@null"
+        android:minHeight="80dp"
+        android:minWidth="74dp"
+        android:scaleType="fitXY"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintLeft_toRightOf="@+id/overCartoon"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/viewPager"
+        app:layout_goneMarginLeft="4dp"
+        app:layout_goneMarginRight="8dp"
+        tools:background="@color/colorPrimaryDark" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="9dp"
+        android:background="@android:color/white"
+        android:minHeight="30dp"
+        android:minWidth="120dp"
+        app:layout_constraintBottom_toBottomOf="@id/viewPager"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+    </LinearLayout>
 
 
-</LinearLayout>
-
+</android.support.constraint.ConstraintLayout>

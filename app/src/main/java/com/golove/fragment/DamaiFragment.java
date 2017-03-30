@@ -6,21 +6,30 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.golove.GoloveApplication;
 import com.golove.R;
 import com.golove.adapter.DamaiAdapter;
 import com.golove.callback.RequestCallBack;
 import com.golove.divider.GridSpacingItemDecoration;
+import com.golove.model.CartoonBannerModel;
 import com.golove.model.CartoonModel;
+import com.golove.model.CartoonTabModel;
 import com.golove.model.ResultStateModel;
 import com.golove.request.BaseRequest;
 import com.golove.ui.OnLoadDataListener;
 import com.golove.ui.neterror.NetWorkErrorView;
+import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class DamaiFragment extends MainFragment<ResultStateModel<CartoonModel>> {
@@ -29,7 +38,8 @@ public class DamaiFragment extends MainFragment<ResultStateModel<CartoonModel>> 
     private SwipeRefreshLayout swipeRefreshlayout;
     private DamaiAdapter damaiAdapter;
     private BaseRequest baseRequest;
-
+    private List<ImageView> tabs;
+    private Picasso picasso;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -43,24 +53,34 @@ public class DamaiFragment extends MainFragment<ResultStateModel<CartoonModel>> 
     }
 
     public void initView(View view) {
+        picasso = Picasso.with(GoloveApplication.goloveApplication);
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
+        tabs = new ArrayList<>();
+        LayoutInflater layoutInflater = LayoutInflater.from(getContext());
+        View headView = layoutInflater.inflate(R.layout.cartoon_headview, null, false);
+        ImageView weekRank = (ImageView) headView.findViewById(R.id.weekRank);
+        tabs.add(weekRank);
+        ImageView newCartoon = (ImageView) headView.findViewById(R.id.newCartoon);
+        tabs.add(newCartoon);
+        ImageView overCartoon = (ImageView) headView.findViewById(R.id.overCartoon);
+        tabs.add(overCartoon);
+        ImageView cartoonCategory = (ImageView) headView.findViewById(R.id.cartoonCategory);
+        tabs.add(cartoonCategory);
+
 
         netWorkErrorView = (NetWorkErrorView) view.findViewById(R.id.netWorkErrorView);
         netWorkErrorView.setOnFreshListener(this);
 
+        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(),6);
         recyclerView.setLayoutManager(gridLayoutManager);
-
         GridSpacingItemDecoration itemDecoration = new GridSpacingItemDecoration.Builder(getActivity(),2)
                 .hasHeader()
                 .setSpanCount(2)
                 .setH_spacing(60)
                 .build();
-
         recyclerView.addItemDecoration(itemDecoration);
-
-        damaiAdapter = new DamaiAdapter(getActivity());
+        damaiAdapter = new DamaiAdapter(getActivity(),headView);
         recyclerView.setAdapter(damaiAdapter);
 
         swipeRefreshlayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefreshlayout);
@@ -99,6 +119,19 @@ public class DamaiFragment extends MainFragment<ResultStateModel<CartoonModel>> 
         CartoonModel cartoonModel = cartoonModelResultStateModel.getResult();
         if (swipeRefreshlayout.isRefreshing()) {
             swipeRefreshlayout.setRefreshing(false);
+        }
+
+        List<CartoonTabModel> cartoonTabModels = cartoonModel.getTabs();
+        int size = cartoonTabModels.size();
+        int tabSize = tabs.size();
+        for(int i = 0 ; i < size ; i++){
+            if(i < tabSize){
+                CartoonTabModel cartoonTabModel = cartoonTabModels.get(i);
+                picasso.load(cartoonTabModel.getPic())
+                        .fit()
+                        .placeholder(R.drawable.placeholder_vertical)
+                        .into(tabs.get(i));
+            }
         }
 
         damaiAdapter.addData(cartoonModel.getCartoons());

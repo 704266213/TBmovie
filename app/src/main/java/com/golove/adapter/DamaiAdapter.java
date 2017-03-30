@@ -40,10 +40,11 @@ public class DamaiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private int heightTwo;
     private int widthThree;
     private int heightThree;
+    private View headView;
 
-
-    public DamaiAdapter(Context context) {
+    public DamaiAdapter(Context context,View headView) {
         this.context = context;
+        this.headView = headView;
         layoutInflater = LayoutInflater.from(context);
         cartoonModels = new ArrayList<>();
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
@@ -70,7 +71,9 @@ public class DamaiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         switch (viewType) {
             case TYPE_HEAD:
-                View headView = layoutInflater.inflate(R.layout.cartoon_headview, parent, false);
+                if (headView == null){
+                     headView = layoutInflater.inflate(R.layout.cartoon_headview, parent, false);
+                }
                 return new HeadViewHolder(headView);
             case TYPE_TITLE:
                 View titleView = layoutInflater.inflate(R.layout.cartoon_title, parent, false);
@@ -122,7 +125,19 @@ public class DamaiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 CartoonOneColumnViewHolder cartoonOneColumnViewHolder = ((CartoonOneColumnViewHolder) holder);
                 cartoonOneColumnViewHolder.title.setText(cartoonModel.getTitle());
                 cartoonOneColumnViewHolder.description.setText(cartoonModel.getRecommended_text());
-                cartoonOneColumnViewHolder.category.setText(cartoonModel.getLabel_text());
+                String [] categoryArray = cartoonModel.getCategory();
+                int length = categoryArray.length;
+                int size = cartoonOneColumnViewHolder.categorys.size();
+                for(int i = 0 ; i < size ; i++){
+                    TextView categoryText = cartoonOneColumnViewHolder.categorys.get(i);
+                    if ( i < length ){
+                        categoryText.setVisibility(View.VISIBLE);
+                        categoryText.setText(categoryArray[i]);
+                    } else {
+                        categoryText.setVisibility(View.GONE);
+                    }
+                }
+
                 picasso.load(cartoonModel.getPic())
                         .fit()
                         .into(cartoonOneColumnViewHolder.cartoonImage);
@@ -240,16 +255,21 @@ public class DamaiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         private ImageView cartoonImage;
         private TextView title;
-        private TextView category;
+        private List<TextView> categorys;
         private TextView description;
 
         public CartoonOneColumnViewHolder(View itemView) {
             super(itemView);
+            categorys = new ArrayList<>();
             cartoonImage = (ImageView) itemView.findViewById(R.id.cartoonImage);
             title = (TextView) itemView.findViewById(R.id.title);
-            category = (TextView) itemView.findViewById(R.id.category);
+            TextView category = (TextView) itemView.findViewById(R.id.category);
+            categorys.add(category);
+            TextView category2 = (TextView) itemView.findViewById(R.id.category2);
+            categorys.add(category2);
+            TextView category3 = (TextView) itemView.findViewById(R.id.category3);
+            categorys.add(category3);
             description = (TextView) itemView.findViewById(R.id.description);
-
         }
     }
 
