@@ -19,4 +19,7 @@
 
     <dimen name="placeholder_vertical_width">90dp</dimen>
     <dimen name="placeholder_vertical_height">120dp</dimen>
+
+    <dimen name="perfect_divider">6dp</dimen>
+
 </resources>

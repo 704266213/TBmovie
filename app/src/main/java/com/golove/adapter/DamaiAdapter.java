@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.golove.GoloveApplication;
 import com.golove.R;
 import com.golove.model.CartoonDetailModel;
+import com.golove.transformation.PicassoRoundTransform;
 import com.golove.viewhold.HeadViewHolder;
 import com.squareup.picasso.Picasso;
 
@@ -31,6 +32,9 @@ public class DamaiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public static final int TYPE_TWO = 0xff03;
     public static final int TYPE_THREE = 0xff04;
     public static final int TYPE_ONE = 0xff05;
+    public static final int TYPE_FULL = 0xff06;
+
+    private com.golove.listener.OnItemClickListener onItemClickListener;
 
     private Context context;
     private LayoutInflater layoutInflater;
@@ -42,9 +46,10 @@ public class DamaiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private int heightThree;
     private View headView;
 
-    public DamaiAdapter(Context context,View headView) {
+    public DamaiAdapter(Context context,View headView,com.golove.listener.OnItemClickListener onItemClickListener) {
         this.context = context;
         this.headView = headView;
+        this.onItemClickListener = onItemClickListener;
         layoutInflater = LayoutInflater.from(context);
         cartoonModels = new ArrayList<>();
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
@@ -61,6 +66,10 @@ public class DamaiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public void addData(List<CartoonDetailModel> cartoonModels) {
         this.cartoonModels.addAll(cartoonModels);
         notifyDataSetChanged();
+    }
+
+    public CartoonDetailModel getItem(int position){
+        return cartoonModels.get(position);
     }
 
     public int getPostionInType(int position) {
@@ -87,9 +96,11 @@ public class DamaiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             case TYPE_ONE:
                 View cartoonOneColumn = layoutInflater.inflate(R.layout.cartoon_one_column, parent, false);
                 return new CartoonOneColumnViewHolder(cartoonOneColumn);
-            default:
-                return null;
+            case TYPE_FULL:
+                View cartoonFullColumn = layoutInflater.inflate(R.layout.cartoon_full_column, parent, false);
+                return new CartoonFullColumnViewHolder(cartoonFullColumn);
         }
+        return null;
     }
 
     @Override
@@ -101,14 +112,20 @@ public class DamaiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 CartoonTitleViewHolder cartoonTitleViewHolder = (CartoonTitleViewHolder) holder;
                 cartoonTitleViewHolder.cartoonTitle.setText(cartoonModel.getTitle());
                 cartoonTitleViewHolder.line.setVisibility(position == 1 ? View.GONE : View.VISIBLE);
+                cartoonTitleViewHolder.itemView.setOnClickListener(new OnItemClickListener(position));
             } else if (holder instanceof CartoonTwoColumnViewHolder) {
                 CartoonTwoColumnViewHolder cartoonTwoColumnViewHolder = ((CartoonTwoColumnViewHolder) holder);
                 cartoonTwoColumnViewHolder.title.setText(title);
                 cartoonTwoColumnViewHolder.description.setText(cartoonModel.getRecommended_text());
+                ViewGroup.LayoutParams layoutParams = cartoonTwoColumnViewHolder.cartoonImage.getLayoutParams();
+                layoutParams.height = heightTwo;//设置图片的高度
+                layoutParams.width = widthTwo; //设置图片的宽度
+                cartoonTwoColumnViewHolder.cartoonImage.setLayoutParams(layoutParams);
                 picasso.load(cartoonModel.getPic())
                         .resize(widthTwo, heightTwo)
                         .placeholder(R.drawable.placeholder_horizontal)
                         .into(cartoonTwoColumnViewHolder.cartoonImage);
+                cartoonTwoColumnViewHolder.itemView.setOnClickListener(new OnItemClickListener(position));
             } else if (holder instanceof CartoonThreeColumnViewHolder) {
                 CartoonThreeColumnViewHolder cartoonThreeColumnViewHolder = ((CartoonThreeColumnViewHolder) holder);
                 cartoonThreeColumnViewHolder.title.setText(cartoonModel.getTitle());
@@ -117,10 +134,15 @@ public class DamaiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     category.append(str).append(" ");
                 }
                 cartoonThreeColumnViewHolder.description.setText(category.toString().trim());
+                ViewGroup.LayoutParams layoutParams = cartoonThreeColumnViewHolder.cartoonImage.getLayoutParams();
+                layoutParams.height = heightThree;//设置图片的高度
+                layoutParams.width = widthThree; //设置图片的宽度
+                cartoonThreeColumnViewHolder.cartoonImage.setLayoutParams(layoutParams);
                 picasso.load(cartoonModel.getPic())
                         .resize(widthThree, heightThree)
                         .placeholder(R.drawable.placeholder_vertical)
                         .into(cartoonThreeColumnViewHolder.cartoonImage);
+                cartoonThreeColumnViewHolder.itemView.setOnClickListener(new OnItemClickListener(position));
             } else if (holder instanceof CartoonOneColumnViewHolder) {
                 CartoonOneColumnViewHolder cartoonOneColumnViewHolder = ((CartoonOneColumnViewHolder) holder);
                 cartoonOneColumnViewHolder.title.setText(cartoonModel.getTitle());
@@ -137,13 +159,24 @@ public class DamaiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                         categoryText.setVisibility(View.GONE);
                     }
                 }
-
                 picasso.load(cartoonModel.getPic())
                         .fit()
+                        .transform(new PicassoRoundTransform())
+                        .placeholder(R.drawable.placeholder_vertical)
                         .into(cartoonOneColumnViewHolder.cartoonImage);
+                cartoonOneColumnViewHolder.itemView.setOnClickListener(new OnItemClickListener(position));
+
+            } else if (holder instanceof CartoonFullColumnViewHolder) {
+                CartoonFullColumnViewHolder cartoonFullColumnViewHolder = ((CartoonFullColumnViewHolder) holder);
+                cartoonFullColumnViewHolder.title.setText(cartoonModel.getTitle());
+                cartoonFullColumnViewHolder.recommend.setText(cartoonModel.getRecommended_text());
+                cartoonFullColumnViewHolder.commentCount.setText(String.valueOf(cartoonModel.getComments_count()));
+                picasso.load(cartoonModel.getPic())
+                        .placeholder(R.drawable.placeholder_vertical)
+                        .fit()
+                        .into(cartoonFullColumnViewHolder.cartoonImage);
+                cartoonFullColumnViewHolder.itemView.setOnClickListener(new OnItemClickListener(position));
             }
-
-
         }
 
     }
@@ -155,24 +188,31 @@ public class DamaiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
     public int getItemViewType(int position) {
+        int itemType = 0;
         if (position == 0) {
-            return TYPE_HEAD;
+            itemType =  TYPE_HEAD;
         } else {
             CartoonDetailModel cartoonModel = cartoonModels.get(position - 1);
             int type = cartoonModel.getItemType();
             switch (type) {
                 case 0:
-                    return TYPE_TITLE;
+                    itemType = TYPE_TITLE;
+                    break;
                 case 1:
-                    return TYPE_TWO;
+                    itemType =  TYPE_TWO;
+                    break;
                 case 2:
-                    return TYPE_THREE;
+                    itemType =  TYPE_THREE;
+                    break;
                 case 3:
-                    return TYPE_ONE;
-                default:
-                    return TYPE_ONE;
+                    itemType =  TYPE_ONE;
+                    break;
+                case 4:
+                    itemType =  TYPE_FULL;
+                    break;
             }
         }
+        return itemType;
     }
 
     @Override
@@ -186,20 +226,28 @@ public class DamaiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             gridManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
                 public int getSpanSize(int position) {
                     int type = getItemViewType(position);
+                    int spanSize = 6;
                     switch (type) {
                         case TYPE_HEAD:
-                            return 6;
+                            spanSize = 6;
+                            break;
                         case TYPE_TITLE:
-                            return 6;
+                            spanSize = 6;
+                            break;
                         case TYPE_TWO:
-                            return 3;
+                            spanSize = 3;
+                            break;
                         case TYPE_THREE:
-                            return 2;
+                            spanSize = 2;
+                            break;
                         case TYPE_ONE:
-                            return 6;
-                        default:
-                            return 6;
+                            spanSize = 6;
+                            break;
+                        case TYPE_FULL:
+                            spanSize = 6;
+                            break;
                     }
+                    return spanSize;
                 }
             });
         }
@@ -211,9 +259,11 @@ public class DamaiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         TextView cartoonTitle;
         TextView more;
         View line;
+        private View itemView;
 
         public CartoonTitleViewHolder(View itemView) {
             super(itemView);
+            this.itemView = itemView;
             line = itemView.findViewById(R.id.line);
             cartoonTitle = (TextView) itemView.findViewById(R.id.cartoonTitle);
             more = (TextView) itemView.findViewById(R.id.more);
@@ -226,9 +276,11 @@ public class DamaiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         private ImageView cartoonImage;
         private TextView title;
         private TextView description;
+        private View itemView;
 
         public CartoonTwoColumnViewHolder(View itemView) {
             super(itemView);
+            this.itemView = itemView;
             cartoonImage = (ImageView) itemView.findViewById(R.id.cartoonImage);
             title = (TextView) itemView.findViewById(R.id.title);
             description = (TextView) itemView.findViewById(R.id.description);
@@ -241,9 +293,11 @@ public class DamaiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         private ImageView cartoonImage;
         private TextView title;
         private TextView description;
+        private View itemView;
 
         public CartoonThreeColumnViewHolder(View itemView) {
             super(itemView);
+            this.itemView = itemView;
             cartoonImage = (ImageView) itemView.findViewById(R.id.cartoonImage);
             title = (TextView) itemView.findViewById(R.id.title);
             description = (TextView) itemView.findViewById(R.id.description);
@@ -257,9 +311,11 @@ public class DamaiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         private TextView title;
         private List<TextView> categorys;
         private TextView description;
+        private View itemView;
 
         public CartoonOneColumnViewHolder(View itemView) {
             super(itemView);
+            this.itemView = itemView;
             categorys = new ArrayList<>();
             cartoonImage = (ImageView) itemView.findViewById(R.id.cartoonImage);
             title = (TextView) itemView.findViewById(R.id.title);
@@ -270,6 +326,40 @@ public class DamaiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             TextView category3 = (TextView) itemView.findViewById(R.id.category3);
             categorys.add(category3);
             description = (TextView) itemView.findViewById(R.id.description);
+        }
+    }
+
+    public class CartoonFullColumnViewHolder extends RecyclerView.ViewHolder {
+
+        private ImageView cartoonImage;
+        private TextView recommend;
+        private TextView commentCount;
+        private TextView title;
+        private View itemView;
+
+
+        public CartoonFullColumnViewHolder(View itemView) {
+            super(itemView);
+            this.itemView = itemView;
+            cartoonImage = (ImageView) itemView.findViewById(R.id.cartoonImage);
+            recommend = (TextView) itemView.findViewById(R.id.recommend);
+            commentCount = (TextView) itemView.findViewById(R.id.commentCount);
+            title = (TextView) itemView.findViewById(R.id.title);
+        }
+    }
+
+    public class OnItemClickListener implements View.OnClickListener{
+
+        private int position;
+        public OnItemClickListener(int position){
+            this.position = position;
+        }
+
+        public void onClick(View v) {
+            if (onItemClickListener != null){
+                onItemClickListener.onItemClick(v,position - 1);
+            }
+
         }
     }
 

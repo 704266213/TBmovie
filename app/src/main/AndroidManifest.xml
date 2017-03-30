@@ -71,7 +71,8 @@
         <activity android:name=".activity.ReleaseFilmInCinemaActivity" />
         <activity
             android:name=".activity.LoginActivity"
-            android:label="@string/login"></activity>
+            android:label="@string/login" />
+        <activity android:name=".activity.PerfectCartoonActivity"></activity>
     </application>
 
 </manifest>

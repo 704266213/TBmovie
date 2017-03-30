@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingBottom="16dp"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    android:paddingBottom="16dp">
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewPager"
@@ -32,7 +32,7 @@
         app:layout_constraintTop_toBottomOf="@+id/viewPager"
         app:layout_goneMarginLeft="8dp"
         app:layout_goneMarginRight="4dp"
-        tools:background="@drawable/damai_checked" />
+        tools:background="@color/colorPrimaryDark" />
 
     <ImageView
         android:id="@+id/newCartoon"
@@ -50,7 +50,7 @@
         app:layout_constraintTop_toBottomOf="@+id/viewPager"
         app:layout_goneMarginLeft="4dp"
         app:layout_goneMarginRight="4dp"
-        android:background="@color/colorPrimaryDark" />
+        tools:background="@color/colorPrimaryDark" />
 
     <ImageView
         android:id="@+id/overCartoon"
@@ -68,7 +68,7 @@
         app:layout_constraintTop_toBottomOf="@+id/viewPager"
         app:layout_goneMarginLeft="4dp"
         app:layout_goneMarginRight="4dp"
-        android:background="@color/colorPrimaryDark" />
+        tools:background="@color/colorPrimaryDark" />
 
     <ImageView
         android:id="@+id/cartoonCategory"

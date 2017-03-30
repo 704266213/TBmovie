@@ -1,12 +1,13 @@
 package com.golove.fragment;
 
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,10 +17,11 @@ import android.widget.Toast;
 
 import com.golove.GoloveApplication;
 import com.golove.R;
+import com.golove.activity.PerfectCartoonActivity;
 import com.golove.adapter.DamaiAdapter;
 import com.golove.callback.RequestCallBack;
 import com.golove.divider.GridSpacingItemDecoration;
-import com.golove.model.CartoonBannerModel;
+import com.golove.model.CartoonDetailModel;
 import com.golove.model.CartoonModel;
 import com.golove.model.CartoonTabModel;
 import com.golove.model.ResultStateModel;
@@ -32,7 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class DamaiFragment extends MainFragment<ResultStateModel<CartoonModel>> {
+public class DamaiFragment extends MainFragment<ResultStateModel<CartoonModel>> implements com.golove.listener.OnItemClickListener{
 
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshlayout;
@@ -40,6 +42,7 @@ public class DamaiFragment extends MainFragment<ResultStateModel<CartoonModel>> 
     private BaseRequest baseRequest;
     private List<ImageView> tabs;
     private Picasso picasso;
+    private Context context;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -53,6 +56,7 @@ public class DamaiFragment extends MainFragment<ResultStateModel<CartoonModel>> 
     }
 
     public void initView(View view) {
+        context = getContext();
         picasso = Picasso.with(GoloveApplication.goloveApplication);
 
         tabs = new ArrayList<>();
@@ -72,15 +76,15 @@ public class DamaiFragment extends MainFragment<ResultStateModel<CartoonModel>> 
         netWorkErrorView.setOnFreshListener(this);
 
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(),6);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(context,6);
         recyclerView.setLayoutManager(gridLayoutManager);
-        GridSpacingItemDecoration itemDecoration = new GridSpacingItemDecoration.Builder(getActivity(),2)
+        GridSpacingItemDecoration itemDecoration = new GridSpacingItemDecoration.Builder(context,2)
                 .hasHeader()
                 .setSpanCount(2)
                 .setH_spacing(60)
                 .build();
         recyclerView.addItemDecoration(itemDecoration);
-        damaiAdapter = new DamaiAdapter(getActivity(),headView);
+        damaiAdapter = new DamaiAdapter(getActivity(),headView,this);
         recyclerView.setAdapter(damaiAdapter);
 
         swipeRefreshlayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefreshlayout);
@@ -129,7 +133,6 @@ public class DamaiFragment extends MainFragment<ResultStateModel<CartoonModel>> 
                 CartoonTabModel cartoonTabModel = cartoonTabModels.get(i);
                 picasso.load(cartoonTabModel.getPic())
                         .fit()
-                        .placeholder(R.drawable.placeholder_vertical)
                         .into(tabs.get(i));
             }
         }
@@ -140,10 +143,21 @@ public class DamaiFragment extends MainFragment<ResultStateModel<CartoonModel>> 
     @Override
     public void onRequestCallBackError() {
         if (swipeRefreshlayout.isRefreshing()) {
-            Toast.makeText(getContext(), "下拉刷新失败，请重试", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "下拉刷新失败，请重试", Toast.LENGTH_SHORT).show();
             swipeRefreshlayout.setRefreshing(false);
         }
     }
 
 
+    @Override
+    public void onItemClick(View item, int position) {
+        CartoonDetailModel cartoonDetailModel = damaiAdapter.getItem(position);
+        int itemType = cartoonDetailModel.getItemType();
+        if(itemType == 0){
+            Intent intent = new Intent(getContext(),PerfectCartoonActivity.class);
+            context.startActivity(intent);
+        } else {
+            Toast.makeText(context,"position = " + position ,Toast.LENGTH_SHORT).show();
+        }
+    }
 }
