@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,16 +18,20 @@ import android.widget.Toast;
 
 import com.golove.GoloveApplication;
 import com.golove.R;
+import com.golove.activity.CartoonInfoActivity;
 import com.golove.activity.PerfectCartoonActivity;
 import com.golove.adapter.DamaiAdapter;
 import com.golove.callback.RequestCallBack;
 import com.golove.divider.GridSpacingItemDecoration;
+import com.golove.listener.OnLoadMoreListener;
+import com.golove.loadmore.OnGridMoreScorllListener;
 import com.golove.model.CartoonDetailModel;
 import com.golove.model.CartoonModel;
 import com.golove.model.CartoonTabModel;
 import com.golove.model.ResultStateModel;
 import com.golove.request.BaseRequest;
 import com.golove.ui.OnLoadDataListener;
+import com.golove.ui.footer.FooterView;
 import com.golove.ui.neterror.NetWorkErrorView;
 import com.squareup.picasso.Picasso;
 
@@ -34,7 +39,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class DamaiFragment extends MainFragment<ResultStateModel<CartoonModel>> implements com.golove.listener.OnItemClickListener{
+public class DamaiFragment extends MainFragment<ResultStateModel<CartoonModel>> implements com.golove.listener.OnItemClickListener, OnLoadMoreListener {
 
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshlayout;
@@ -43,6 +48,10 @@ public class DamaiFragment extends MainFragment<ResultStateModel<CartoonModel>> 
     private List<ImageView> tabs;
     private Picasso picasso;
     private Context context;
+    private FooterView footerView;
+    private int pageNo = 1;
+    private OnGridMoreScorllListener onGridMoreScorllListener;
+
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -71,21 +80,30 @@ public class DamaiFragment extends MainFragment<ResultStateModel<CartoonModel>> 
         ImageView cartoonCategory = (ImageView) headView.findViewById(R.id.cartoonCategory);
         tabs.add(cartoonCategory);
 
+        /*
+         * 加载更多时，失败的回调设置
+         */
+        footerView = new FooterView(view.getContext());
+        footerView.setOnLoadMoreListener(this);
 
         netWorkErrorView = (NetWorkErrorView) view.findViewById(R.id.netWorkErrorView);
         netWorkErrorView.setOnFreshListener(this);
 
+
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(context,6);
+        onGridMoreScorllListener = new OnGridMoreScorllListener(footerView, this);
+
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 6);
         recyclerView.setLayoutManager(gridLayoutManager);
-        GridSpacingItemDecoration itemDecoration = new GridSpacingItemDecoration.Builder(context,2)
+        GridSpacingItemDecoration itemDecoration = new GridSpacingItemDecoration.Builder(context, 2)
                 .hasHeader()
                 .setSpanCount(2)
                 .setH_spacing(60)
                 .build();
         recyclerView.addItemDecoration(itemDecoration);
-        damaiAdapter = new DamaiAdapter(getActivity(),headView,this);
+        damaiAdapter = new DamaiAdapter(getActivity(), headView, footerView, this);
         recyclerView.setAdapter(damaiAdapter);
+        recyclerView.addOnScrollListener(onGridMoreScorllListener);
 
         swipeRefreshlayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefreshlayout);
         // 设定下拉圆圈的背景
@@ -99,6 +117,7 @@ public class DamaiFragment extends MainFragment<ResultStateModel<CartoonModel>> 
         swipeRefreshlayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                pageNo = 1;
                 requestData();
             }
         });
@@ -111,7 +130,7 @@ public class DamaiFragment extends MainFragment<ResultStateModel<CartoonModel>> 
     }
 
     private void requestData(OnLoadDataListener onLoadDataListener) {
-        String url = "https://raw.githubusercontent.com/704266213/data/master/WebContent/data/show.txt";
+        String url = "https://raw.githubusercontent.com/704266213/data/master/WebContent/data/show" + pageNo + ".txt";
         RequestCallBack requestCallBack = new RequestCallBack(this, onLoadDataListener);
         baseRequest.sendRequest(url, requestCallBack);
     }
@@ -123,21 +142,33 @@ public class DamaiFragment extends MainFragment<ResultStateModel<CartoonModel>> 
         CartoonModel cartoonModel = cartoonModelResultStateModel.getResult();
         if (swipeRefreshlayout.isRefreshing()) {
             swipeRefreshlayout.setRefreshing(false);
+            damaiAdapter.addFreshData(cartoonModel.getCartoons());
+        } else {
+            damaiAdapter.addData(cartoonModel.getCartoons());
         }
 
         List<CartoonTabModel> cartoonTabModels = cartoonModel.getTabs();
-        int size = cartoonTabModels.size();
-        int tabSize = tabs.size();
-        for(int i = 0 ; i < size ; i++){
-            if(i < tabSize){
-                CartoonTabModel cartoonTabModel = cartoonTabModels.get(i);
-                picasso.load(cartoonTabModel.getPic())
-                        .fit()
-                        .into(tabs.get(i));
+        if (cartoonTabModels != null) {
+            int size = cartoonTabModels.size();
+            int tabSize = tabs.size();
+            for (int i = 0; i < size; i++) {
+                if (i < tabSize) {
+                    CartoonTabModel cartoonTabModel = cartoonTabModels.get(i);
+                    picasso.load(cartoonTabModel.getPic())
+                            .fit()
+                            .into(tabs.get(i));
+                }
             }
         }
 
-        damaiAdapter.addData(cartoonModel.getCartoons());
+        boolean haveMore = cartoonModel.getHaseMore() == 1 ? true : false;
+        onGridMoreScorllListener.setHasMore(haveMore);
+        if (haveMore) {
+            pageNo = pageNo + 1;
+            onGridMoreScorllListener.isLoadingMore(false);
+        } else {
+            footerView.loadNoDataOrNoMoreDataView();
+        }
     }
 
     @Override
@@ -146,6 +177,7 @@ public class DamaiFragment extends MainFragment<ResultStateModel<CartoonModel>> 
             Toast.makeText(context, "下拉刷新失败，请重试", Toast.LENGTH_SHORT).show();
             swipeRefreshlayout.setRefreshing(false);
         }
+        onGridMoreScorllListener.isLoadingMore(false);
     }
 
 
@@ -153,11 +185,18 @@ public class DamaiFragment extends MainFragment<ResultStateModel<CartoonModel>> 
     public void onItemClick(View item, int position) {
         CartoonDetailModel cartoonDetailModel = damaiAdapter.getItem(position);
         int itemType = cartoonDetailModel.getItemType();
-        if(itemType == 0){
-            Intent intent = new Intent(getContext(),PerfectCartoonActivity.class);
+        if (itemType == 0) {
+            Intent intent = new Intent(context, PerfectCartoonActivity.class);
             context.startActivity(intent);
         } else {
-            Toast.makeText(context,"position = " + position ,Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(context, CartoonInfoActivity.class);
+            context.startActivity(intent);
         }
+    }
+
+    @Override
+    public void onLoadMore() {
+        Log.e("XLog", "=============onLoadMore=====================");
+        requestData(footerView);
     }
 }

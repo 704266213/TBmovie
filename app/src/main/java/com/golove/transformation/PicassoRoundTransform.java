@@ -1,5 +1,6 @@
 package com.golove.transformation;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -8,6 +9,7 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
 
+import com.golove.uitls.DensityUtil;
 import com.squareup.picasso.Transformation;
 
 /**
@@ -32,7 +34,7 @@ public class PicassoRoundTransform implements Transformation {
 
         RectF rectF = new RectF(new Rect(0, 0, widthLight, heightLight));
 
-        canvas.drawRoundRect(rectF, widthLight / 5, heightLight / 5, paintColor);
+        canvas.drawRoundRect(rectF, DensityUtil.dip2px(6), DensityUtil.dip2px(6), paintColor);
 
         Paint paintImage = new Paint();
         paintImage.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_ATOP));

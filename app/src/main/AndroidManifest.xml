@@ -72,7 +72,8 @@
         <activity
             android:name=".activity.LoginActivity"
             android:label="@string/login" />
-        <activity android:name=".activity.PerfectCartoonActivity"></activity>
+        <activity android:name=".activity.PerfectCartoonActivity" />
+        <activity android:name=".activity.CartoonInfoActivity"></activity>
     </application>
 
 </manifest>

@@ -10,7 +10,9 @@ import android.widget.TextView;
 
 import com.golove.GoloveApplication;
 import com.golove.R;
+import com.golove.listener.OnItemClickListener;
 import com.golove.model.CartoonInfoModel;
+import com.golove.transformation.PicassoRoundTransform;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -29,9 +31,11 @@ public class PerfectCartoonAdapter extends RecyclerView.Adapter<PerfectCartoonAd
     private LayoutInflater layoutInflater;
     private List<CartoonInfoModel> cartoonInfoModels;
     private Picasso picasso;
+    private OnItemClickListener onItemClickListener;
 
-    public PerfectCartoonAdapter(Context context) {
+    public PerfectCartoonAdapter(Context context, OnItemClickListener onItemClickListener) {
         this.context = context;
+        this.onItemClickListener = onItemClickListener;
         layoutInflater = LayoutInflater.from(context);
         cartoonInfoModels = new ArrayList<>();
         picasso = Picasso.with(GoloveApplication.goloveApplication);
@@ -49,7 +53,7 @@ public class PerfectCartoonAdapter extends RecyclerView.Adapter<PerfectCartoonAd
     }
 
     @Override
-    public void onBindViewHolder(PerfectCartoonAdapter.PerfectCartoonViewHolder holder, int position) {
+    public void onBindViewHolder(PerfectCartoonAdapter.PerfectCartoonViewHolder holder, final int position) {
         CartoonInfoModel cartoonInfoModel = cartoonInfoModels.get(position);
         holder.title.setText(cartoonInfoModel.getTitle());
         holder.description.setText(cartoonInfoModel.getDescription());
@@ -67,8 +71,19 @@ public class PerfectCartoonAdapter extends RecyclerView.Adapter<PerfectCartoonAd
         }
         picasso.load(cartoonInfoModel.getCover_image_url())
                 .fit()
+                .transform(new PicassoRoundTransform())
                 .placeholder(R.drawable.placeholder_vertical)
                 .into(holder.cartoonImage);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onItemClickListener != null) {
+                    onItemClickListener.onItemClick(v, position);
+                }
+            }
+        });
+
     }
 
     @Override

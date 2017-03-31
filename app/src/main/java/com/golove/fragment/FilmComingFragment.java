@@ -172,7 +172,6 @@ public class FilmComingFragment extends TabFragment<ResultStateModel<FilmHotMode
         netWorkErrorView.setVisibility(View.GONE);
         FilmHotModel filmHotModel = bean.getResult();
 
-
         List<FilmModel> filmModels = filmHotModel.getFilmModels();
         if (ptrFrameLayout.isRefreshing()) {
             ptrFrameLayout.refreshComplete();

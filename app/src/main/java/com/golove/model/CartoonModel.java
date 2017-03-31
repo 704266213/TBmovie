@@ -8,7 +8,7 @@ import java.util.List;
 
 public class CartoonModel extends ResultStateModel<CartoonModel> {
 
-
+    private int haseMore;
     private List<CartoonDetailModel> cartoons;
     private List<CartoonBannerModel> banners;
     private List<CartoonTabModel> tabs;
@@ -38,5 +38,13 @@ public class CartoonModel extends ResultStateModel<CartoonModel> {
 
     public void setTabs(List<CartoonTabModel> tabs) {
         this.tabs = tabs;
+    }
+
+    public int getHaseMore() {
+        return haseMore;
+    }
+
+    public void setHaseMore(int haseMore) {
+        this.haseMore = haseMore;
     }
 }

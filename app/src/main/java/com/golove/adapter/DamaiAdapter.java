@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import com.golove.GoloveApplication;
 import com.golove.R;
 import com.golove.model.CartoonDetailModel;
 import com.golove.transformation.PicassoRoundTransform;
+import com.golove.viewhold.FooterViewHolder;
 import com.golove.viewhold.HeadViewHolder;
 import com.squareup.picasso.Picasso;
 
@@ -27,6 +29,7 @@ import java.util.List;
 
 public class DamaiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    public static final int TYPE_FOOTER = 0xff00;
     public static final int TYPE_HEAD = 0xff01;
     public static final int TYPE_TITLE = 0xff02;
     public static final int TYPE_TWO = 0xff03;
@@ -45,10 +48,13 @@ public class DamaiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private int widthThree;
     private int heightThree;
     private View headView;
+    private View footerView;
 
-    public DamaiAdapter(Context context,View headView,com.golove.listener.OnItemClickListener onItemClickListener) {
+
+    public DamaiAdapter(Context context, View headView, View footerView, com.golove.listener.OnItemClickListener onItemClickListener) {
         this.context = context;
         this.headView = headView;
+        this.footerView = footerView;
         this.onItemClickListener = onItemClickListener;
         layoutInflater = LayoutInflater.from(context);
         cartoonModels = new ArrayList<>();
@@ -56,11 +62,18 @@ public class DamaiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         DisplayMetrics metric = new DisplayMetrics();
         wm.getDefaultDisplay().getMetrics(metric);
         int width = metric.widthPixels;     // 屏幕宽度（像素）
-        widthTwo = (width - 20) / 2 ;
+        widthTwo = (width - 20) / 2;
         heightTwo = (int) (widthTwo / 5 * 3);
         widthThree = width / 3;
         heightThree = (int) (widthThree / 0.75);
         picasso = Picasso.with(GoloveApplication.goloveApplication);
+    }
+
+
+    public void addFreshData(List<CartoonDetailModel> cartoonModels) {
+        this.cartoonModels.clear();
+        this.cartoonModels.addAll(cartoonModels);
+        notifyDataSetChanged();
     }
 
     public void addData(List<CartoonDetailModel> cartoonModels) {
@@ -68,7 +81,7 @@ public class DamaiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         notifyDataSetChanged();
     }
 
-    public CartoonDetailModel getItem(int position){
+    public CartoonDetailModel getItem(int position) {
         return cartoonModels.get(position);
     }
 
@@ -80,10 +93,15 @@ public class DamaiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         switch (viewType) {
             case TYPE_HEAD:
-                if (headView == null){
-                     headView = layoutInflater.inflate(R.layout.cartoon_headview, parent, false);
+                if (headView == null) {
+                    headView = layoutInflater.inflate(R.layout.cartoon_headview, parent, false);
                 }
                 return new HeadViewHolder(headView);
+            case TYPE_FOOTER:
+                if (footerView == null) {
+                    headView = layoutInflater.inflate(R.layout.cartoon_headview, parent, false);
+                }
+                return new FooterViewHolder(footerView);
             case TYPE_TITLE:
                 View titleView = layoutInflater.inflate(R.layout.cartoon_title, parent, false);
                 return new CartoonTitleViewHolder(titleView);
@@ -105,7 +123,7 @@ public class DamaiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (position != 0) {
+        if (position != 0 && position != (cartoonModels.size() + 1)) {
             CartoonDetailModel cartoonModel = cartoonModels.get(position - 1);
             String title = cartoonModel.getTitle();
             if (holder instanceof CartoonTitleViewHolder) {
@@ -147,12 +165,12 @@ public class DamaiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 CartoonOneColumnViewHolder cartoonOneColumnViewHolder = ((CartoonOneColumnViewHolder) holder);
                 cartoonOneColumnViewHolder.title.setText(cartoonModel.getTitle());
                 cartoonOneColumnViewHolder.description.setText(cartoonModel.getRecommended_text());
-                String [] categoryArray = cartoonModel.getCategory();
+                String[] categoryArray = cartoonModel.getCategory();
                 int length = categoryArray.length;
                 int size = cartoonOneColumnViewHolder.categorys.size();
-                for(int i = 0 ; i < size ; i++){
+                for (int i = 0; i < size; i++) {
                     TextView categoryText = cartoonOneColumnViewHolder.categorys.get(i);
-                    if ( i < length ){
+                    if (i < length) {
                         categoryText.setVisibility(View.VISIBLE);
                         categoryText.setText(categoryArray[i]);
                     } else {
@@ -184,13 +202,24 @@ public class DamaiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public int getItemCount() {
-        return cartoonModels.size() + 1;
+        if (cartoonModels.size() == 0) {
+            return 0;
+        } else {
+            int size = cartoonModels.size();
+            if (headView != null) {
+                return size + 2;
+            } else {
+                return size + 1;
+            }
+        }
     }
 
     public int getItemViewType(int position) {
         int itemType = 0;
         if (position == 0) {
-            itemType =  TYPE_HEAD;
+            itemType = TYPE_HEAD;
+        } else if (position == (cartoonModels.size() + 1)) {
+            itemType = TYPE_FOOTER;
         } else {
             CartoonDetailModel cartoonModel = cartoonModels.get(position - 1);
             int type = cartoonModel.getItemType();
@@ -199,16 +228,16 @@ public class DamaiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                     itemType = TYPE_TITLE;
                     break;
                 case 1:
-                    itemType =  TYPE_TWO;
+                    itemType = TYPE_TWO;
                     break;
                 case 2:
-                    itemType =  TYPE_THREE;
+                    itemType = TYPE_THREE;
                     break;
                 case 3:
-                    itemType =  TYPE_ONE;
+                    itemType = TYPE_ONE;
                     break;
                 case 4:
-                    itemType =  TYPE_FULL;
+                    itemType = TYPE_FULL;
                     break;
             }
         }
@@ -218,9 +247,7 @@ public class DamaiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     @Override
     public void onAttachedToRecyclerView(final RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
-
         RecyclerView.LayoutManager manager = recyclerView.getLayoutManager();
-
         if (manager instanceof GridLayoutManager) {
             final GridLayoutManager gridManager = ((GridLayoutManager) manager);
             gridManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
@@ -244,6 +271,9 @@ public class DamaiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                             spanSize = 6;
                             break;
                         case TYPE_FULL:
+                            spanSize = 6;
+                            break;
+                        case TYPE_FOOTER:
                             spanSize = 6;
                             break;
                     }
@@ -348,16 +378,17 @@ public class DamaiAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         }
     }
 
-    public class OnItemClickListener implements View.OnClickListener{
+    public class OnItemClickListener implements View.OnClickListener {
 
         private int position;
-        public OnItemClickListener(int position){
+
+        public OnItemClickListener(int position) {
             this.position = position;
         }
 
         public void onClick(View v) {
-            if (onItemClickListener != null){
-                onItemClickListener.onItemClick(v,position - 1);
+            if (onItemClickListener != null) {
+                onItemClickListener.onItemClick(v, position - 1);
             }
 
         }

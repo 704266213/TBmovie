@@ -4,7 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 
 
-public abstract class OnStaggeredLoadMoreScollerListener extends OnLoadMoreScrollListener {
+public class OnStaggeredLoadMoreScollerListener extends OnLoadMoreScrollListener {
 
     /**
      * 最后一个的位置
