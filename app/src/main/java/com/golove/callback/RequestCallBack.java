@@ -27,14 +27,25 @@ public class RequestCallBack<T extends ResultStateModel<T>> implements Callback 
     private Runnable errorRun = new Runnable() {
 
         public void run() {
-            onLoadDataListener.loadDataErrorView();
+            if (onLoadDataListener != null) {
+                onLoadDataListener.loadDataErrorView();
+            }
             onRequestCallBackListener.onRequestCallBackError();
         }
     };
 
-    public RequestCallBack(OnRequestCallBackListener onRequestCallBackListener, OnLoadDataListener onLoadDataListener) {
+    public RequestCallBack(OnRequestCallBackListener onRequestCallBackListener) {
         this.onRequestCallBackListener = onRequestCallBackListener;
+        init();
+    }
+
+    public RequestCallBack(OnRequestCallBackListener onRequestCallBackListener, OnLoadDataListener onLoadDataListener) {
         this.onLoadDataListener = onLoadDataListener;
+        this.onRequestCallBackListener = onRequestCallBackListener;
+        init();
+    }
+
+    private void init() {
         handler = new Handler(Looper.getMainLooper());
         ParameterizedType pt = (ParameterizedType) onRequestCallBackListener.getClass().getGenericSuperclass();
         type = pt.getActualTypeArguments()[0];

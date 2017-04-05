@@ -4,7 +4,7 @@ import com.golove.BuildConfig;
 import com.golove.GoloveApplication;
 import com.golove.interceptor.HttpLoggingInterceptor;
 import com.golove.interceptor.NetworkCacheInterceptor;
-import com.golove.param.OnBuildRequestBodyListener;
+import com.golove.request.listerner.OnBuildRequestBodyListener;
 
 import java.util.concurrent.TimeUnit;
 
@@ -53,7 +53,7 @@ public class BaseRequest {
         Request request = new Request.Builder()
                 .url(url)
                 .cacheControl(cacheControl)
-                .put(onBuildRequestBodyListener.buildRequestBody())
+                .method("POST",onBuildRequestBodyListener.buildRequestBody())
                 .build();
 
         client.newCall(request).enqueue(callback);

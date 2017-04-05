@@ -8,7 +8,7 @@ package com.golove.model;
  */
 
 public class CartoonInfoModel {
-
+    
     private int id;
     private int label_id;
     private int order;

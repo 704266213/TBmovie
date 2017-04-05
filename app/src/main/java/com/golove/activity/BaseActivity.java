@@ -9,6 +9,8 @@ import android.view.View;
 import com.golove.R;
 import com.golove.listener.OnRequestCallBackListener;
 import com.golove.model.ResultStateModel;
+import com.squareup.leakcanary.LeakCanary;
+import com.squareup.leakcanary.RefWatcher;
 
 public class BaseActivity<T extends ResultStateModel> extends AppCompatActivity implements OnRequestCallBackListener<T> {
 
@@ -17,6 +19,8 @@ public class BaseActivity<T extends ResultStateModel> extends AppCompatActivity 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        RefWatcher refWatcher = LeakCanary.install(getApplication());
+        refWatcher.watch(this);
     }
 
     public void onBack(View v) {

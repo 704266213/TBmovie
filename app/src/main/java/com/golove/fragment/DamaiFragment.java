@@ -190,6 +190,9 @@ public class DamaiFragment extends MainFragment<ResultStateModel<CartoonModel>> 
             context.startActivity(intent);
         } else {
             Intent intent = new Intent(context, CartoonInfoActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("cartoonDetailModel", cartoonDetailModel);
+            intent.putExtras(bundle);
             context.startActivity(intent);
         }
     }

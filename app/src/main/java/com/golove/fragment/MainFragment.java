@@ -11,6 +11,8 @@ import com.golove.R;
 import com.golove.listener.OnRequestCallBackListener;
 import com.golove.model.ResultStateModel;
 import com.golove.ui.neterror.NetWorkErrorView;
+import com.squareup.leakcanary.LeakCanary;
+import com.squareup.leakcanary.RefWatcher;
 
 public abstract class MainFragment<T extends ResultStateModel> extends Fragment implements NetWorkErrorView.OnFreshListener, OnRequestCallBackListener<T> {
 
@@ -45,6 +47,12 @@ public abstract class MainFragment<T extends ResultStateModel> extends Fragment 
         return baseFragment;
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        RefWatcher refWatcher = LeakCanary.install(getActivity().getApplication());
+        refWatcher.watch(this);
+    }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {

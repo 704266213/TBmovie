@@ -1,11 +1,13 @@
 package com.golove.model;
 
 
+import java.io.Serializable;
+
 /**
  * Created by shuhj on 2017/3/23.
  */
 
-public class CartoonDetailModel extends CartoonModel {
+public class CartoonDetailModel extends CartoonModel implements Serializable {
 
 
     private int id;
