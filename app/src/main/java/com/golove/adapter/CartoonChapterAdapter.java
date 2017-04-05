@@ -15,6 +15,7 @@ import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -67,7 +68,8 @@ public class CartoonChapterAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             cartoonChapterViewHold.chapter.setText(cartoonChapterModel.getTitle());
             cartoonChapterViewHold.likesCount.setText(String.valueOf(cartoonChapterModel.getLikes_count()));
 
-            cartoonChapterViewHold.updatedTime.setText(simpleDateFormat.format(cartoonChapterModel.getUpdated_at()));
+            Date date = new Date(cartoonChapterModel.getUpdated_at() * 1000);
+            cartoonChapterViewHold.updatedTime.setText(simpleDateFormat.format(date));
             picasso.load(cartoonChapterModel.getCover_image_url())
                     .into(cartoonChapterViewHold.cartoonImage);
         }
