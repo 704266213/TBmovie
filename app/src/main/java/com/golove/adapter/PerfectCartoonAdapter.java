@@ -46,6 +46,10 @@ public class PerfectCartoonAdapter extends RecyclerView.Adapter<PerfectCartoonAd
         notifyDataSetChanged();
     }
 
+    public CartoonInfoModel getData(int position) {
+        return this.cartoonInfoModels.get(position);
+    }
+
     @Override
     public PerfectCartoonAdapter.PerfectCartoonViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = layoutInflater.inflate(R.layout.perfect_cartoon_item, parent, false);

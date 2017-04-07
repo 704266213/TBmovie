@@ -18,6 +18,7 @@ import com.golove.adapter.PerfectCartoonAdapter;
 import com.golove.callback.RequestCallBack;
 import com.golove.divider.HorizontalDividerItemDecoration;
 import com.golove.listener.OnItemClickListener;
+import com.golove.model.CartoonDetailModel;
 import com.golove.model.CartoonInfoModel;
 import com.golove.model.PerfectCartoonModel;
 import com.golove.model.ResultStateModel;
@@ -124,6 +125,12 @@ public class PerfectCartoonActivity extends BaseActivity<ResultStateModel<Perfec
     @Override
     public void onItemClick(View item, int position) {
         Intent intent = new Intent(this, CartoonInfoActivity.class);
+        CartoonInfoModel cartoonInfoModel = perfectCartoonAdapter.getData(position);
+        CartoonDetailModel cartoonDetailModel = new CartoonDetailModel();
+        cartoonDetailModel.setTitle(cartoonInfoModel.getTitle());
+        cartoonDetailModel.setCategory(cartoonInfoModel.getCategory());
+        cartoonDetailModel.setPic(cartoonInfoModel.getCover_image_url());
+        intent.putExtra("cartoonDetailModel",cartoonDetailModel);
         startActivity(intent);
     }
 }

@@ -52,6 +52,7 @@ public class CartoonInfoActivity extends BaseActivity<ResultStateModel<ComicMode
     private List<TextView> categoryList;
     private int length;
 
+    private CartoonInfoAdapter cartoonInfoAdapter;
     private OnRequestCallBackListener onRequestCallBackListener;
 
 
@@ -106,7 +107,7 @@ public class CartoonInfoActivity extends BaseActivity<ResultStateModel<ComicMode
         viewpager = (ViewPager) findViewById(R.id.viewpager);
 
         tabFragments = new ArrayList<>();
-        CartoonInfoAdapter cartoonInfoAdapter = new CartoonInfoAdapter(getSupportFragmentManager());
+        cartoonInfoAdapter = new CartoonInfoAdapter(getSupportFragmentManager());
         TabFragment cartoonCommentFragment = new CartoonCommentFragment();
         tabFragments.add(cartoonCommentFragment);
         cartoonInfoAdapter.addFrag(cartoonCommentFragment, "详情");
@@ -126,7 +127,6 @@ public class CartoonInfoActivity extends BaseActivity<ResultStateModel<ComicMode
 
         requestData();
     }
-
 
     @Override
     public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
@@ -200,4 +200,20 @@ public class CartoonInfoActivity extends BaseActivity<ResultStateModel<ComicMode
         onRequestCallBackListener.onRequestCallBackError();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (tabFragments != null) {
+            tabFragments.clear();
+            tabFragments = null;
+        }
+        if (categoryList != null) {
+            categoryList.clear();
+            categoryList = null;
+        }
+        if (cartoonInfoAdapter != null){
+            cartoonInfoAdapter.onDestory();
+            cartoonInfoAdapter = null;
+        }
+    }
 }

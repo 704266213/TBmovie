@@ -19,6 +19,11 @@ public class BaseActivity<T extends ResultStateModel> extends AppCompatActivity 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
         RefWatcher refWatcher = LeakCanary.install(getApplication());
         refWatcher.watch(this);
     }

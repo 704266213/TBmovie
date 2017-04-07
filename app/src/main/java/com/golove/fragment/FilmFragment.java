@@ -22,6 +22,7 @@ public class FilmFragment extends MainFragment implements ViewPager.OnPageChange
     private AppBarLayout appBarLayout;
     private TabLayout tabLayout;
     private ViewPager viewpager;
+    private FilmAdapter adapter;
 
     private List<TabFragment> tabFragments;
 
@@ -43,7 +44,7 @@ public class FilmFragment extends MainFragment implements ViewPager.OnPageChange
 
     private void setupViewPager(ViewPager viewPager) {
         tabFragments = new ArrayList<>();
-        FilmAdapter adapter = new FilmAdapter(getFragmentManager());
+        adapter = new FilmAdapter(getFragmentManager());
         TabFragment hitMoviesFragment = new HitMoviesFragment();
         tabFragments.add(hitMoviesFragment);
         hitMoviesFragment.isSwitch = true;
@@ -82,4 +83,13 @@ public class FilmFragment extends MainFragment implements ViewPager.OnPageChange
 
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (tabFragments != null){
+            tabFragments.clear();
+            tabFragments = null;
+        }
+        adapter.onDestory();
+    }
 }

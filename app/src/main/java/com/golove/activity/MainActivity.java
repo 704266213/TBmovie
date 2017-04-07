@@ -1,6 +1,5 @@
 package com.golove.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -113,4 +112,14 @@ public class MainActivity extends AppCompatActivity {
         //super.onSaveInstanceState(outState);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (baseFragments != null){
+            baseFragments = null;
+        }
+        if (fragmentManager != null){
+            fragmentManager = null;
+        }
+    }
 }

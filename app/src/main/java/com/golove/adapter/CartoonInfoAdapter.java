@@ -3,6 +3,7 @@ package com.golove.adapter;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,8 +17,8 @@ import java.util.List;
 
 public class CartoonInfoAdapter extends FragmentPagerAdapter {
 
-    private final List<Fragment> mFragmentList;
-    private final List<String> mFragmentTitleList;
+    private List<Fragment> mFragmentList;
+    private List<String> mFragmentTitleList;
 
     public CartoonInfoAdapter(FragmentManager manager) {
         super(manager);
@@ -44,5 +45,23 @@ public class CartoonInfoAdapter extends FragmentPagerAdapter {
     @Override
     public CharSequence getPageTitle(int position) {
         return mFragmentTitleList.get(position);
+    }
+
+    public void destroyItem(ViewGroup container, int position, Object object) {
+        super.destroyItem(container, position, object);
+        //回收图片，释放内存
+        onDestory();
+    }
+
+
+    public void onDestory() {
+        if (mFragmentList != null) {
+            mFragmentList.clear();
+            mFragmentList = null;
+        }
+        if (mFragmentTitleList != null) {
+            mFragmentTitleList.clear();
+            mFragmentTitleList = null;
+        }
     }
 }

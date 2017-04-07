@@ -21,8 +21,7 @@ import okhttp3.Response;
 
 public class RequestCallBack<T extends ResultStateModel<T>> implements Callback {
 
-    private WeakReference<OnRequestCallBackListener> weakReference;
-//    private OnRequestCallBackListener onRequestCallBackListener;
+    private OnRequestCallBackListener onRequestCallBackListener;
     private OnLoadDataListener onLoadDataListener;
     private Type type;
     private Handler handler;
@@ -32,37 +31,32 @@ public class RequestCallBack<T extends ResultStateModel<T>> implements Callback 
             if (onLoadDataListener != null) {
                 onLoadDataListener.loadDataErrorView();
             }
-            OnRequestCallBackListener onRequestCallBackListener = weakReference.get();
-            if(onRequestCallBackListener != null){
+            if (onRequestCallBackListener != null) {
                 onRequestCallBackListener.onRequestCallBackError();
             }
-//            onRequestCallBackListener.onRequestCallBackError();
+            handler.removeCallbacksAndMessages(null);
+            onRequestCallBackListener.onRequestCallBackError();
         }
     };
 
     public RequestCallBack(OnRequestCallBackListener onRequestCallBackListener) {
-//        this.onRequestCallBackListener = onRequestCallBackListener;
-        weakReference = new WeakReference<>(onRequestCallBackListener);
+        this.onRequestCallBackListener = onRequestCallBackListener;
         init();
     }
 
     public RequestCallBack(OnRequestCallBackListener onRequestCallBackListener, OnLoadDataListener onLoadDataListener) {
         this.onLoadDataListener = onLoadDataListener;
-//        this.onRequestCallBackListener = onRequestCallBackListener;
-        weakReference = new WeakReference<>(onRequestCallBackListener);
+        this.onRequestCallBackListener = onRequestCallBackListener;
         init();
     }
 
     private void init() {
-        OnRequestCallBackListener onRequestCallBackListener = weakReference.get();
-        if(onRequestCallBackListener != null){
+        if (onRequestCallBackListener != null) {
             handler = new Handler(Looper.getMainLooper());
             ParameterizedType pt = (ParameterizedType) onRequestCallBackListener.getClass().getGenericSuperclass();
-//        ParameterizedType pt = (ParameterizedType) onRequestCallBackListener.getClass().getGenericSuperclass();
             type = pt.getActualTypeArguments()[0];
             Log.e("XLog", "=======type===============" + type);
         }
-
     }
 
 
@@ -95,11 +89,9 @@ public class RequestCallBack<T extends ResultStateModel<T>> implements Callback 
         }
 
         public void run() {
-            OnRequestCallBackListener onRequestCallBackListener = weakReference.get();
-            if(onRequestCallBackListener != null){
+            if (onRequestCallBackListener != null) {
                 onRequestCallBackListener.onRequestCallBackSuccess(resultStateModel);
             }
-//            onRequestCallBackListener.onRequestCallBackSuccess(resultStateModel);
         }
     }
 }

@@ -15,8 +15,8 @@ import java.util.List;
  */
 public class FilmAdapter extends FragmentPagerAdapter {
 
-    private final List<Fragment> mFragmentList = new ArrayList<>();
-    private final List<String> mFragmentTitleList = new ArrayList<>();
+    private List<Fragment> mFragmentList = new ArrayList<>();
+    private List<String> mFragmentTitleList = new ArrayList<>();
 
     public FilmAdapter(FragmentManager manager) {
         super(manager);
@@ -40,6 +40,17 @@ public class FilmAdapter extends FragmentPagerAdapter {
     @Override
     public CharSequence getPageTitle(int position) {
         return mFragmentTitleList.get(position);
+    }
+
+    public void onDestory() {
+        if (mFragmentList != null) {
+            mFragmentList.clear();
+            mFragmentList = null;
+        }
+        if (mFragmentTitleList != null) {
+            mFragmentTitleList.clear();
+            mFragmentTitleList = null;
+        }
     }
 
 }

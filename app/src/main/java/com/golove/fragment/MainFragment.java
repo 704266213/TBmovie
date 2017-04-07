@@ -50,13 +50,18 @@ public abstract class MainFragment<T extends ResultStateModel> extends Fragment 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        RefWatcher refWatcher = LeakCanary.install(getActivity().getApplication());
-        refWatcher.watch(this);
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        RefWatcher refWatcher = LeakCanary.install(getActivity().getApplication());
+        refWatcher.watch(this);
     }
 
     public void onReFresh() {

@@ -210,8 +210,8 @@
             app:tabIndicatorColor="@color/film_tab_line"
             app:tabIndicatorHeight="1.5dp"
             app:tabMode="fixed"
-            app:tabSelectedTextColor="@color/film_tab_selected_text_color"
-            app:tabTextColor="@color/film_tab_text_color" />
+            app:tabSelectedTextColor="#442509"
+            app:tabTextColor="#666666" />
     </android.support.design.widget.AppBarLayout>
 
 

@@ -33,6 +33,11 @@ public abstract class TabFragment<T extends ResultStateModel> extends Fragment i
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
         RefWatcher refWatcher = LeakCanary.install(getActivity().getApplication());
         refWatcher.watch(this);
     }

@@ -24,6 +24,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
+        android:drawableLeft="@drawable/topic_detail_comic_order_positive"
+        android:drawablePadding="8dp"
         android:gravity="center"
         android:minHeight="?attr/actionBarSize"
         android:minWidth="80dp"
