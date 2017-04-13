@@ -2,6 +2,7 @@ package com.golove.fragment;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -10,8 +11,10 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
 import com.golove.R;
+import com.golove.activity.SearchActivity;
 import com.golove.adapter.FilmAdapter;
 
 import java.util.ArrayList;
@@ -23,6 +26,7 @@ public class FilmFragment extends MainFragment implements ViewPager.OnPageChange
     private TabLayout tabLayout;
     private ViewPager viewpager;
     private FilmAdapter adapter;
+    private ImageButton search;
 
     private List<TabFragment> tabFragments;
 
@@ -37,6 +41,16 @@ public class FilmFragment extends MainFragment implements ViewPager.OnPageChange
         appBarLayout = (AppBarLayout) view.findViewById(R.id.appBarLayout);
         tabLayout = (TabLayout) view.findViewById(R.id.tabLayout);
         viewpager = (ViewPager) view.findViewById(R.id.viewpager);
+
+
+        search = (ImageButton) view.findViewById(R.id.search);
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), SearchActivity.class);
+                startActivity(intent);
+            }
+        });
 
 
         setupViewPager(viewpager);

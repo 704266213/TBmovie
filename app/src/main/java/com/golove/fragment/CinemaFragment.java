@@ -23,6 +23,7 @@ import com.baidu.location.BDLocationListener;
 import com.golove.GoloveApplication;
 import com.golove.R;
 import com.golove.activity.NearCinemaActivity;
+import com.golove.activity.SearchActivity;
 import com.golove.adapter.CinemaAdapter;
 import com.golove.adapter.CinemaHeaderAdapter;
 import com.golove.callback.RequestCallBack;
@@ -250,7 +251,8 @@ public class CinemaFragment extends MainFragment<ResultStateModel<List<CinemaMod
                 filterPopWindow.showAsDropDown(mainLine);
                 break;
             case R.id.search:
-
+                Intent searchIntent = new Intent(getContext(), SearchActivity.class);
+                startActivity(searchIntent);
                 break;
             case R.id.openMap:
                 Intent intent = new Intent(getContext(), NearCinemaActivity.class);

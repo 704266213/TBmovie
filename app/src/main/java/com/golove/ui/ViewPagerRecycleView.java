@@ -3,6 +3,7 @@ package com.golove.ui;
 import android.content.Context;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 
 /**
  * 类描述：
@@ -24,29 +25,29 @@ public class ViewPagerRecycleView extends ViewPager {
     private int lastX;
     private int lastY;
 
-//    public boolean onInterceptTouchEvent(MotionEvent e) {
-//        int curX = (int) e.getX();
-//        int curY = (int) e.getY();
+    public boolean onInterceptTouchEvent(MotionEvent e) {
+        int curX = (int) e.getX();
+        int curY = (int) e.getY();
 
-//        switch (e.getAction()) {
-//            case MotionEvent.ACTION_DOWN:
-//                break;
-//            case MotionEvent.ACTION_MOVE:
-//                int offersetX = Math.abs(curX - lastX);
-//                int offersetY = Math.abs(curY - lastY);
-//                if (offersetX < offersetY) {
-////                    requestDisallowInterceptTouchEvent(true);
-//                    return false;
-//                }
-//                lastX = curX;
-//                lastY = curY;
-//                break;
-//            case MotionEvent.ACTION_UP:
-//                break;
-//            case MotionEvent.ACTION_CANCEL:
-//                break;
-//        }
-//        return super.onInterceptTouchEvent(e);
-//    }
+        switch (e.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                break;
+            case MotionEvent.ACTION_MOVE:
+                int offersetX = Math.abs(curX - lastX);
+                int offersetY = Math.abs(curY - lastY);
+                if (offersetX < offersetY) {
+//                    requestDisallowInterceptTouchEvent(true);
+                    return false;
+                }
+                lastX = curX;
+                lastY = curY;
+                break;
+            case MotionEvent.ACTION_UP:
+                break;
+            case MotionEvent.ACTION_CANCEL:
+                break;
+        }
+        return super.onInterceptTouchEvent(e);
+    }
 
 }

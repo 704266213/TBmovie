@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.golove.activity.SearchActivity">
+
+
+    <com.golove.ui.FlowLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:horizontal_spacing="8dp"
+        app:vertical_spacing="8dp">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/film"
+            android:textColor="#FF1E1E20"
+            android:textSize="17sp" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:maxWidth="180dp"
+            android:ellipsize="end"
+            android:lines="1"
+            android:text="1111111111111111111111111111111111111111111111"
+            android:textColor="#FF1E1E20"
+            android:textSize="17sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="jkjoakjkli"
+            android:textColor="#FF1E1E20"
+            android:textSize="17sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/film"
+            android:textColor="#FF1E1E20"
+            android:textSize="17sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/film"
+            android:textColor="#FF1E1E20"
+            android:textSize="17sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/film"
+            android:textColor="#FF1E1E20"
+            android:textSize="17sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/film"
+            android:textColor="#FF1E1E20"
+            android:textSize="17sp" />
+
+
+    </com.golove.ui.FlowLayout>
+
+</android.support.constraint.ConstraintLayout>
