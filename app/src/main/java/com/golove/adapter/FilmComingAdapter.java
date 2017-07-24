@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.golove.GoloveApplication;
 import com.golove.R;
+import com.golove.listener.OnRecycleViewClickListener;
 import com.golove.model.FilmModel;
 import com.golove.ui.stickyheadersrecyclerview.StickyRecyclerHeadersAdapter;
 import com.squareup.picasso.Picasso;
@@ -25,6 +26,12 @@ import java.util.Date;
  */
 public class FilmComingAdapter extends BaseRecyclerAdapter<FilmModel, FilmComingAdapter.FilmViewHolder> implements StickyRecyclerHeadersAdapter<RecyclerView.ViewHolder> {
 
+    private OnRecycleViewClickListener.OnRecycleViewItemClickListener onRecycleViewItemClickListener;
+
+    public void setOnRecycleViewClickListener(OnRecycleViewClickListener.OnRecycleViewItemClickListener onRecycleViewItemClickListener) {
+        this.onRecycleViewItemClickListener = onRecycleViewItemClickListener;
+    }
+
 
     public FilmComingAdapter() {
         setHasStableIds(true);
@@ -39,6 +46,11 @@ public class FilmComingAdapter extends BaseRecyclerAdapter<FilmModel, FilmComing
         recyclerViewHolder.scorebar.setRating(Float.parseFloat(filmScore) / 2);
         recyclerViewHolder.filmScore.setText(filmScore);
         recyclerViewHolder.filmDesc.setText(filmModel.getFilmDesc());
+
+        recyclerViewHolder.tickets.setOnClickListener(new OnRecycleViewClickListener(onRecycleViewItemClickListener, recyclerViewHolder.tickets, position));
+        recyclerViewHolder.itemView.setOnClickListener(new OnRecycleViewClickListener(onRecycleViewItemClickListener, recyclerViewHolder.itemView, position));
+
+
     }
 
     public FilmComingAdapter.FilmViewHolder onCreateBodyViewHolder(ViewGroup viewGroup, int viewType) {
@@ -77,7 +89,7 @@ public class FilmComingAdapter extends BaseRecyclerAdapter<FilmModel, FilmComing
     @Override
     public long getHeaderId(int position) {
         if (position > 0 && position < listData.size()) {
-            FilmModel filmModel = listData.get(position-1);
+            FilmModel filmModel = listData.get(position - 1);
             String str = filmModel.getReleaseDate();
             SimpleDateFormat simpleDateFormat;
             Date date;
@@ -103,11 +115,18 @@ public class FilmComingAdapter extends BaseRecyclerAdapter<FilmModel, FilmComing
     @Override
     public void onBindHeaderViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (position > 0 && position < listData.size()) {
-            FilmModel filmModel = listData.get(position-1);
+            FilmModel filmModel = listData.get(position - 1);
             TextView textView = (TextView) holder.itemView;
             textView.setText(filmModel.getReleaseDate());
         }
+    }
 
+
+    public FilmModel getItemData(int posiiton) {
+        if (listData != null && listData.size() > 0) {
+            return listData.get(posiiton);
+        }
+        return null;
     }
 
 

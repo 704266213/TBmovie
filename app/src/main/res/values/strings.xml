@@ -16,6 +16,9 @@
 
     <string name="cinema_map">影院地图</string>
 
+    <string name="cancel">取消</string>
+
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hint_name">用户名/Email/手机号</string>
@@ -25,6 +28,7 @@
     <string name="login">登录</string>
     <string name="error_login_empty">用户名/Email/手机号不能为空</string>
     <string name="error_pswd_empty">密码不能为空</string>
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

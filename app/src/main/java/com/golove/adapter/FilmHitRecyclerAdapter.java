@@ -10,11 +10,9 @@ import android.widget.TextView;
 
 import com.golove.GoloveApplication;
 import com.golove.R;
+import com.golove.listener.OnRecycleViewClickListener;
 import com.golove.model.FilmModel;
 import com.squareup.picasso.Picasso;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 类描述：
@@ -24,10 +22,10 @@ import java.util.List;
  */
 public class FilmHitRecyclerAdapter extends BaseRecyclerAdapter<FilmModel, FilmHitRecyclerAdapter.FilmViewHolder> {
 
-    private OnBuyTicketListener onBuyTicketListener;
+    private OnRecycleViewClickListener.OnRecycleViewItemClickListener onRecycleViewItemClickListener;
 
-    public void setOnBuyTicketListener(OnBuyTicketListener onBuyTicketListener) {
-        this.onBuyTicketListener = onBuyTicketListener;
+    public void setOnRecycleViewClickListener(OnRecycleViewClickListener.OnRecycleViewItemClickListener onRecycleViewItemClickListener) {
+        this.onRecycleViewItemClickListener = onRecycleViewItemClickListener;
     }
 
     public void onBodyBindViewHolder(FilmHitRecyclerAdapter.FilmViewHolder recyclerViewHolder, int position) {
@@ -39,13 +37,9 @@ public class FilmHitRecyclerAdapter extends BaseRecyclerAdapter<FilmModel, FilmH
         recyclerViewHolder.scorebar.setRating(Float.parseFloat(filmScore) / 2);
         recyclerViewHolder.filmScore.setText(filmScore);
         recyclerViewHolder.filmDesc.setText(filmModel.getFilmDesc());
-        recyclerViewHolder.tickets.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                if (onBuyTicketListener != null) {
-                    onBuyTicketListener.buyTickey(filmModel);
-                }
-            }
-        });
+
+        recyclerViewHolder.tickets.setOnClickListener(new OnRecycleViewClickListener(onRecycleViewItemClickListener, recyclerViewHolder.tickets, position));
+        recyclerViewHolder.itemView.setOnClickListener(new OnRecycleViewClickListener(onRecycleViewItemClickListener, recyclerViewHolder.itemView, position));
     }
 
     public FilmHitRecyclerAdapter.FilmViewHolder onCreateBodyViewHolder(ViewGroup viewGroup, int viewType) {
@@ -54,6 +48,7 @@ public class FilmHitRecyclerAdapter extends BaseRecyclerAdapter<FilmModel, FilmH
     }
 
     public class FilmViewHolder extends RecyclerView.ViewHolder {
+        private View itemView;
         private ImageView filmUrl;
         private TextView filmName;
         private TextView filmActor;
@@ -64,6 +59,7 @@ public class FilmHitRecyclerAdapter extends BaseRecyclerAdapter<FilmModel, FilmH
 
         public FilmViewHolder(View itemView) {
             super(itemView);
+            this.itemView = itemView;
             filmUrl = (ImageView) itemView.findViewById(R.id.filmUrl);
             filmName = (TextView) itemView.findViewById(R.id.filmName);
             filmActor = (TextView) itemView.findViewById(R.id.filmActor);
@@ -75,7 +71,11 @@ public class FilmHitRecyclerAdapter extends BaseRecyclerAdapter<FilmModel, FilmH
     }
 
 
-    public interface OnBuyTicketListener {
-        void buyTickey(FilmModel filmModel);
+    public FilmModel getItemData(int posiiton) {
+        if (listData != null && listData.size() > 0) {
+            return listData.get(posiiton);
+        }
+        return null;
     }
+
 }

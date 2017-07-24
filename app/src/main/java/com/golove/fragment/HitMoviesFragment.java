@@ -14,15 +14,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.golove.GoloveApplication;
 import com.golove.R;
-import com.golove.activity.NearCinemaActivity;
 import com.golove.activity.ReleaseFilmInCinemaActivity;
 import com.golove.adapter.FilmHitRecyclerAdapter;
 import com.golove.adapter.LoopViewPagerAdapter;
 import com.golove.callback.RequestCallBack;
 import com.golove.divider.FilmDivider;
 import com.golove.listener.OnLoadMoreListener;
+import com.golove.listener.OnRecycleViewClickListener;
 import com.golove.loadmore.OnLinearLoadMoreListener;
 import com.golove.model.BannerModel;
 import com.golove.model.FilmHotModel;
@@ -39,7 +38,7 @@ import com.golove.ui.reflesh.PtrHandler;
 
 import java.util.List;
 
-public class HitMoviesFragment extends TabFragment<ResultStateModel<FilmHotModel>> implements FilmHitRecyclerAdapter.OnBuyTicketListener, OnLoadMoreListener {
+public class HitMoviesFragment extends TabFragment<ResultStateModel<FilmHotModel>> implements OnRecycleViewClickListener.OnRecycleViewItemClickListener, OnLoadMoreListener {
 
 
     public void onCreate(Bundle savedInstanceState) {
@@ -100,7 +99,7 @@ public class HitMoviesFragment extends TabFragment<ResultStateModel<FilmHotModel
         filmHitRecyclerAdapter = new FilmHitRecyclerAdapter();
         filmHitRecyclerAdapter.setHeadView(headView);
         filmHitRecyclerAdapter.setFooterView(footerView);
-        filmHitRecyclerAdapter.setOnBuyTicketListener(this);
+        filmHitRecyclerAdapter.setOnRecycleViewClickListener(this);
 
         viewPager = (ViewPager) headView.findViewById(R.id.viewPager);
         indicators = (ViewGroup) headView.findViewById(R.id.indicators);
@@ -218,11 +217,10 @@ public class HitMoviesFragment extends TabFragment<ResultStateModel<FilmHotModel
 
 
     @Override
-    public void buyTickey(FilmModel filmModel) {
-        Intent intent = new Intent(getContext(),ReleaseFilmInCinemaActivity.class);
-        intent.putExtra("fileName",filmModel.getFilmName());
+    public void onRecycleViewItemClick(View itemView, int position, View clickView) {
+        Intent intent = new Intent(getContext(), ReleaseFilmInCinemaActivity.class);
+        FilmModel filmModel = filmHitRecyclerAdapter.getItemData(position);
+        intent.putExtra("fileName", filmModel.getFilmName());
         startActivity(intent);
     }
-
-
 }

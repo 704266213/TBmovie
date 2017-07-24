@@ -3,7 +3,6 @@ package com.golove;
 import android.app.Application;
 import android.content.Context;
 
-import com.baidu.mapapi.SDKInitializer;
 import com.golove.downloader.OkHttp3Downloader;
 import com.golove.service.LocationService;
 import com.squareup.leakcanary.LeakCanary;
@@ -28,9 +27,6 @@ public class GoloveApplication extends Application{
 
         LeakCanary.install(this);
 
-        locationService = new LocationService(getApplicationContext());
-        //百度地图初始化
-        SDKInitializer.initialize(getApplicationContext());
     }
 
 

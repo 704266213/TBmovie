@@ -1,15 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.golove.activity.SearchActivity">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/primary"
+        android:minHeight="?attr/actionBarSize"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp">
+
+        <TextView
+            android:id="@+id/cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@null"
+            android:clickable="true"
+            android:onClick="onBack"
+            android:text="@string/cancel"
+            android:textColor="#FF1E1E20"
+            android:textSize="17sp" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@id/cancel"
+            android:background="@drawable/search_bg"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:hint="搜索影片·影院·影人"
+            android:minHeight="30dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:textColorHint="#FF9F9EAB"
+            android:textSize="12sp" />
+
+
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/main_line"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/top_line" />
 
 
     <com.golove.ui.FlowLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/primary"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:paddingTop="16dp"
         app:horizontal_spacing="8dp"
         app:vertical_spacing="8dp">
 
@@ -18,63 +72,140 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@string/film"
+            android:background="@drawable/search_bg"
+            android:gravity="center"
+            android:minHeight="30dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:text="你的名字"
             android:textColor="#FF1E1E20"
-            android:textSize="17sp" />
+            android:textSize="12sp" />
 
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:maxWidth="180dp"
+            android:background="@drawable/search_bg"
             android:ellipsize="end"
+            android:gravity="center"
             android:lines="1"
-            android:text="1111111111111111111111111111111111111111111111"
+            android:maxWidth="180dp"
+            android:minHeight="30dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:text="绣春刀·修罗战场"
             android:textColor="#FF1E1E20"
-            android:textSize="17sp" />
+            android:textSize="12sp" />
+
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="jkjoakjkli"
+            android:background="@drawable/search_bg"
+            android:gravity="center"
+            android:minHeight="30dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:text="变形金刚5：最后的骑士"
             android:textColor="#FF1E1E20"
-            android:textSize="17sp" />
+            android:textSize="12sp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@string/film"
+            android:background="@drawable/search_bg"
+            android:gravity="center"
+            android:minHeight="30dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:text="悟空传"
             android:textColor="#FF1E1E20"
-            android:textSize="17sp" />
+            android:textSize="12sp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@string/film"
+            android:background="@drawable/search_bg"
+            android:gravity="center"
+            android:minHeight="30dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:text="神偷奶爸3"
             android:textColor="#FF1E1E20"
-            android:textSize="17sp" />
+            android:textSize="12sp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@string/film"
+            android:background="@drawable/search_bg"
+            android:gravity="center"
+            android:minHeight="30dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:text="三生三世十里桃花"
             android:textColor="#FF1E1E20"
-            android:textSize="17sp" />
+            android:textSize="12sp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="@string/film"
+            android:background="@drawable/search_bg"
+            android:gravity="center"
+            android:minHeight="30dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:text="星际特工：千星之城"
             android:textColor="#FF1E1E20"
-            android:textSize="17sp" />
+            android:textSize="12sp" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@drawable/search_bg"
+            android:gravity="center"
+            android:minHeight="30dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:text="战狼2"
+            android:textColor="#FF1E1E20"
+            android:textSize="12sp" />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@drawable/search_bg"
+            android:gravity="center"
+            android:minHeight="30dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:text="绿野仙踪之奥兹国奇幻之旅"
+            android:textColor="#FF1E1E20"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@drawable/search_bg"
+            android:gravity="center"
+            android:minHeight="30dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:text="喵星人"
+            android:textColor="#FF1E1E20"
+            android:textSize="12sp" />
 
 
     </com.golove.ui.FlowLayout>
 
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>

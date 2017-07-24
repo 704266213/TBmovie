@@ -18,9 +18,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.baidu.location.BDLocation;
-import com.baidu.location.BDLocationListener;
-import com.golove.GoloveApplication;
 import com.golove.R;
 import com.golove.activity.NearCinemaActivity;
 import com.golove.activity.SearchActivity;
@@ -99,13 +96,6 @@ public class CinemaFragment extends MainFragment<ResultStateModel<List<CinemaMod
     @Override
     public void onStart() {
         super.onStart();
-        locationService = ((GoloveApplication) (getActivity().getApplication())).locationService;
-
-        //获取locationservice实例，建议应用中只初始化1个location实例，然后使用，可以参考其他示例的activity，都是通过此种方式获取locationservice实例的
-        locationService.registerListener(mListener);
-        locationService.start();// 定位SDK
-        locationService.setLocationOption(locationService.getDefaultLocationClientOption());
-        locationService.start();// 定位SDK
     }
 
     public void initView(View view){
@@ -267,47 +257,6 @@ public class CinemaFragment extends MainFragment<ResultStateModel<List<CinemaMod
 
 
 
-    /*****
-     * 定位结果回调，重写onReceiveLocation方法，可以直接拷贝如下代码到自己工程中修改
-     *
-     */
-    private BDLocationListener mListener = new BDLocationListener() {
-
-        @Override
-        public void onReceiveLocation(BDLocation location) {
-            // TODO Auto-generated method stub
-            if (null != location && location.getLocType() != BDLocation.TypeServerError) {
-                StringBuffer sb = new StringBuffer(256);
-                /**
-                 * 时间也可以使用systemClock.elapsedRealtime()方法 获取的是自从开机以来，每次回调的时间；
-                 * location.getTime() 是指服务端出本次结果的时间，如果位置不发生变化，则时间不变
-                 */
-                sb.append("\nlocType description : ");// *****对应的定位类型说明*****
-                sb.append("\nlatitude : ");// 纬度
-                sb.append(location.getLatitude());
-                latitude = location.getLatitude();
-                sb.append("\nlontitude : ");// 经度
-                sb.append(location.getLongitude());
-                longitude = location.getLongitude();
-                sb.append("\nCountry : ");// 国家名称
-                sb.append(location.getCountry());
-                sb.append("\ncity : ");// 城市
-                sb.append(location.getCity());
-                sb.append("\nDistrict : ");// 区
-                sb.append(location.getDistrict());
-                sb.append("\nStreet : ");// 街道
-                sb.append(location.getStreet());
-                sb.append("\naddr : ");// 地址信息
-                sb.append(location.getAddrStr());
-                sb.append("\nlocationdescribe: ");
-                sb.append(location.getLocationDescribe());// 位置语义化信息
-                String address = "我在："+location.getCity() + location.getDistrict() + location.getStreet() + location.getLocationDescribe();
-                locationDetail.setText(address);
-//                XLog.e("XLog",sb.toString());
-            }
-        }
-
-    };
 
 
 

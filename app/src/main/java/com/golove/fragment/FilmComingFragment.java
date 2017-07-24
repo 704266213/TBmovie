@@ -1,6 +1,7 @@
 package com.golove.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -12,14 +13,14 @@ import android.view.ViewGroup;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import com.golove.GoloveApplication;
 import com.golove.R;
+import com.golove.activity.ReleaseFilmInCinemaActivity;
 import com.golove.adapter.FilmComingAdapter;
-import com.golove.adapter.FilmHitRecyclerAdapter;
 import com.golove.adapter.FilmReviewAdapter;
 import com.golove.callback.RequestCallBack;
 import com.golove.divider.FilmDivider;
 import com.golove.listener.OnLoadMoreListener;
+import com.golove.listener.OnRecycleViewClickListener;
 import com.golove.loadmore.OnLinearLoadMoreListener;
 import com.golove.model.FilmHotModel;
 import com.golove.model.FilmModel;
@@ -33,7 +34,6 @@ import com.golove.ui.reflesh.PtrDefaultHandler;
 import com.golove.ui.reflesh.PtrFrameLayout;
 import com.golove.ui.reflesh.PtrHandler;
 import com.golove.ui.stickyheadersrecyclerview.StickyRecyclerHeadersDecoration;
-import com.golove.ui.stickyheadersrecyclerview.StickyRecyclerHeadersTouchListener;
 
 import java.util.List;
 
@@ -41,7 +41,7 @@ import java.util.List;
 /**
  * 即将上映的电影
  */
-public class FilmComingFragment extends TabFragment<ResultStateModel<FilmHotModel>> implements FilmHitRecyclerAdapter.OnBuyTicketListener, OnLoadMoreListener {
+public class FilmComingFragment extends TabFragment<ResultStateModel<FilmHotModel>> implements OnRecycleViewClickListener.OnRecycleViewItemClickListener, OnLoadMoreListener {
 
 
     public void onCreate(Bundle savedInstanceState) {
@@ -121,6 +121,8 @@ public class FilmComingFragment extends TabFragment<ResultStateModel<FilmHotMode
         footerView.setOnLoadMoreListener(this);
 
         filmComingAdapter = new FilmComingAdapter();
+        filmComingAdapter.setOnRecycleViewClickListener(this);
+
         filmComingAdapter.setHeadView(headView);
         filmComingAdapter.setFooterView(footerView);
 
@@ -202,9 +204,13 @@ public class FilmComingFragment extends TabFragment<ResultStateModel<FilmHotMode
         requestData(footerView);
     }
 
+
     @Override
-    public void buyTickey(FilmModel filmModel) {
-        Toast.makeText(GoloveApplication.goloveApplication, "购买电影名称：" + filmModel.getFilmName(), Toast.LENGTH_SHORT).show();
+    public void onRecycleViewItemClick(View itemView, int position, View clickView) {
+        Intent intent = new Intent(getContext(), ReleaseFilmInCinemaActivity.class);
+        FilmModel filmModel = filmComingAdapter.getItemData(position);
+        intent.putExtra("fileName", filmModel.getFilmName());
+        startActivity(intent);
     }
 
 }
